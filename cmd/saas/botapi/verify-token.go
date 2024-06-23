@@ -59,7 +59,8 @@ func VerifyTokenCommand(b *telebot.Bot, app *pocketbase.PocketBase) {
 			return err
 		}
 
-		user.TelegramUserId = c.Sender().ID
+		user.TgUserId = c.Sender().ID
+		user.TgUsername = c.Sender().Username
 		if err := app.Dao().Save(user); err != nil {
 			return err
 		}

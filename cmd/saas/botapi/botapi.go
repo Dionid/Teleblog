@@ -28,7 +28,7 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 	VerifyTokenCommand(b, app)
 	AddChannelCommand(b, app)
 
-	// # Created messages in channels and groups
+	// # Created messages in channels, groups and bot
 	b.Handle(telebot.OnText, func(c telebot.Context) error {
 		// # Check if it is from the channels chat
 		// ...
@@ -37,6 +37,7 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 		// ...
 
 		fmt.Println("OnText", c.Message().Text)
+		fmt.Println("c.Sender().ID", c.Sender().ID)
 
 		return nil
 	})
@@ -44,6 +45,7 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 	// # Edited messages in channels and groups
 	b.Handle(telebot.OnEdited, func(c telebot.Context) error {
 		fmt.Println("OnEdited", c.Message().Text)
+		fmt.Println("c.Sender().ID", c.Sender().ID)
 
 		return nil
 	})

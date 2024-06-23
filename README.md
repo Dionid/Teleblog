@@ -29,9 +29,13 @@ Don't take this project as a reference for best practices.
 # Roadmap
 
 1. ~~Verify token~~
-1. Command "Rebind Channels Group"
+1. ~~Check user chat id is the same in channels and groups~~ -> They are not...
 1. Save new posts
 1. Save new comments
 1. Update posts on edit
 1. Update comments on edit
+1. Publicly available blog on subdomain
+1. Custom domain
+1. Menu
+1. Command "Rebind Channels Group"
 1. ...

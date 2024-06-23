@@ -18,7 +18,8 @@ type User struct {
 	Name     string `json:"name" db:"name"`
 	// PasswordHash string `json:"passwordHash" db:"password_hash"`
 
-	TelegramUserId int64 `json:"telegramUserId" db:"telegram_user_id"`
+	TgUserId   int64  `json:"tgUserId" db:"tg_user_id"`
+	TgUsername string `json:"tgUsername" db:"tg_username"`
 }
 
 func (m *User) TableName() string {
@@ -49,28 +50,28 @@ func TgVerificationTokenQuery(dao *daos.Dao) *dbx.SelectQuery {
 	return dao.ModelQuery(&TgVerificationToken{})
 }
 
-// # Source
+// # Chat
 
-var _ models.Model = (*Source)(nil)
+var _ models.Model = (*Chat)(nil)
 
-type Source struct {
+type Chat struct {
 	models.BaseModel
 
-	UserId         string `json:"userId" db:"user_id"`
-	LinkedSourceId string `json:"linkedSourceId" db:"linked_source_id"`
+	UserId       string `json:"userId" db:"user_id"`
+	LinkedChatId string `json:"linkedChatId" db:"linked_chat_id"`
 
-	Username     string `json:"username" db:"username"`
-	ChatId       int64  `json:"chatId" db:"chat_id"`
-	Type         string `json:"type" db:"type"` // channel | group
-	LinkedChatId int64  `json:"linkedChatId" db:"linked_chat_id"`
+	TgUsername     string `json:"tgUsername" db:"tg_username"`
+	TgChatId       int64  `json:"tgChatId" db:"tg_chat_id"`
+	TgType         string `json:"tgType" db:"tg_type"` // channel | group
+	TgLinkedChatId int64  `json:"tgLinkedChatId" db:"tg_linked_chat_id"`
 }
 
-func (m *Source) TableName() string {
-	return "source"
+func (m *Chat) TableName() string {
+	return "chat"
 }
 
-func SourceQuery(dao *daos.Dao) *dbx.SelectQuery {
-	return dao.ModelQuery(&Source{})
+func ChatQuery(dao *daos.Dao) *dbx.SelectQuery {
+	return dao.ModelQuery(&Chat{})
 }
 
 // # Post
@@ -80,7 +81,7 @@ var _ models.Model = (*Post)(nil)
 type Post struct {
 	models.BaseModel
 
-	SourceId          string `json:"sourceId" db:"source_id"`
+	ChatId            string `json:"chatId" db:"chat_id"`
 	TelegramPostId    int64  `json:"postId" db:"post_id"`
 	IsTelegramMessage bool   `json:"isTelegramMessage" db:"is_telegram_message"`
 	Message           string `json:"message" db:"message"`

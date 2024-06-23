@@ -2,6 +2,7 @@ package botapi
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Dionid/teleadmin/libs/teleblog"
 	"github.com/pocketbase/dbx"
@@ -34,16 +35,16 @@ func AddChannelCommand(b *telebot.Bot, app *pocketbase.PocketBase) {
 
 		channelUsername := tags[0]
 
-		channel, err := b.ChatByUsername(channelUsername)
+		tgChannel, err := b.ChatByUsername(channelUsername)
 		if err != nil {
 			return c.Reply("No channel like this found.")
 		}
 
-		if channel.Type != telebot.ChatChannel && channel.Type != telebot.ChatChannelPrivate {
+		if tgChannel.Type != telebot.ChatChannel && tgChannel.Type != telebot.ChatChannelPrivate {
 			return c.Reply("This is not a channel.")
 		}
 
-		channelMember, err := b.ChatMemberOf(channel, c.Sender())
+		channelMember, err := b.ChatMemberOf(tgChannel, c.Sender())
 		if err != nil {
 			return c.Reply("You cant add not your channels.")
 		}
@@ -53,50 +54,65 @@ func AddChannelCommand(b *telebot.Bot, app *pocketbase.PocketBase) {
 		}
 
 		// TODO: # Check that channel.ID + user.Id is unique
-		// ...
+		channel := &teleblog.Chat{}
 
-		newChannel := teleblog.Source{
-			UserId:         user.Id,
-			LinkedSourceId: "",
+		err = teleblog.ChatQuery(app.Dao()).
+			AndWhere(dbx.HashExp{"tg_chat_id": tgChannel.ID, "user_id": user.Id}).
+			Limit(1).
+			One(channel)
+		if err != nil {
+			if !strings.Contains(err.Error(), "no rows in result set") {
+				return err
+			}
 
-			Username:     channelUsername,
-			ChatId:       channel.ID,
-			Type:         string(channel.Type),
-			LinkedChatId: channel.LinkedChatID,
-		}
+			newChannel := teleblog.Chat{
+				UserId:       user.Id,
+				LinkedChatId: "",
 
-		if err := app.Dao().Save(&newChannel); err != nil {
-			return err
+				TgUsername:     tgChannel.Username,
+				TgChatId:       tgChannel.ID,
+				TgType:         string(tgChannel.Type),
+				TgLinkedChatId: tgChannel.LinkedChatID,
+			}
+
+			if err := app.Dao().Save(&newChannel); err != nil {
+				return err
+			}
+
+			channel = &newChannel
 		}
 
 		// # Add linked chat
-		linkedGroup, err := b.ChatByID(channel.LinkedChatID)
+		linkedGroup, err := b.ChatByID(tgChannel.LinkedChatID)
 		if err != nil {
 			return c.Reply("No channel chat like this found.")
 		}
 
-		channelGroupMember, err := b.ChatMemberOf(linkedGroup, c.Sender())
+		// # Check that channel.ID + user.Id is unique
+		channelsGroup := &teleblog.Chat{}
+
+		err = teleblog.ChatQuery(app.Dao()).
+			AndWhere(dbx.HashExp{"tg_chat_id": linkedGroup.ID, "user_id": user.Id}).
+			Limit(1).
+			One(channelsGroup)
 		if err != nil {
-			return c.Reply("You cant add not your channels.")
-		}
+			if !strings.Contains(err.Error(), "no rows in result set") {
+				return err
+			}
 
-		fmt.Printf("channelGroupMember.Role: %s\n", channelGroupMember.Role)
+			newChannelGroup := teleblog.Chat{
+				UserId:       user.Id,
+				LinkedChatId: channel.Id,
 
-		// TODO: # Check that channel.ID + user.Id is unique
-		// ...
+				TgUsername:     linkedGroup.Username,
+				TgChatId:       linkedGroup.ID,
+				TgType:         string(linkedGroup.Type),
+				TgLinkedChatId: linkedGroup.LinkedChatID,
+			}
 
-		newChannelGroup := teleblog.Source{
-			UserId:         user.Id,
-			LinkedSourceId: newChannel.Id,
-
-			Username:     linkedGroup.Username,
-			ChatId:       linkedGroup.ID,
-			Type:         string(linkedGroup.Type),
-			LinkedChatId: linkedGroup.LinkedChatID,
-		}
-
-		if err := app.Dao().Save(&newChannelGroup); err != nil {
-			return err
+			if err := app.Dao().Save(&newChannelGroup); err != nil {
+				return err
+			}
 		}
 
 		return c.Reply("Channel and linked group are successfully added.")

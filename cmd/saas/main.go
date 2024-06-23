@@ -48,6 +48,11 @@ func main() {
 	pref := telebot.Settings{
 		Token:  config.TelegramNotToken,
 		Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
+		OnError: func(err error, c telebot.Context) {
+			app.Logger().Error("Error in bot", err)
+
+			c.Reply("Something went wrong! We will fix it soon stay tuned.")
+		},
 	}
 
 	b, err := telebot.NewBot(pref)
@@ -58,13 +63,15 @@ func main() {
 
 	botapi.InitBotCommands(b, app)
 
-	go b.Start()
-
 	// # Send verification email on sign-up
 	app.OnRecordAfterCreateRequest("users").Add(func(e *core.RecordCreateEvent) error {
 		return mails.SendRecordVerification(app, e.Record)
 	})
 
+	// # Start bot
+	go b.Start()
+
+	// # Start app
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
 	}
