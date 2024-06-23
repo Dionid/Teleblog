@@ -13,11 +13,10 @@ var _ models.Model = (*User)(nil)
 type User struct {
 	models.BaseModel
 
-	Email        string `json:"email" db:"email"`
-	Verified     bool   `json:"verified" db:"verified"`
-	Name         string `json:"name" db:"name"`
-	PasswordHash string `json:"passwordHash" db:"password_hash"`
-	Avatar       string `json:"avatar" db:"avatar"`
+	Email    string `json:"email" db:"email"`
+	Verified bool   `json:"verified" db:"verified"`
+	Name     string `json:"name" db:"name"`
+	// PasswordHash string `json:"passwordHash" db:"password_hash"`
 
 	TelegramUserId int64 `json:"telegramUserId" db:"telegram_user_id"`
 }
@@ -32,9 +31,9 @@ func UserQuery(dao *daos.Dao) *dbx.SelectQuery {
 
 // # Verification Token
 
-var _ models.Model = (*VerificationToken)(nil)
+var _ models.Model = (*TgVerificationToken)(nil)
 
-type VerificationToken struct {
+type TgVerificationToken struct {
 	models.BaseModel
 
 	UserId   string `json:"userId" db:"user_id"`
@@ -42,12 +41,12 @@ type VerificationToken struct {
 	Verified bool   `json:"verified" db:"verified"`
 }
 
-func (m *VerificationToken) TableName() string {
-	return "verification_token"
+func (m *TgVerificationToken) TableName() string {
+	return "tg_verification_token"
 }
 
-func VerificationTokenQuery(dao *daos.Dao) *dbx.SelectQuery {
-	return dao.ModelQuery(&VerificationToken{})
+func TgVerificationTokenQuery(dao *daos.Dao) *dbx.SelectQuery {
+	return dao.ModelQuery(&TgVerificationToken{})
 }
 
 // # Source

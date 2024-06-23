@@ -28,7 +28,7 @@ Don't take this project as a reference for best practices.
 
 # Roadmap
 
-1. Verify token
+1. ~~Verify token~~
 1. Command "Rebind Channels Group"
 1. Save new posts
 1. Save new comments

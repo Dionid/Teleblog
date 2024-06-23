@@ -99,6 +99,6 @@ func AddChannelCommand(b *telebot.Bot, app *pocketbase.PocketBase) {
 			return err
 		}
 
-		return c.Reply("Channel and linked group are added.")
+		return c.Reply("Channel and linked group are successfully added.")
 	})
 }
