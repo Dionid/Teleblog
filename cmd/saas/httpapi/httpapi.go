@@ -60,7 +60,16 @@ func InitApi(app core.App, gctx context.Context) {
 				return err
 			}
 
-			component := views.PostPage(post)
+			comments := []teleblog.Comment{}
+
+			err = teleblog.CommentQuery(app.Dao()).Where(
+				dbx.HashExp{"post_id": id},
+			).All(&comments)
+			if err != nil {
+				return err
+			}
+
+			component := views.PostPage(post, comments)
 
 			return component.Render(c.Request().Context(), c.Response().Writer)
 		})

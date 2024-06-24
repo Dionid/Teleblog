@@ -4,10 +4,15 @@ import (
 	"github.com/Dionid/teleadmin/libs/teleblog"
 )
 
-templ PostPage(post teleblog.Post) {
+templ PostPage(post teleblog.Post, comments []teleblog.Comment) {
 	@BaseLayout() {
 		<div>
 		    <div>{ post.Text }</div>
+			<div>
+				for _, comment := range comments {
+					<div>{ comment.Text }</div>
+				}
+			</div>
 		</div>
 	}
 }
