@@ -1,0 +1,17 @@
+package views
+
+import (
+	"github.com/Dionid/teleadmin/libs/teleblog"
+)
+
+templ IndexPage(posts []teleblog.Post) {
+	@BaseLayout() {
+		<div>
+			for _, post := range posts {
+				<div>
+					<a href={ templ.SafeURL("/post/" + post.Id) }>{ post.Text }</a>
+				</div>
+			}
+		</div>
+	}
+}

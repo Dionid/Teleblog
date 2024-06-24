@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 	"path"
@@ -8,6 +9,7 @@ import (
 	"time"
 
 	"github.com/Dionid/teleadmin/cmd/saas/botapi"
+	"github.com/Dionid/teleadmin/cmd/saas/httpapi"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/mails"
@@ -21,7 +23,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// gctx, _ := context.WithCancel(context.Background())
+	gctx, _ := context.WithCancel(context.Background())
 
 	// # Pocketbase
 	app := pocketbase.New()
@@ -62,6 +64,10 @@ func main() {
 	}
 
 	botapi.InitBotCommands(b, app)
+
+	// # HTTP API
+
+	httpapi.InitApi(app, gctx)
 
 	// # Send verification email on sign-up
 	app.OnRecordAfterCreateRequest("users").Add(func(e *core.RecordCreateEvent) error {

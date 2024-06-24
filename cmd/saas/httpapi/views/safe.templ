@@ -1,0 +1,11 @@
+package views
+
+import (
+    "html/template"
+)
+
+var StyleTemplate = template.Must(template.New("example").Parse("<style>{{ . }}</style>"))
+
+func EscapedCssComponent(content string) templ.Component {
+    return templ.FromGoHTML(StyleTemplate, template.CSS(templ.EscapeString(content)))
+}

@@ -1,0 +1,13 @@
+package views
+
+import (
+	"github.com/Dionid/teleadmin/libs/teleblog"
+)
+
+templ PostPage(post teleblog.Post) {
+	@BaseLayout() {
+		<div>
+		    <div>{ post.Text }</div>
+		</div>
+	}
+}
