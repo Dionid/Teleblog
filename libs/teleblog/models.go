@@ -88,8 +88,10 @@ type Post struct {
 
 	Text string `json:"text" db:"text"`
 
-	TgPostId   int                                    `json:"thPostId" db:"tg_post_id"`
-	TgEntities types.JsonArray[telebot.MessageEntity] `json:"tgEntities" db:"tg_entities"`
+	TgMessageId      int                                    `json:"tgMessageId" db:"tg_post_id"`
+	TgGroupMessageId int                                    `json:"tgGroupMessageId" db:"tg_group_message_id"`
+	TgEntities       types.JsonArray[telebot.MessageEntity] `json:"tgEntities" db:"tg_entities"`
+	TgMessageRaw     types.JsonMap                          `json:"tgMessageRaw" db:"tg_message_raw"`
 }
 
 func (m *Post) TableName() string {
@@ -98,4 +100,30 @@ func (m *Post) TableName() string {
 
 func PostQuery(dao *daos.Dao) *dbx.SelectQuery {
 	return dao.ModelQuery(&Post{})
+}
+
+// # Comment
+
+var _ models.Model = (*Comment)(nil)
+
+type Comment struct {
+	models.BaseModel
+
+	ChatId string `json:"chatId" db:"chat_id"`
+	PostId string `json:"postId" db:"post_id"`
+
+	Text string `json:"text" db:"text"`
+
+	TgMessageId        int                                    `json:"tgMessageId" db:"tg_comment_id"`
+	TgEntities         types.JsonArray[telebot.MessageEntity] `json:"tgEntities" db:"tg_entities"`
+	TgMessageRaw       types.JsonMap                          `json:"tgMessageRaw" db:"tg_message_raw"`
+	TgReplyToMessageId int                                    `json:"tgReplyToMessageId" db:"tg_reply_to_message_id"`
+}
+
+func (m *Comment) TableName() string {
+	return "Comment"
+}
+
+func CommentQuery(dao *daos.Dao) *dbx.SelectQuery {
+	return dao.ModelQuery(&Comment{})
 }
