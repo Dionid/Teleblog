@@ -51,7 +51,7 @@ func main() {
 		OnError: func(err error, c telebot.Context) {
 			app.Logger().Error("Error in bot", err)
 
-			c.Reply("Something went wrong! We will fix it soon stay tuned.")
+			// c.Reply("Something went wrong! We will fix it soon stay tuned.")
 		},
 	}
 

@@ -4,6 +4,8 @@ import (
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/daos"
 	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/tools/types"
+	"gopkg.in/telebot.v3"
 )
 
 // # User
@@ -81,10 +83,13 @@ var _ models.Model = (*Post)(nil)
 type Post struct {
 	models.BaseModel
 
-	ChatId            string `json:"chatId" db:"chat_id"`
-	TelegramPostId    int64  `json:"postId" db:"post_id"`
-	IsTelegramMessage bool   `json:"isTelegramMessage" db:"is_telegram_message"`
-	Message           string `json:"message" db:"message"`
+	ChatId      string `json:"chatId" db:"chat_id"`
+	IsTgMessage bool   `json:"isTgMessage" db:"is_tg_message"`
+
+	Text string `json:"text" db:"text"`
+
+	TgPostId   int                                    `json:"thPostId" db:"tg_post_id"`
+	TgEntities types.JsonArray[telebot.MessageEntity] `json:"tgEntities" db:"tg_entities"`
 }
 
 func (m *Post) TableName() string {
