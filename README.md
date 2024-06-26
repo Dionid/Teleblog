@@ -38,11 +38,14 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Save new comments~~
 1. ~~Update posts on edit~~
 1. ~~Update comments on edit~~
-1. Pagination
-1. Add comment authors
+1. ~~Pagination~~
+1. Post page
+    1. ~~Add original post and comments links~~
+    1. Add comments authors data
 1. Post Widget
     1. Add "Read more" if there is a comments
     1. Add "Expand" if text is bigger than 200 symbols
+    1. Original post link
     1. ...
 1. Menu
     1. Logo
@@ -55,7 +58,6 @@ MG: Make it so content appears, but customization through Pocketbase admin
     1. Link
 1. Mobile version
 1. Deploy
-1. Footer
 1. Empty page
 1. Load history
 

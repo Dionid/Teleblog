@@ -12,18 +12,24 @@ type InpexPagePost struct {
 	CommentsCount int `db:"comments_count"`
 }
 
-templ Pagination(total int64, perPage int64, currentPage int64) {
+type PaginationData struct {
+	Total int64
+	PerPage int64
+	CurrentPage int64
+}
+
+templ Pagination(data PaginationData) {
 	<div class="join">
-		for i := 1; i <= int(math.Ceil(float64(total) / float64(perPage))); i++ {
+		for i := 1; i <= int(math.Ceil(float64(data.Total) / float64(data.PerPage))); i++ {
 			<a
 				href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", i)) }
-				class={ "join-item", "btn", templ.KV("btn-primary", i == int(currentPage)), templ.KV("bg-white", i != int(currentPage)) }
+				class={ "join-item", "btn", templ.KV("btn-primary", i == int(data.CurrentPage)), templ.KV("bg-white", i != int(data.CurrentPage)) }
 			>{ fmt.Sprintf("%d", i) }</a>
 		}
 	</div>
 }
 
-templ IndexPage(total int64, perPage int64, currentPage int64, posts []InpexPagePost) {
+templ IndexPage(pagination PaginationData, posts []InpexPagePost) {
 	@BaseLayout() {
 		<div class="flex flex-col w-full justify-center items-center">
 			@partials.Header()
@@ -31,9 +37,9 @@ templ IndexPage(total int64, perPage int64, currentPage int64, posts []InpexPage
 				<div class="flex flex-col w-full gap-4 max-w-3xl">
 					<div class="flex w-full justify-between items-center">
 						<div class="text-gray-500">
-							Total: { fmt.Sprintf("%d", total) }
+							Total: { fmt.Sprintf("%d", pagination.Total) }
 						</div>
-						@Pagination(total, perPage, currentPage)
+						@Pagination(pagination)
 					</div>
 					for _, post := range posts {
 						<div class="card bg-white shadow w-full">
@@ -72,14 +78,11 @@ templ IndexPage(total int64, perPage int64, currentPage int64, posts []InpexPage
 						</div>
 					}
 					<div class="flex w-full justify-center">
-						@Pagination(total, perPage, currentPage)
+						@Pagination(pagination)
 					</div>
 				</div>
 			</div>
+			@partials.Footer()
 		</div>
-		<footer class="w-full flex items-center justify-between max-w-6xl mx-auto p-6">
-			<div>Made by <a href="https://github.com/Dionid" target="_blank">David Shekunts</a> with ♥️</div>
-			<div>@templ.Raw("@2024")</div>
-		</footer>
 	}
 }

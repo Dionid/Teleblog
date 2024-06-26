@@ -129,7 +129,13 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				return err
 			}
 
-			component := views.IndexPage(total.Total, perPage, currentPage, posts)
+			pagination := views.PaginationData{
+				Total:       total.Total,
+				PerPage:     perPage,
+				CurrentPage: currentPage,
+			}
+
+			component := views.IndexPage(pagination, posts)
 
 			return component.Render(c.Request().Context(), c.Response().Writer)
 		})
@@ -146,6 +152,15 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				return err
 			}
 
+			chat := teleblog.Chat{}
+
+			err = teleblog.ChatQuery(app.Dao()).Where(
+				dbx.HashExp{"id": post.ChatId},
+			).Limit(1).One(&chat)
+			if err != nil {
+				return err
+			}
+
 			comments := []teleblog.Comment{}
 
 			err = teleblog.CommentQuery(app.Dao()).Where(
@@ -155,7 +170,7 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				return err
 			}
 
-			component := views.PostPage(post, comments)
+			component := views.PostPage(chat, post, comments)
 
 			return component.Render(c.Request().Context(), c.Response().Writer)
 		})
