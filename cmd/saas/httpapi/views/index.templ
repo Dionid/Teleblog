@@ -6,12 +6,26 @@ import (
 
 templ IndexPage(posts []teleblog.Post) {
 	@BaseLayout() {
-		<div>
-			for _, post := range posts {
-				<div>
-					<a href={ templ.SafeURL("/post/" + post.Id) }>{ post.Text }</a>
+		<div class="flex flex-col w-full justify-center items-center">
+			<header class="flex w-full mb-6 items-center justify-center">
+				<div class="flex w-full max-w-6xl p-6 items-center">
+					<h1 class="text-2xl font-bold">Teleblog</h1>
 				</div>
-			}
+			</header>
+			<div class="flex flex-col w-full max-w-7xl p-6 items-center">
+				<div class="flex flex-col w-full gap-4 max-w-3xl">
+					for _, post := range posts {
+						<div class="card bg-white shadow w-full">
+							<div class="card-body">
+								<a class="whitespace-pre-line" href={ templ.SafeURL("/post/" + post.Id) }>{ post.Text }</a>
+								<div class="card-actions pt-6">
+									<a href={ templ.SafeURL("/post/" + post.Id) } class="btn">Читать далее</a>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
 		</div>
 	}
 }

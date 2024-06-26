@@ -27,14 +27,14 @@ func BaseLayout() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html data-theme=\"bumblebee\"><head><title>Teleblog –\u00a0create blog from your telegram channel</title><meta name=\"title\" content=\"Teleblog –\u00a0create blog from your telegram channel\"><meta name=\"description\" content=\"Create interactive presentations from your Notion pages\"><meta property=\"og:site_name\" content=\"N2P\"><meta property=\"og:title\" content=\"Teleblog –\u00a0create blog from your telegram channel\"><meta property=\"og:description\" content=\"Create interactive presentations from your Notion pages\"><meta property=\"og:url\" content=\"n2p.dev\"><meta property=\"og:image\" content=\"https://n2p.dev/public/n2p_link_preview.png\"><meta property=\"og:type\" content=\"website\"><meta name=\"twitter:card\" content=\"summary_large_image\"><meta property=\"twitter:domain\" content=\"n2p.dev\"><meta property=\"twitter:url\" content=\"https://n2p.dev/\"><meta name=\"twitter:title\" content=\"Notion to presentation\"><meta name=\"twitter:description\" content=\"Create interactive presentations from your Notion pages\"><meta name=\"twitter:image\" content=\"https://n2p.dev/public/n2p_link_preview.png\"><link rel=\"stylesheet\" href=\"/public/reveal/reveal.css\"><link rel=\"stylesheet\" href=\"/public/reveal/plugin/highlight/monokai.css\"><link rel=\"stylesheet\" href=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html data-theme=\"bumblebee\"><head><title>Teleblog –\u00a0create blog from your telegram channel</title><meta name=\"title\" content=\"Teleblog –\u00a0create blog from your telegram channel\"><meta name=\"description\" content=\"Create interactive presentations from your Notion pages\"><meta property=\"og:site_name\" content=\"N2P\"><meta property=\"og:title\" content=\"Teleblog –\u00a0create blog from your telegram channel\"><meta property=\"og:description\" content=\"Create interactive presentations from your Notion pages\"><meta property=\"og:url\" content=\"n2p.dev\"><meta property=\"og:image\" content=\"https://n2p.dev/public/n2p_link_preview.png\"><meta property=\"og:type\" content=\"website\"><meta name=\"twitter:card\" content=\"summary_large_image\"><meta property=\"twitter:domain\" content=\"n2p.dev\"><meta property=\"twitter:url\" content=\"https://n2p.dev/\"><meta name=\"twitter:title\" content=\"Notion to presentation\"><meta name=\"twitter:description\" content=\"Create interactive presentations from your Notion pages\"><meta name=\"twitter:image\" content=\"https://n2p.dev/public/n2p_link_preview.png\"><link rel=\"stylesheet\" href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(templu.PathWithVersion(ctx, "/public/style.css"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `base_layout.templ`, Line: 27, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `base_layout.templ`, Line: 25, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -55,7 +55,7 @@ func BaseLayout() templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templu.PathWithVersion(ctx, "/public/custom.css"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `base_layout.templ`, Line: 53, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `base_layout.templ`, Line: 51, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {

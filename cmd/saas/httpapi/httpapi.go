@@ -2,8 +2,12 @@ package httpapi
 
 import (
 	"context"
+	"embed"
+	"log"
+	"os"
 
 	"github.com/Dionid/teleadmin/cmd/saas/httpapi/views"
+	"github.com/Dionid/teleadmin/libs/file"
 	"github.com/Dionid/teleadmin/libs/teleblog"
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/dbx"
@@ -11,9 +15,27 @@ import (
 	"github.com/pocketbase/pocketbase/core"
 )
 
-func InitApi(app core.App, gctx context.Context) {
+type Config struct {
+	Env string
+}
+
+//go:embed public
+var publicAssets embed.FS
+
+func InitApi(config Config, app core.App, gctx context.Context) {
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.Use(apis.ActivityLogger(app))
+
+		// # Static
+		if config.Env == "PRODUCTION" {
+			os.RemoveAll("./public")
+			file.CopyFromEmbed(publicAssets, "public", "./public")
+			e.Router.Static("/public", "./public")
+		} else if config.Env == "LOCAL" {
+			e.Router.Static("/public", "./httpapi/public")
+		} else {
+			log.Fatalf("Unknown env: %s", config.Env)
+		}
 
 		e.Router.GET("", func(c echo.Context) error {
 			chats := []teleblog.Chat{}

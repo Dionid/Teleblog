@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["cmd/saas/**/*.templ", "libs/ntp/html.go"],
+  content: ["cmd/saas/**/*.templ"],
   darkMode: "class",
   theme: {
     extend: {

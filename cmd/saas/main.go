@@ -67,7 +67,9 @@ func main() {
 
 	// # HTTP API
 
-	httpapi.InitApi(app, gctx)
+	httpapi.InitApi(httpapi.Config{
+		Env: config.Env,
+	}, app, gctx)
 
 	// # Send verification email on sign-up
 	app.OnRecordAfterCreateRequest("users").Add(func(e *core.RecordCreateEvent) error {

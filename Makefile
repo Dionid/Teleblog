@@ -10,7 +10,7 @@ parse:
 	cd cmd/cli && go run .
 
 serve-saas:
-	npx tailwindcss build -i tailwind.css -o cmd/saas/httph/public/style.css
+	npx tailwindcss build -i tailwind.css -o cmd/saas/httpapi/public/style.css
 	cd cmd/saas \
 	&& go generate ./... \
 	&& go run . serve
@@ -33,7 +33,7 @@ build-cli-mac:
 	GOARCH=amd64 GOOS=darwin go build -o ${BINARY_NAME}-cli-darwin ./cmd/cli
 
 build-saas-mac:
-	npx tailwindcss build -i tailwind.css -o cmd/saas/httph/public/style.css
+	npx tailwindcss build -i tailwind.css -o cmd/saas/httpapi/public/style.css
 	make templ
 	GOARCH=amd64 GOOS=darwin go build -o ./cmd/saas/${BINARY_NAME}-saas-darwin ./cmd/saas
 
@@ -45,7 +45,7 @@ build-cli-linux:
 	GOARCH=amd64 GOOS=linux go build -o ${BINARY_NAME}-cli-linux ./cmd/cli
 
 build-saas-linux:
-	npx tailwindcss build -i tailwind.css -o cmd/saas/httph/public/style.css
+	npx tailwindcss build -i tailwind.css -o cmd/saas/httpapi/public/style.css
 	make templ
 	GOARCH=amd64 GOOS=linux go build -o ./cmd/saas/${BINARY_NAME}-saas-linux ./cmd/saas
 

@@ -10,6 +10,7 @@ import (
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase"
 	"gopkg.in/telebot.v3"
+	"gopkg.in/telebot.v3/middleware"
 )
 
 const ADD_CHANNEL_COMMAND_NAME = "addchannel"
@@ -28,6 +29,10 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 	b.Handle("/start", func(c telebot.Context) error {
 		return c.Reply("Hello! This is teleblog bot. Add it to your channel and get posts in your blog.")
 	})
+
+	b.Use(middleware.Recover(func(err error, ctx telebot.Context) {
+		app.Logger().Error("Error in bot", err)
+	}))
 
 	VerifyTokenCommand(b, app)
 	AddChannelCommand(b, app)
