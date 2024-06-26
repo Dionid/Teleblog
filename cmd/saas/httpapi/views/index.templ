@@ -4,6 +4,7 @@ import (
 	"github.com/Dionid/teleadmin/libs/teleblog"
 	"github.com/Dionid/teleadmin/cmd/saas/httpapi/views/partials"
 	"fmt"
+	"math"
 )
 
 type InpexPagePost struct {
@@ -11,15 +12,35 @@ type InpexPagePost struct {
 	CommentsCount int `db:"comments_count"`
 }
 
-templ IndexPage(posts []InpexPagePost) {
+templ Pagination(total int64, perPage int64, currentPage int64) {
+	<div class="join">
+		for i := 1; i <= int(math.Ceil(float64(total) / float64(perPage))); i++ {
+			<a
+				href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", i)) }
+				class={ "join-item", "btn", templ.KV("btn-primary", i == int(currentPage)), templ.KV("bg-white", i != int(currentPage)) }
+			>{ fmt.Sprintf("%d", i) }</a>
+		}
+	</div>
+}
+
+templ IndexPage(total int64, perPage int64, currentPage int64, posts []InpexPagePost) {
 	@BaseLayout() {
 		<div class="flex flex-col w-full justify-center items-center">
 			@partials.Header()
-			<div class="flex flex-col w-full max-w-7xl p-6 items-center">
+			<div class="flex flex-col w-full max-w-6xl p-6 items-center">
 				<div class="flex flex-col w-full gap-4 max-w-3xl">
+					<div class="flex w-full justify-between items-center">
+						<div class="text-gray-500">
+							Total: { fmt.Sprintf("%d", total) }
+						</div>
+						@Pagination(total, perPage, currentPage)
+					</div>
 					for _, post := range posts {
 						<div class="card bg-white shadow w-full">
 							<div class="card-body">
+								<div class=" text-gray-400">
+									{ post.Created.Time().Format("2006-01-02 15:04") }
+								</div>
 								<div class="whitespace-pre-line">
 									{ post.Text }
 								</div>
@@ -50,8 +71,15 @@ templ IndexPage(posts []InpexPagePost) {
 							</div>
 						</div>
 					}
+					<div class="flex w-full justify-center">
+						@Pagination(total, perPage, currentPage)
+					</div>
 				</div>
 			</div>
 		</div>
+		<footer class="w-full flex items-center justify-between max-w-6xl mx-auto p-6">
+			<div>Made by <a href="https://github.com/Dionid" target="_blank">David Shekunts</a> with ♥️</div>
+			<div>@templ.Raw("@2024")</div>
+		</footer>
 	}
 }

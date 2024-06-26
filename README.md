@@ -56,6 +56,8 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. Mobile version
 1. Deploy
 1. Footer
+1. Empty page
+1. Load history
 
 ## Second phase
 
@@ -69,6 +71,7 @@ MG: Add content improvement features
 1. Pined messages
 1. Links preview
 1. Images
+1. Sorting
 1. ...
 
 ## Third phase

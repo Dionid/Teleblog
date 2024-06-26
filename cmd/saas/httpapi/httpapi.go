@@ -38,6 +38,11 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			log.Fatalf("Unknown env: %s", config.Env)
 		}
 
+		type PostPageFilters struct {
+			Page    int64 `query:"page"`
+			PerPage int64 `query:"per_page"`
+		}
+
 		e.Router.GET("", func(c echo.Context) error {
 			chats := []teleblog.Chat{}
 
@@ -49,6 +54,7 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			}
 
 			if len(chats) == 0 {
+				// TODO: Change
 				return c.JSON(200, []teleblog.Post{})
 			}
 
@@ -57,9 +63,36 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				chatIds = append(chatIds, chat.Id)
 			}
 
-			posts := []views.InpexPagePost{}
+			// # Filters
+			var filters PostPageFilters
 
-			err = teleblog.PostQuery(app.Dao()).Select(
+			if err := c.Bind(&filters); err != nil {
+				return err
+			}
+
+			// Query
+			baseQuery := teleblog.PostQuery(app.Dao()).
+				Where(
+					dbx.In("post.chat_id", chatIds...),
+				)
+
+			// ## Total
+			total := struct {
+				Total int64 `db:"total"`
+			}{}
+
+			err = baseQuery.Select(
+				"count(post.id) as total",
+			).One(&total)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println("total", total)
+
+			// ## Posts
+			posts := []views.InpexPagePost{}
+			contentQuery := baseQuery.Select(
 				"post.*",
 				"count(comment.id) as comments_count",
 			).
@@ -67,18 +100,36 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 					"comment",
 					dbx.NewExp("comment.post_id = post.id"),
 				).
-				Where(
-					dbx.In("post.chat_id", chatIds...),
-				).
 				GroupBy("post.id").
+				OrderBy("post.created desc")
+
+			// ## Filters
+			// ### Per page
+			perPage := filters.PerPage
+
+			if perPage == 0 {
+				perPage = 10
+			} else if perPage > 100 {
+				perPage = 100
+			}
+
+			contentQuery = contentQuery.Limit(perPage)
+
+			// ### Current page
+			currentPage := filters.Page
+			if currentPage == 0 {
+				currentPage = 1
+			}
+
+			contentQuery = contentQuery.Offset((currentPage - 1) * perPage)
+
+			err = contentQuery.
 				All(&posts)
 			if err != nil {
 				return err
 			}
 
-			fmt.Println("posts", len(posts))
-
-			component := views.IndexPage(posts)
+			component := views.IndexPage(total.Total, perPage, currentPage, posts)
 
 			return component.Render(c.Request().Context(), c.Response().Writer)
 		})
