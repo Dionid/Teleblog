@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/Dionid/teleadmin/libs/teleblog"
 	"github.com/pocketbase/dbx"
@@ -47,8 +46,6 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 		if err != nil {
 			return err
 		}
-
-		fmt.Println("OnChannelPost", c.Message().Entities)
 
 		newPost := &teleblog.Post{
 			ChatId:      chat.Id,
@@ -93,16 +90,7 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 		// # CHANNEL MESSAGES ARE ALSO HERE
 		// ...
 
-		jsonMessage, err := json.Marshal(c.Message())
-		if err != nil {
-			return err
-		}
-
-		// fmt.Println("jsonMessage", string(jsonMessage))
-		err = os.WriteFile(fmt.Sprintf("message_%d.json", c.Message().ID), jsonMessage, 0644)
-		if err != nil {
-			return err
-		}
+		app.Logger().Info("New message")
 
 		// # 0 if reply to something, or Post.Id if reply to post
 		if c.Message().ReplyTo != nil {

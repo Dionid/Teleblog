@@ -29,7 +29,7 @@ Don't take this project as a reference for best practices.
 
 ## First phase
 
-MG: 
+MG: Make it so content appears, but customization through Pocketbase admin
 
 1. ~~Verify token~~
 1. ~~Check user chat id is the same in channels and groups~~ -> They are not...
@@ -40,23 +40,39 @@ MG:
 1. Update comments on edit
 1. Deleted posts and comments
 1. Pagination
+1. Add comment authors
+1. Post Widget
+    1. Add "Read more" if there is a comments
+    1. Add "Expand" if text is bigger than 200 symbols
+    1. ...
 1. Menu
-1. Command "Rebind Channels Group"
-1. ...
+    1. Logo
+    1. Elements
+    1. Links
+    1. ...
+1. Mobile version
+1. Deploy
 
 ## Second phase
 
-MG: 
-
-1. ...
-
-## Third phase
-
-MG: Add life improvement features
+MG: Add content improvement features
 
 1. Search
 1. Likes counter
 1. Extract post title
 1. Extract tags
 1. Pined messages
+1. ...
+
+## Third phase
+
+MG: ...
+
+1. Command "Rebind Channels Group"
+1. ...
+
+## X phase
+
+1. Admin page
+1. Partial reload
 1. ...

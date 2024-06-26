@@ -3,6 +3,7 @@ package httpapi
 import (
 	"context"
 	"embed"
+	"fmt"
 	"log"
 	"os"
 
@@ -56,14 +57,26 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				chatIds = append(chatIds, chat.Id)
 			}
 
-			posts := []teleblog.Post{}
+			posts := []views.InpexPagePost{}
 
-			err = teleblog.PostQuery(app.Dao()).Where(
-				dbx.In("chat_id", chatIds...),
-			).All(&posts)
+			err = teleblog.PostQuery(app.Dao()).Select(
+				"post.*",
+				"count(comment.id) as comments_count",
+			).
+				LeftJoin(
+					"comment",
+					dbx.NewExp("comment.post_id = post.id"),
+				).
+				Where(
+					dbx.In("post.chat_id", chatIds...),
+				).
+				GroupBy("post.id").
+				All(&posts)
 			if err != nil {
 				return err
 			}
+
+			fmt.Println("posts", len(posts))
 
 			component := views.IndexPage(posts)
 

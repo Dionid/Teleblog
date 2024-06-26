@@ -2,9 +2,15 @@ package views
 
 import (
 	"github.com/Dionid/teleadmin/libs/teleblog"
+	"fmt"
 )
 
-templ IndexPage(posts []teleblog.Post) {
+type InpexPagePost struct {
+	teleblog.Post
+	CommentsCount int `db:"comments_count"`
+}
+
+templ IndexPage(posts []InpexPagePost) {
 	@BaseLayout() {
 		<div class="flex flex-col w-full justify-center items-center">
 			<header class="flex w-full mb-6 items-center justify-center">
@@ -17,9 +23,32 @@ templ IndexPage(posts []teleblog.Post) {
 					for _, post := range posts {
 						<div class="card bg-white shadow w-full">
 							<div class="card-body">
-								<a class="whitespace-pre-line" href={ templ.SafeURL("/post/" + post.Id) }>{ post.Text }</a>
-								<div class="card-actions pt-6">
-									<a href={ templ.SafeURL("/post/" + post.Id) } class="btn">Читать далее</a>
+								<div class="whitespace-pre-line">
+									{ post.Text }
+								</div>
+								<div class="card-actions pt-3 justify-between">
+									// <div class="flex p-2 gap-2">
+									// 	{ fmt.Sprintf("%d", post.LikesCount) }
+									// 	<svg
+									// 		xmlns="http://www.w3.org/2000/svg"
+									// 		class="h-6 w-6"
+									// 		fill="none"
+									// 		viewBox="0 0 24 24"
+									// 		stroke="currentColor">
+									// 		<path
+									// 		stroke-linecap="round"
+									// 		stroke-linejoin="round"
+									// 		stroke-width="2"
+									// 		d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+									// 	</svg>
+									// </div>
+									<div class="flex p-2 gap-2">
+										{ fmt.Sprintf("%d", post.CommentsCount) }
+										<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+											<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z"/>
+										</svg>
+									</div>
+									<a class="btn btn-sm">Читать далее</a>
 								</div>
 							</div>
 						</div>

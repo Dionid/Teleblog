@@ -48,12 +48,11 @@ func main() {
 
 	// # Telegram
 	pref := telebot.Settings{
-		Token:  config.TelegramNotToken,
-		Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
+		Verbose: true,
+		Token:   config.TelegramNotToken,
+		Poller:  &telebot.LongPoller{Timeout: 10 * time.Second, AllowedUpdates: telebot.AllowedUpdates},
 		OnError: func(err error, c telebot.Context) {
-			app.Logger().Error("Error in bot", err)
-
-			// c.Reply("Something went wrong! We will fix it soon stay tuned.")
+			app.Logger().Error("Error in bot", "error:", err)
 		},
 	}
 
