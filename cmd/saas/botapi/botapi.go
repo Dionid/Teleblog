@@ -90,7 +90,7 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 		// # CHANNEL MESSAGES ARE ALSO HERE
 		// ...
 
-		app.Logger().Info("New message")
+		app.Logger().Info("telebot.OnText")
 
 		// # 0 if reply to something, or Post.Id if reply to post
 		if c.Message().ReplyTo != nil {
@@ -180,10 +180,57 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 	})
 
 	// # Edited messages in channels and groups
+	b.Handle(telebot.OnEditedChannelPost, func(c telebot.Context) error {
+		fmt.Println("OnEditedChannelPost")
+
+		chat := &teleblog.Chat{}
+
+		err = teleblog.ChatQuery(app.Dao()).
+			AndWhere(dbx.HashExp{"tg_chat_id": c.Chat().ID}).
+			Limit(1).
+			One(chat)
+		if err != nil {
+			return err
+		}
+
+		_, err := app.DB().Update(
+			(&teleblog.Post{}).TableName(),
+			map[string]interface{}{
+				"text": c.Message().Text,
+			},
+			dbx.HashExp{"chat_id": chat.Id, "tg_post_id": c.Message().ID},
+		).Execute()
+
+		return err
+	})
+
 	b.Handle(telebot.OnEdited, func(c telebot.Context) error {
 		fmt.Println("OnEdited", c.Message().Text)
 		fmt.Println("c.Sender().ID", c.Sender().ID)
 
-		return nil
+		chat := &teleblog.Chat{}
+
+		err = teleblog.ChatQuery(app.Dao()).
+			AndWhere(dbx.HashExp{"tg_chat_id": c.Chat().ID}).
+			Limit(1).
+			One(chat)
+		if err != nil {
+			return err
+		}
+
+		if c.Message().OriginalChat != nil && c.Message().OriginalChat.ID == chat.TgLinkedChatId {
+			fmt.Println("FROM POST EDIT")
+			return nil
+		}
+
+		_, err := app.DB().Update(
+			(&teleblog.Comment{}).TableName(),
+			map[string]interface{}{
+				"text": c.Message().Text,
+			},
+			dbx.HashExp{"chat_id": chat.Id, "tg_comment_id": c.Message().ID},
+		).Execute()
+
+		return err
 	})
 }

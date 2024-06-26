@@ -48,7 +48,7 @@ templ IndexPage(posts []InpexPagePost) {
 											<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z"/>
 										</svg>
 									</div>
-									<a class="btn btn-sm">Читать далее</a>
+									<a class="btn btn-sm" href={ templ.SafeURL("/post/" + post.Id)}>Читать далее</a>
 								</div>
 							</div>
 						</div>

@@ -220,14 +220,10 @@ github.com/jmespath/go-jmespath
 # github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
 ## explicit
 github.com/kballard/go-shellquote
-# github.com/labstack/echo v3.3.10+incompatible
-## explicit
 # github.com/labstack/echo/v5 v5.0.0-20230722203903-ec5b858dab61
 ## explicit; go 1.18
 github.com/labstack/echo/v5
 github.com/labstack/echo/v5/middleware
-# github.com/labstack/gommon v0.4.2
-## explicit; go 1.18
 # github.com/magiconair/properties v1.8.7
 ## explicit; go 1.19
 github.com/magiconair/properties

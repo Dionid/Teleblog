@@ -62,6 +62,8 @@ MG: Add content improvement features
 1. Extract post title
 1. Extract tags
 1. Pined messages
+1. Links preview
+1. Images
 1. ...
 
 ## Third phase
@@ -75,4 +77,5 @@ MG: ...
 
 1. Admin page
 1. Partial reload
+1. Theme changer
 1. ...

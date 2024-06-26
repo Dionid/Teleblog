@@ -33,3 +33,7 @@ html, :host {
   --rounded-box: 10px;
   --rounded-btn: 5px;
 }
+
+body {
+  background-color: #f2f2f2;
+}
