@@ -12,6 +12,7 @@ import "bytes"
 
 import (
 	"fmt"
+	"github.com/Dionid/teleadmin/cmd/saas/httpapi/views/partials"
 	"github.com/Dionid/teleadmin/libs/teleblog"
 )
 
@@ -39,7 +40,15 @@ func IndexPage(posts []InpexPagePost) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full justify-center items-center\"><header class=\"flex w-full mb-6 items-center justify-center\"><div class=\"flex w-full max-w-6xl p-6 items-center\"><h1 class=\"text-2xl font-bold\">Teleblog</h1></div></header><div class=\"flex flex-col w-full max-w-7xl p-6 items-center\"><div class=\"flex flex-col w-full gap-4 max-w-3xl\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full justify-center items-center\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = partials.Header().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full max-w-7xl p-6 items-center\"><div class=\"flex flex-col w-full gap-4 max-w-3xl\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -51,7 +60,7 @@ func IndexPage(posts []InpexPagePost) templ.Component {
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(post.Text)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 27, Col: 20}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 24, Col: 20}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -64,7 +73,7 @@ func IndexPage(posts []InpexPagePost) templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", post.CommentsCount))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 46, Col: 49}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 43, Col: 49}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {

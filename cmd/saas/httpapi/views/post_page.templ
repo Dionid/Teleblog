@@ -2,16 +2,13 @@ package views
 
 import (
 	"github.com/Dionid/teleadmin/libs/teleblog"
+	"github.com/Dionid/teleadmin/cmd/saas/httpapi/views/partials"
 )
 
 templ PostPage(post teleblog.Post, comments []teleblog.Comment) {
 	@BaseLayout() {
 		<div class="flex flex-col w-full justify-center items-center">
-			<header class="flex w-full mb-6 items-center justify-center">
-				<div class="flex w-full max-w-6xl p-6 items-center">
-					<h1 class="text-2xl font-bold">Teleblog</h1>
-				</div>
-			</header>
+			@partials.Header()
 			<div class="flex flex-col w-full max-w-7xl p-6 items-center">
 				<div class="flex flex-col w-full gap-4 max-w-3xl">
 					<div class="card bg-white shadow w-full">
@@ -19,7 +16,7 @@ templ PostPage(post teleblog.Post, comments []teleblog.Comment) {
 							{ post.Text }
 						</div>
 					</div>
-					<div>
+					<div class="flex flex-col gap-4">
 						for _, comment := range comments {
 							<div class="flex">
 								<div class="avatar pr-4 pt-3">
@@ -29,7 +26,7 @@ templ PostPage(post teleblog.Post, comments []teleblog.Comment) {
 								</div>
 								<div class="card bg-white shadow w-full">
 									<div class="card-body whitespace-pre-line py-6">
-										<a href="#" class="flex mb-5 font-bold">David Shekunt</a>
+										<a href="#" class="flex mb-3 font-bold">David Shekunt</a>
 										{ comment.Text }
 									</div>
 								</div>

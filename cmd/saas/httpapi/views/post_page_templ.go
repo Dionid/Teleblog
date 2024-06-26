@@ -11,6 +11,7 @@ import "io"
 import "bytes"
 
 import (
+	"github.com/Dionid/teleadmin/cmd/saas/httpapi/views/partials"
 	"github.com/Dionid/teleadmin/libs/teleblog"
 )
 
@@ -33,32 +34,40 @@ func PostPage(post teleblog.Post, comments []teleblog.Comment) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full justify-center items-center\"><header class=\"flex w-full mb-6 items-center justify-center\"><div class=\"flex w-full max-w-6xl p-6 items-center\"><h1 class=\"text-2xl font-bold\">Teleblog</h1></div></header><div class=\"flex flex-col w-full max-w-7xl p-6 items-center\"><div class=\"flex flex-col w-full gap-4 max-w-3xl\"><div class=\"card bg-white shadow w-full\"><div class=\"card-body whitespace-pre-line\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full justify-center items-center\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = partials.Header().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full max-w-7xl p-6 items-center\"><div class=\"flex flex-col w-full gap-4 max-w-3xl\"><div class=\"card bg-white shadow w-full\"><div class=\"card-body whitespace-pre-line\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(post.Text)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 19, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 16, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex flex-col gap-4\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			for _, comment := range comments {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex\"><div class=\"avatar pr-4\"><div class=\"w-12 h-12 rounded-full\"><img src=\"https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg\"></div></div><div class=\"card bg-white shadow w-full\"><div class=\"card-body whitespace-pre-line py-6\"><a href=\"#\" class=\"flex mb-5 font-bold\">David Shekunt</a> ")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex\"><div class=\"avatar pr-4 pt-3\"><div class=\"w-12 h-12 rounded-full\"><img src=\"https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg\"></div></div><div class=\"card bg-white shadow w-full\"><div class=\"card-body whitespace-pre-line py-6\"><a href=\"#\" class=\"flex mb-3 font-bold\">David Shekunt</a> ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(comment.Text)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 33, Col: 24}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 30, Col: 24}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {

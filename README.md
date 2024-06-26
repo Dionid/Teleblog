@@ -36,9 +36,8 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Recover middleware to bot~~
 1. ~~Save new posts~~
 1. ~~Save new comments~~
-1. Update posts on edit
-1. Update comments on edit
-1. Deleted posts and comments
+1. ~~Update posts on edit~~
+1. ~~Update comments on edit~~
 1. Pagination
 1. Add comment authors
 1. Post Widget
@@ -50,13 +49,19 @@ MG: Make it so content appears, but customization through Pocketbase admin
     1. Elements
     1. Links
     1. ...
+1. Message author
+    1. Picture
+    1. Name
+    1. Link
 1. Mobile version
 1. Deploy
+1. Footer
 
 ## Second phase
 
 MG: Add content improvement features
 
+1. Entities Markup
 1. Search
 1. Likes counter
 1. Extract post title
