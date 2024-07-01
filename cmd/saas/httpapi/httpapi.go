@@ -3,6 +3,7 @@ package httpapi
 import (
 	"context"
 	"embed"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -161,13 +162,48 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				return err
 			}
 
-			comments := []teleblog.Comment{}
+			comments := []*views.PostPageComment{}
 
 			err = teleblog.CommentQuery(app.Dao()).Where(
 				dbx.HashExp{"post_id": id},
 			).All(&comments)
 			if err != nil {
 				return err
+			}
+
+			for _, comment := range comments {
+				rawMessage := struct {
+					From struct {
+						IsBot     bool   `json:"is_bot"`
+						Username  string `json:"username"`
+						FirstName string `json:"first_name"`
+						LastName  string `json:"last_name"`
+					} `json:"from"`
+					SenderChat struct {
+						Title    string `json:"title"`
+						Username string `json:"username"`
+					} `json:"sender_chat"`
+				}{}
+
+				jb, err := comment.TgMessageRaw.MarshalJSON()
+				if err != nil {
+					return err
+				}
+
+				err = json.Unmarshal(jb, &rawMessage)
+				if err != nil {
+					return err
+				}
+
+				fmt.Println("rawMessage", rawMessage.SenderChat.Title)
+
+				if rawMessage.From.IsBot {
+					comment.AuthorTitle = rawMessage.SenderChat.Title
+					comment.AuthorUsername = rawMessage.SenderChat.Username
+				} else {
+					comment.AuthorTitle = rawMessage.From.FirstName + " " + rawMessage.From.LastName
+					comment.AuthorUsername = rawMessage.From.Username
+				}
 			}
 
 			component := views.PostPage(chat, post, comments)

@@ -41,7 +41,9 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Pagination~~
 1. Post page
     1. ~~Add original post and comments links~~
-    1. Add comments authors data
+    1. ~~Add comments authors data~~
+        1. ~~From channels~~
+        1. ~~Check that personal comments work also~~
 1. Post Widget
     1. Add "Read more" if there is a comments
     1. Add "Expand" if text is bigger than 200 symbols
@@ -85,6 +87,7 @@ MG: ...
 
 ## X phase
 
+1. User Images
 1. Admin page
 1. Partial reload
 1. Theme changer
