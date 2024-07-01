@@ -3,10 +3,18 @@ package partials
 
 templ Header() {
     <header class="flex w-full mb-6 items-center justify-center">
-        <div class="flex w-full max-w-6xl p-6 items-center">
+        <div class="flex w-full max-w-6xl p-6 items-center justify-between">
             <a href="/">
                 @Logo()
             </a>
+            <div class="flex items-center gap-4">
+                <a target="_blank" href="https://about-me.davidshekunts.ru" class="link">
+                    Обо мне
+                </a>
+                <a href="#" class="link">
+                    ...
+                </a>
+            </div>
         </div>
     </header>
 }

@@ -39,17 +39,16 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Update posts on edit~~
 1. ~~Update comments on edit~~
 1. ~~Pagination~~
-1. Post page
+1. ~~Post page~~
     1. ~~Add original post and comments links~~
     1. ~~Add comments authors data~~
         1. ~~From channels~~
         1. ~~Check that personal comments work also~~
 1. Post Widget
-    1. Add "Read more" if there is a comments
-    1. Add "Expand" if text is bigger than 200 symbols
+    1. ~~Add "Read more" if there is a comments~~
+    1. ~~Add "Expand" if text is bigger than 200 symbols~~
     1. Original post link
-    1. ...
-1. Menu
+1. Menu (throw template)
     1. Logo
     1. Elements
     1. Links
@@ -59,9 +58,10 @@ MG: Make it so content appears, but customization through Pocketbase admin
     1. Name
     1. Link
 1. Mobile version
-1. Deploy
-1. Empty page
 1. Load history
+1. Rename "saas" to "site"
+1. Add license
+1. Deploy
 
 ## Second phase
 
@@ -76,6 +76,7 @@ MG: Add content improvement features
 1. Links preview
 1. Images
 1. Sorting
+1. Empty page
 1. ...
 
 ## Third phase
