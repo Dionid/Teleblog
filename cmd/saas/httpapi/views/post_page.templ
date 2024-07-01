@@ -18,7 +18,7 @@ templ PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageComme
 			@partials.Header()
 			<div class="flex flex-col w-full max-w-7xl p-6 items-center">
 				<div class="flex flex-col w-full gap-4 max-w-3xl">
-					<div class="card bg-white shadow w-full">
+					<div class="card bg-white shadow-sm w-full">
 						<div class="card-body whitespace-pre-line">
 							<div class="text-gray-400 flex justify-between items-center relative gap-4">
 								<div>
@@ -35,7 +35,7 @@ templ PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageComme
 					</div>
 					<div class="flex flex-col gap-4">
 						<div class="text-right pr-4">
-							Comments: { fmt.Sprintf("%d", len(comments)) }
+							Комментарии: { fmt.Sprintf("%d", len(comments)) }
 						</div>
 						for _, comment := range comments {
 							<div class="flex">
@@ -45,7 +45,7 @@ templ PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageComme
 									</a>
 								</div>
 								<div class="flex flex-col">
-									<div class="card bg-white shadow w-full">
+									<div class="card bg-white shadow-sm w-full">
 										<div class="card-body whitespace-pre-line py-6">
 											<div class="flex justify-between mb-3 relative gap-4 align-top">
 												<div>

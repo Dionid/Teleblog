@@ -2,21 +2,64 @@ package partials
 
 
 templ Header() {
-    <header class="flex w-full mb-6 items-center justify-center">
-    <div class="flex w-full max-w-6xl justify-center p-6">
-        <div class="flex w-full max-w-3xl items-center justify-between">
-            <a href="/">
-                @Logo()
-            </a>
-            <div class="flex items-center gap-4">
-                <a target="_blank" href="https://about-me.davidshekunts.ru" class="link">
-                    Обо мне
-                </a>
-                <a href="#" class="link">
-                    ...
-                </a>
+    <header class="flex w-full items-center justify-between">
+        <a href="/" class="w-36 p-1 rounded bg-white">
+            @Logo()
+        </a>
+        <div class="flex items-center">
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost bg-white">
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </div>
+                <ul
+                    tabindex="0"
+                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                    <li><a target="_blank" href="https://about-me.davidshekunts.ru" class="btn bg-white border-transparent">
+                    👨🏻 Обо мне 👴🏿
+                    </a></li>
+                    <li><a target="_blank" href="https://about-me.davidshekunts.ru" class="btn bg-white border-transparent">
+                        🦾 IT-Качалка 💪
+                    </a></li>
+                    <li><a target="_blank" href="https://fop.davidshekunts.ru/" class="btn bg-white border-transparent">
+                        λ ФОП λ
+                    </a></li>
+                    <li><a target="_blank" href="https://fdd.davidshekunts.ru/" class="btn bg-white border-transparent">
+                        🛌 FDD 🛌
+                    </a></li>
+                    <li><a target="_blank" href="https://n2p.dev/" class="btn bg-white border-transparent">
+                        📜 N2P 📜
+                    </a></li>
+                </ul>
             </div>
-        </div>
+
+            // <div class="join">
+            //     <a target="_blank" href="https://about-me.davidshekunts.ru" class="btn bg-white border-transparent join-item">
+            //         👨🏻 Обо мне 👴🏿
+            //     </a>
+            //     <a target="_blank" href="https://about-me.davidshekunts.ru" class="btn bg-white border-transparent join-item">
+            //         🦾 IT-Качалка 💪
+            //     </a>
+            //     <a target="_blank" href="https://fop.davidshekunts.ru/" class="btn bg-white border-transparent join-item">
+            //         λ ФОП λ
+            //     </a>
+            //     <a target="_blank" href="https://fdd.davidshekunts.ru/" class="btn bg-white border-transparent join-item">
+            //         🛌 FDD 🛌
+            //     </a>
+            //     <a target="_blank" href="https://n2p.dev/" class="btn bg-white border-transparent join-item">
+            //         📜 N2P 📜
+            //     </a>
+            // </div>
         </div>
     </header>
 }

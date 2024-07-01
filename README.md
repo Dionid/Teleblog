@@ -48,22 +48,20 @@ MG: Make it so content appears, but customization through Pocketbase admin
     1. ~~Add "Read more" if there is a comments~~
     1. ~~Add "Expand" if text is bigger than 200 symbols~~
     1. ~~Original post link~~
-1. Menu (throw template)
-    1. Logo
-    1. Elements
-    1. Links
-    1. ...
+1. ~~Menu (throw template)~~
+1. Hero
 1. Mobile version
+1. Entities Markup
 1. Load history
 1. Rename "saas" to "site"
 1. Add license
+1. Favicon
 1. Deploy
 
 ## Second phase
 
 MG: Add content improvement features
 
-1. Entities Markup
 1. Search
 1. Likes counter
 1. Extract post title
