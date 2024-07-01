@@ -131,7 +131,7 @@ func IndexPage(pagination PaginationData, posts []InpexPagePost) templ.Component
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full flex flex-col justify-center p-6\"><div class=\"card bg-white\"><div class=\"card-body flex-row p-4 items-center\"><div class=\"avatar\"><div class=\"w-24 rounded-full\"><img src=\"/public/avatar.jpg\"></div></div><div class=\"p-4\">Привет! Меня зовут Давид Шекунц, я – Full-Stack Tech Lead на Go & TS и вы находитесь на сайте с постами из моей <a href=\"t.me/it_kachalka\" target=\"_blank\" class=\"border-b-2 border-dashed border-secondary\">🦾\u00a0IT-Качалки 💪</a></div></div></div><script src=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full flex flex-col justify-center p-6\"><div class=\"card bg-white\"><div class=\"card-body flex-row p-4 items-center\"><div class=\"avatar\"><div class=\"w-24 rounded-full\"><img src=\"/public/avatar.jpg\"></div></div><div class=\"p-4\">Привет! Меня зовут <b>Давид Шекунц</b>, я – Full-Stack Tech Lead на Go & TS и вы находитесь на сайте с постами из моей <a href=\"t.me/it_kachalka\" target=\"_blank\" class=\"border-b-2 border-dashed border-secondary\">🦾\u00a0IT-Качалки 💪</a></div></div></div><script src=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -239,25 +239,34 @@ func IndexPage(pagination PaginationData, posts []InpexPagePost) templ.Component
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Развернуть <svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"m19 9-7 7-7-7\"></path></svg></div><div class=\"card-actions pt-3 justify-between\"><div class=\"flex p-2 gap-2\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Развернуть <svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"m19 9-7 7-7-7\"></path></svg></div><div class=\"card-actions pt-3 justify-between\"><a class=\"flex p-2 gap-2\" href=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var15 string
-				templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", post.CommentsCount))
+				var templ_7745c5c3_Var15 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var15)))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var16 string
+				templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", post.CommentsCount))
 				if templ_7745c5c3_Err != nil {
 					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 90, Col: 52}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z\"></path></svg></div><a class=\"btn btn-sm btn-primary\" href=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z\"></path></svg></a> <a class=\"btn btn-sm btn-primary\" href=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var16 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var16)))
+				var templ_7745c5c3_Var17 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var17)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

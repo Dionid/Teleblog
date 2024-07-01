@@ -55,7 +55,7 @@ templ IndexPage(pagination PaginationData, posts []InpexPagePost) {
 						<script src={ templu.PathWithVersion(ctx, "/public/widgets/posts-list-widget.js") }></script>
 						@templ.JSONScript("posts-list-widget-data", posts)
 						<div id="posts-list-widget" class="flex flex-col w-full items-center pt-6">
-							<div class="flex flex-col gap-4">
+							<div class="flex flex-col gap-4 w-full">
 								<div class="flex w-full justify-between items-center">
 									<div class="text-gray-500">
 										Постов: { fmt.Sprintf("%d", pagination.Total) }
@@ -86,12 +86,12 @@ templ IndexPage(pagination PaginationData, posts []InpexPagePost) {
 												</svg>
 											</div>
 											<div class="card-actions pt-3 justify-between">
-												<div class="flex p-2 gap-2">
+												<a class="flex p-2 gap-2" href={ templ.SafeURL("/post/" + post.Id)}>
 													{ fmt.Sprintf("%d", post.CommentsCount) }
 													<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 														<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z"/>
 													</svg>
-												</div>
+												</a>
 												<a class="btn btn-sm btn-primary" href={ templ.SafeURL("/post/" + post.Id)} v-if="post.comments_count > 0">Читать далее</a>
 											</div>
 										</div>

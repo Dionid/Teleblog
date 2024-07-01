@@ -41,7 +41,7 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full justify-center items-center\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full justify-center items-center\"><div class=\"w-full flex justify-center max-w-6xl\"><div class=\"w-full flex flex-col justify-center max-w-3xl\"><div class=\"w-full p-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -49,14 +49,14 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full max-w-7xl p-6 items-center\"><div class=\"flex flex-col w-full gap-4 max-w-3xl\"><div class=\"card bg-white shadow-sm w-full\"><div class=\"card-body whitespace-pre-line\"><div class=\"text-gray-400 flex justify-between items-center relative gap-4\"><div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col w-full p-6 items-center\"><div class=\"flex flex-col w-full gap-4\"><div class=\"card bg-white shadow-sm w-full\"><div class=\"card-body whitespace-pre-line\"><div class=\"text-gray-400 flex justify-between items-center relative gap-4\"><div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(post.Created.Time().Format("2006-01-02 15:04"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 25, Col: 57}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 29, Col: 59}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -78,7 +78,7 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(post.Text)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 33, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 37, Col: 20}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -91,7 +91,7 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", len(comments)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 38, Col: 65}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 42, Col: 67}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -118,7 +118,7 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%c", comment.AuthorTitle[0]))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 44, Col: 53}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 48, Col: 55}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -140,7 +140,7 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 				var templ_7745c5c3_Var10 string
 				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(comment.AuthorTitle)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 53, Col: 35}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 57, Col: 37}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {
@@ -153,7 +153,7 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 				var templ_7745c5c3_Var11 string
 				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(comment.Created.Time().Format("2006-01-02 15:04"))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 56, Col: 65}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 60, Col: 67}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
@@ -175,7 +175,7 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 				var templ_7745c5c3_Var13 string
 				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(comment.Text)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 65, Col: 25}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `post_page.templ`, Line: 69, Col: 27}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
@@ -195,7 +195,7 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"flex w-full btn btn-primary mt-6\">Add your comment +</a></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"flex w-full btn btn-primary mt-6\">Add your comment +</a></div></div></div><div class=\"w-full p-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -203,7 +203,7 @@ func PostPage(chat teleblog.Chat, post teleblog.Post, comments []*PostPageCommen
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
