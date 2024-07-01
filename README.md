@@ -44,19 +44,15 @@ MG: Make it so content appears, but customization through Pocketbase admin
     1. ~~Add comments authors data~~
         1. ~~From channels~~
         1. ~~Check that personal comments work also~~
-1. Post Widget
+1. ~~Post Widget~~
     1. ~~Add "Read more" if there is a comments~~
     1. ~~Add "Expand" if text is bigger than 200 symbols~~
-    1. Original post link
+    1. ~~Original post link~~
 1. Menu (throw template)
     1. Logo
     1. Elements
     1. Links
     1. ...
-1. Message author
-    1. Picture
-    1. Name
-    1. Link
 1. Mobile version
 1. Load history
 1. Rename "saas" to "site"

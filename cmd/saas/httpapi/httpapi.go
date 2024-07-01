@@ -96,10 +96,15 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			contentQuery := baseQuery.Select(
 				"post.*",
 				"count(comment.id) as comments_count",
+				"chat.tg_username as tg_chat_username",
 			).
 				LeftJoin(
 					"comment",
 					dbx.NewExp("comment.post_id = post.id"),
+				).
+				LeftJoin(
+					"chat",
+					dbx.NewExp("chat.id = post.chat_id"),
 				).
 				GroupBy("post.id").
 				OrderBy("post.created desc")

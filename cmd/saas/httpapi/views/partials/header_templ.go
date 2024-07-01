@@ -23,7 +23,7 @@ func Header() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"flex w-full mb-6 items-center justify-center\"><div class=\"flex w-full max-w-6xl p-6 items-center justify-between\"><a href=\"/\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"flex w-full mb-6 items-center justify-center\"><div class=\"flex w-full max-w-6xl justify-center p-6\"><div class=\"flex w-full max-w-3xl items-center justify-between\"><a href=\"/\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -31,7 +31,7 @@ func Header() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a><div class=\"flex items-center gap-4\"><a target=\"_blank\" href=\"https://about-me.davidshekunts.ru\" class=\"link\">Обо мне</a> <a href=\"#\" class=\"link\">...</a></div></div></header>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a><div class=\"flex items-center gap-4\"><a target=\"_blank\" href=\"https://about-me.davidshekunts.ru\" class=\"link\">Обо мне</a> <a href=\"#\" class=\"link\">...</a></div></div></div></header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
