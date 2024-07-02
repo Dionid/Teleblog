@@ -16,6 +16,10 @@ import (
 const ADD_CHANNEL_COMMAND_NAME = "addchannel"
 const VERIFY_TOKEN_COMMAND_NAME = "verifytoken"
 
+func skipContent(c telebot.Context) bool {
+	return c.Message().Photo != nil || c.Message().Video != nil || c.Message().Sticker != nil || c.Message().Story != nil
+}
+
 func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 	err := b.SetCommands([]telebot.Command{
 		{Text: "start", Description: "start the bot"},
@@ -39,6 +43,10 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 
 	b.Handle(telebot.OnChannelPost, func(c telebot.Context) error {
 		chat := &teleblog.Chat{}
+
+		if skipContent(c) {
+			return nil
+		}
 
 		err = teleblog.ChatQuery(app.Dao()).
 			AndWhere(dbx.HashExp{"tg_chat_id": c.Chat().ID}).
@@ -85,13 +93,11 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 
 	// # Created messages in channels, groups and bot
 	b.Handle(telebot.OnText, func(c telebot.Context) error {
-		// # Check if it is from the channels chat
-		// ...
-
-		// # CHANNEL MESSAGES ARE ALSO HERE
-		// ...
-
 		app.Logger().Info("telebot.OnText")
+
+		if skipContent(c) {
+			return nil
+		}
 
 		// # 0 if reply to something, or Post.Id if reply to post
 		if c.Message().ReplyTo != nil {
@@ -184,6 +190,10 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 	b.Handle(telebot.OnEditedChannelPost, func(c telebot.Context) error {
 		fmt.Println("OnEditedChannelPost")
 
+		if skipContent(c) {
+			return nil
+		}
+
 		chat := &teleblog.Chat{}
 
 		err = teleblog.ChatQuery(app.Dao()).
@@ -234,6 +244,10 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 	b.Handle(telebot.OnEdited, func(c telebot.Context) error {
 		fmt.Println("OnEdited", c.Message().Text)
 		fmt.Println("c.Sender().ID", c.Sender().ID)
+
+		if skipContent(c) {
+			return nil
+		}
 
 		chat := &teleblog.Chat{}
 

@@ -38,6 +38,9 @@ func AddMarkupToText(srcText string, markup types.JsonArray[telebot.MessageEntit
 
 	for i, entity := range entities {
 		switch entity.Type {
+		case telebot.EntityItalic:
+			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<i class='inline'>"), Priority: i, IsOpen: true})
+			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset + entity.Length, Tag: []rune("</i>"), Priority: i, IsOpen: false})
 		case telebot.EntityBold:
 			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<b class='inline'>"), Priority: i, IsOpen: true})
 			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset + entity.Length, Tag: []rune("</b>"), Priority: i, IsOpen: false})
@@ -46,10 +49,14 @@ func AddMarkupToText(srcText string, markup types.JsonArray[telebot.MessageEntit
 			if strings.Contains(link, "://") == false {
 				link = "http://" + link
 			}
-			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<a target='_blank' href=" + link + " class='inline c-link'>"), Priority: i, IsOpen: true})
+			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<a target='_blank' href='" + link + "' class='inline c-link'>"), Priority: i, IsOpen: true})
 			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset + entity.Length, Tag: []rune("</a>"), Priority: i, IsOpen: false})
 		case telebot.EntityTextLink:
 			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<a target='_blank' class='inline c-link' href='" + entity.URL + "'>"), Priority: i, IsOpen: true})
+			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset + entity.Length, Tag: []rune("</a>"), Priority: i, IsOpen: false})
+		case telebot.EntityMention:
+			link := string(utf16.Decode(text[entity.Offset+1 : entity.Offset+entity.Length]))
+			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<a target='_blank' href='https://t.me/" + link + "' class='inline c-link'>"), Priority: i, IsOpen: true})
 			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset + entity.Length, Tag: []rune("</a>"), Priority: i, IsOpen: false})
 		default:
 			continue
