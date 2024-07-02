@@ -20,8 +20,10 @@ import (
 
 type InpexPagePost struct {
 	teleblog.Post
+	TgMessageRaw   any    `db:"tg_message_raw" json:"-"`
 	CommentsCount  int    `db:"comments_count" json:"comments_count"`
 	TgChatUsername string `db:"tg_chat_username" json:"tg_chat_username"`
+	TextWithMarkup string `json:"text_with_markup"`
 }
 
 type PaginationData struct {
@@ -82,7 +84,7 @@ func Pagination(data PaginationData) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", i))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 29, Col: 26}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 31, Col: 26}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -104,7 +106,7 @@ func Pagination(data PaginationData) templ.Component {
 	})
 }
 
-func IndexPage(pagination PaginationData, posts []InpexPagePost) templ.Component {
+func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -138,7 +140,7 @@ func IndexPage(pagination PaginationData, posts []InpexPagePost) templ.Component
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templu.PathWithVersion(ctx, "/public/widgets/posts-list-widget.js"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 55, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 57, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -152,14 +154,14 @@ func IndexPage(pagination PaginationData, posts []InpexPagePost) templ.Component
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"posts-list-widget\" class=\"flex flex-col w-full items-center pt-6\"><div class=\"flex flex-col gap-4\"><div class=\"flex w-full justify-between items-center\"><div class=\"text-gray-500\">Постов: ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"posts-list-widget\" class=\"flex flex-col w-full items-center pt-6\"><div class=\"flex flex-col gap-4 w-full\"><div class=\"flex w-full justify-between items-center\"><div class=\"text-gray-500\">Постов: ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", pagination.Total))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 61, Col: 61}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 63, Col: 61}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -185,7 +187,7 @@ func IndexPage(pagination PaginationData, posts []InpexPagePost) templ.Component
 				var templ_7745c5c3_Var10 string
 				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf(`post = dataById["%s"]`, post.Id))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 66, Col: 105}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 68, Col: 105}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {
@@ -198,7 +200,7 @@ func IndexPage(pagination PaginationData, posts []InpexPagePost) templ.Component
 				var templ_7745c5c3_Var11 string
 				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(post.Created.Time().Format("2006-01-02 15:04"))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 70, Col: 61}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 72, Col: 61}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
@@ -213,27 +215,27 @@ func IndexPage(pagination PaginationData, posts []InpexPagePost) templ.Component
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><svg class=\"w-4 h-4 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961\"></path></svg></a></div><div class=\"whitespace-pre-line\" v-text=\"post.text\" v-show=\"!post.collapsed\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><svg class=\"w-4 h-4 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961\"></path></svg></a></div><div class=\"whitespace-pre-line\" v-html=\"post.text_with_markup\" v-show=\"!post.collapsed\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var13 string
-				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(post.Text)
+				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(post.TextWithMarkup)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 79, Col: 23}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 81, Col: 33}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"whitespace-pre-line\" v-text=\"cropText(post.text)\" v-show=\"post.collapsed\"></div><div class=\"btn mt-4\" v-show=\"post.collapsed\" @click=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"whitespace-pre-line\" v-text=\"cropText(post.text_with_markup)\" v-show=\"post.collapsed\"></div><div class=\"btn mt-4\" v-show=\"post.collapsed\" @click=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var14 string
 				templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("expandPostText('%s')", post.Id))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 82, Col: 110}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 84, Col: 110}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 				if templ_7745c5c3_Err != nil {
@@ -255,7 +257,7 @@ func IndexPage(pagination PaginationData, posts []InpexPagePost) templ.Component
 				var templ_7745c5c3_Var16 string
 				templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", post.CommentsCount))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 90, Col: 52}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 92, Col: 52}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 				if templ_7745c5c3_Err != nil {

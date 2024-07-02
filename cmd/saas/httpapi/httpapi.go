@@ -92,7 +92,7 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			fmt.Println("total", total)
 
 			// ## Posts
-			posts := []views.InpexPagePost{}
+			posts := []*views.InpexPagePost{}
 			contentQuery := baseQuery.Select(
 				"post.*",
 				"count(comment.id) as comments_count",
@@ -135,6 +135,16 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				return err
 			}
 
+			for _, post := range posts {
+				markup, err := teleblog.AddMarkupToText(post.Text, post.TgEntities)
+				if err != nil {
+					return err
+				}
+
+				fmt.Println("markup", markup)
+				post.TextWithMarkup = markup
+			}
+
 			pagination := views.PaginationData{
 				Total:       total.Total,
 				PerPage:     perPage,
@@ -149,11 +159,16 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 		e.Router.GET("/post/:id", func(c echo.Context) error {
 			id := c.PathParam("id")
 
-			post := teleblog.Post{}
+			post := views.PostPagePost{}
 
 			err := teleblog.PostQuery(app.Dao()).Where(
 				dbx.HashExp{"id": id},
 			).Limit(1).One(&post)
+			if err != nil {
+				return err
+			}
+
+			post.TextWithMarkup, err = teleblog.AddMarkupToText(post.Text, post.TgEntities)
 			if err != nil {
 				return err
 			}
