@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"slices"
 	"sort"
+	"strings"
 	"unicode/utf16"
 
 	"github.com/pocketbase/pocketbase/tools/types"
@@ -38,10 +39,17 @@ func AddMarkupToText(srcText string, markup types.JsonArray[telebot.MessageEntit
 	for i, entity := range entities {
 		switch entity.Type {
 		case telebot.EntityBold:
-			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<b>"), Priority: i, IsOpen: true})
+			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<b class='inline'>"), Priority: i, IsOpen: true})
 			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset + entity.Length, Tag: []rune("</b>"), Priority: i, IsOpen: false})
 		case telebot.EntityURL:
-			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<a>"), Priority: i, IsOpen: true})
+			link := string(utf16.Decode(text[entity.Offset : entity.Offset+entity.Length]))
+			if strings.Contains(link, "://") == false {
+				link = "http://" + link
+			}
+			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<a target='_blank' href=" + link + " class='inline c-link'>"), Priority: i, IsOpen: true})
+			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset + entity.Length, Tag: []rune("</a>"), Priority: i, IsOpen: false})
+		case telebot.EntityTextLink:
+			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset, Tag: []rune("<a target='_blank' class='inline c-link' href='" + entity.URL + "'>"), Priority: i, IsOpen: true})
 			markUpByPosition = append(markUpByPosition, MarkupNyPosition{Offset: entity.Offset + entity.Length, Tag: []rune("</a>"), Priority: i, IsOpen: false})
 		default:
 			continue

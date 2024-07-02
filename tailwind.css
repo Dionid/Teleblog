@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.c-link {
+  @apply border-b-2 border-dashed border-secondary;
+}

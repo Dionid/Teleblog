@@ -39,7 +39,9 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 											</svg>
 										</a>
 									</div>
-									{ post.TextWithMarkup }
+									<div>
+										@templ.Raw(post.TextWithMarkup)
+									</div>
 								</div>
 							</div>
 							<div class="flex flex-col gap-4">
@@ -85,6 +87,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 					<div class="w-full p-6">
 						@partials.Footer()
 					</div>
+					<div class="link opacity-0 link-secondary"></div>
 				</div>
 			</div>
 		</div>

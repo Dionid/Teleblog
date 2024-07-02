@@ -8,6 +8,7 @@ import (
 	"github.com/Dionid/teleadmin/libs/teleblog"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/tools/types"
 	"gopkg.in/telebot.v3"
 	"gopkg.in/telebot.v3/middleware"
 )
@@ -193,10 +194,36 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 			return err
 		}
 
-		_, err := app.DB().Update(
+		jsonEntities, err := json.Marshal(c.Message().Entities)
+		if err != nil {
+			return err
+		}
+
+		var tgEntities types.JsonArray[telebot.MessageEntity]
+
+		err = tgEntities.Scan(jsonEntities)
+		if err != nil {
+			return err
+		}
+
+		jsonMessageRaw, err := json.Marshal(c.Message())
+		if err != nil {
+			return err
+		}
+
+		var tgMessageRaw types.JsonMap
+
+		err = tgMessageRaw.Scan(jsonMessageRaw)
+		if err != nil {
+			return err
+		}
+
+		_, err = app.DB().Update(
 			(&teleblog.Post{}).TableName(),
 			map[string]interface{}{
-				"text": c.Message().Text,
+				"text":           c.Message().Text,
+				"tg_entities":    tgEntities,
+				"tg_message_raw": tgMessageRaw,
 			},
 			dbx.HashExp{"chat_id": chat.Id, "tg_post_id": c.Message().ID},
 		).Execute()
@@ -223,10 +250,36 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 			return nil
 		}
 
-		_, err := app.DB().Update(
+		jsonEntities, err := json.Marshal(c.Message().Entities)
+		if err != nil {
+			return err
+		}
+
+		var tgEntities types.JsonArray[telebot.MessageEntity]
+
+		err = tgEntities.Scan(jsonEntities)
+		if err != nil {
+			return err
+		}
+
+		jsonMessageRaw, err := json.Marshal(c.Message())
+		if err != nil {
+			return err
+		}
+
+		var tgMessageRaw types.JsonMap
+
+		err = tgMessageRaw.Scan(jsonMessageRaw)
+		if err != nil {
+			return err
+		}
+
+		_, err = app.DB().Update(
 			(&teleblog.Comment{}).TableName(),
 			map[string]interface{}{
-				"text": c.Message().Text,
+				"text":           c.Message().Text,
+				"tg_entities":    tgEntities,
+				"tg_message_raw": tgMessageRaw,
 			},
 			dbx.HashExp{"chat_id": chat.Id, "tg_comment_id": c.Message().ID},
 		).Execute()
