@@ -173,9 +173,13 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				return err
 			}
 
-			post.TextWithMarkup, err = teleblog.AddMarkupToText(post.Text, post.TgEntities)
-			if err != nil {
-				return err
+			if post.IsTgHistoryMessage {
+				post.TextWithMarkup = teleblog.FormHistoryTextWithMarkup(post.TgHistoryEntities)
+			} else {
+				post.TextWithMarkup, err = teleblog.AddMarkupToText(post.Text, post.TgEntities)
+				if err != nil {
+					return err
+				}
 			}
 
 			chat := teleblog.Chat{}

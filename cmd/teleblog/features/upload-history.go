@@ -58,12 +58,22 @@ func UploadHistory(app core.App, history teleblog.History) error {
 			continue
 		}
 
+		if message.Photo != nil {
+			continue
+		}
+
+		text := ""
+
+		for _, entity := range message.TextEntities {
+			text += entity.Text
+		}
+
 		// # Create new
 		post := teleblog.Post{
 			ChatId:             chat.Id,
 			IsTgMessage:        true,
 			IsTgHistoryMessage: true,
-			Text:               "",
+			Text:               text,
 			TgMessageId:        message.Id,
 		}
 

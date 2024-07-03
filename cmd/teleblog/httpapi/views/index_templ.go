@@ -228,7 +228,7 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"whitespace-pre-line\" v-text=\"cropText(post.text_with_markup)\" v-show=\"post.collapsed\"></div><div class=\"btn mt-4\" v-show=\"post.collapsed\" @click=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"whitespace-pre-line\" v-html=\"cropText(post.text_with_markup)\" v-show=\"post.collapsed\"></div><div class=\"btn mt-4\" v-show=\"post.collapsed\" @click=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -272,7 +272,16 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" v-if=\"post.comments_count &gt; 0\">Читать далее</a></div></div></div>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" v-if=\"post.comments_count &gt; 0\">Читать далее</a> <a class=\"btn btn-sm btn-ghost\" href=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var18 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var18)))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" v-if=\"post.comments_count == 0\">Читать далее</a></div></div></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

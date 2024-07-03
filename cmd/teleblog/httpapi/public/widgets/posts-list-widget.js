@@ -1,3 +1,5 @@
+const CROP_TEXT_LENGTH = 500;
+
 window.addEventListener("load", function () {
   const { createApp } = Vue;
 
@@ -12,7 +14,7 @@ window.addEventListener("load", function () {
   ).map((item) => {
     return {
       ...item,
-      collapsed: item.text.length > 200,
+      collapsed: item.text.length > CROP_TEXT_LENGTH,
     };
   });
 
@@ -35,7 +37,8 @@ window.addEventListener("load", function () {
     },
     methods: {
       cropText(text) {
-        return text.substr(0, 200) + "...";
+        console.log("text", text);
+        return text.substr(0, CROP_TEXT_LENGTH) + "...";
       },
       expandPostText(postId) {
         this.dataById[postId].collapsed = false;

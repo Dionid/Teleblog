@@ -15,8 +15,10 @@ serve-teleblog:
 	&& go generate ./... \
 	&& go run . serve
 
-live-teleblog:
-	templ generate --watch --proxy="http://localhost:8090" --cmd="make serve-teleblog"
+upload-history:
+	cd cmd/teleblog \
+	&& go generate ./... \
+	&& go run . upload-history
 
 # Generate
 

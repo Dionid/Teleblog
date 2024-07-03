@@ -80,7 +80,7 @@ templ IndexPage(pagination PaginationData, posts []*InpexPagePost) {
 											<div class="whitespace-pre-line" v-html="post.text_with_markup" v-show="!post.collapsed">
 												{ post.TextWithMarkup }
 											</div>
-											<div class="whitespace-pre-line" v-text="cropText(post.text_with_markup)" v-show="post.collapsed"></div>
+											<div class="whitespace-pre-line" v-html="cropText(post.text_with_markup)" v-show="post.collapsed"></div>
 											<div class="btn mt-4" v-show="post.collapsed" @click={ fmt.Sprintf("expandPostText('%s')", post.Id) }>
 												Развернуть
 												<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -95,6 +95,7 @@ templ IndexPage(pagination PaginationData, posts []*InpexPagePost) {
 													</svg>
 												</a>
 												<a class="btn btn-sm btn-primary" href={ templ.SafeURL("/post/" + post.Id)} v-if="post.comments_count > 0">Читать далее</a>
+												<a class="btn btn-sm btn-ghost" href={ templ.SafeURL("/post/" + post.Id)} v-if="post.comments_count == 0">Читать далее</a>
 											</div>
 										</div>
 									</div>

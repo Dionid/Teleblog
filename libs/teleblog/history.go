@@ -23,6 +23,7 @@ type HistoryMessage struct {
 	FromId       string                     `json:"from_id"`
 	TextEntities []HistoryMessageTextEntity `json:"text_entities"`
 	File         *string                    `json:"file"`
+	Photo        *string                    `json:"photo"`
 }
 
 type History struct {
