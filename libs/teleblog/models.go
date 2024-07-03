@@ -5,7 +5,6 @@ import (
 	"github.com/pocketbase/pocketbase/daos"
 	"github.com/pocketbase/pocketbase/models"
 	"github.com/pocketbase/pocketbase/tools/types"
-	"gopkg.in/telebot.v3"
 )
 
 // # User
@@ -89,11 +88,9 @@ type Post struct {
 
 	Text string `json:"text" db:"text"`
 
-	TgMessageId       int                                       `json:"tgMessageId" db:"tg_post_id"`
-	TgGroupMessageId  int                                       `json:"tgGroupMessageId" db:"tg_group_message_id"`
-	TgEntities        types.JsonArray[telebot.MessageEntity]    `json:"tgEntities" db:"tg_entities"`
-	TgHistoryEntities types.JsonArray[HistoryMessageTextEntity] `json:"tgHistoryEntities" db:"tg_history_entities"`
-	TgMessageRaw      types.JsonMap                             `json:"tgMessageRaw" db:"tg_message_raw"`
+	TgMessageId      int           `json:"tgMessageId" db:"tg_post_id"`
+	TgGroupMessageId int           `json:"tgGroupMessageId" db:"tg_group_message_id"`
+	TgMessageRaw     types.JsonMap `json:"tgMessageRaw" db:"tg_message_raw"`
 }
 
 func (m *Post) TableName() string {
@@ -116,10 +113,9 @@ type Comment struct {
 
 	Text string `json:"text" db:"text"`
 
-	TgMessageId        int                                    `json:"tgMessageId" db:"tg_comment_id"`
-	TgEntities         types.JsonArray[telebot.MessageEntity] `json:"tgEntities" db:"tg_entities"`
-	TgMessageRaw       types.JsonMap                          `json:"tgMessageRaw" db:"tg_message_raw"`
-	TgReplyToMessageId int                                    `json:"tgReplyToMessageId" db:"tg_reply_to_message_id"`
+	TgMessageId        int           `json:"tgMessageId" db:"tg_comment_id"`
+	TgMessageRaw       types.JsonMap `json:"tgMessageRaw" db:"tg_message_raw"`
+	TgReplyToMessageId int           `json:"tgReplyToMessageId" db:"tg_reply_to_message_id"`
 }
 
 func (m *Comment) TableName() string {

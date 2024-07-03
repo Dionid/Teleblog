@@ -63,16 +63,6 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 			TgMessageId: c.Message().ID,
 		}
 
-		jsonEntities, err := json.Marshal(c.Message().Entities)
-		if err != nil {
-			return err
-		}
-
-		err = newPost.TgEntities.Scan(jsonEntities)
-		if err != nil {
-			return err
-		}
-
 		jsonMessageRaw, err := json.Marshal(c.Message())
 		if err != nil {
 			return err
@@ -152,16 +142,6 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 
 				if c.Message().ReplyTo != nil {
 					newComment.TgReplyToMessageId = c.Message().ReplyTo.ID
-				}
-
-				jsonEntities, err := json.Marshal(c.Message().Entities)
-				if err != nil {
-					return err
-				}
-
-				err = newComment.TgEntities.Scan(jsonEntities)
-				if err != nil {
-					return err
 				}
 
 				jsonMessageRaw, err := json.Marshal(c.Message())

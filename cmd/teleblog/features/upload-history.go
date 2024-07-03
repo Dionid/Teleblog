@@ -69,17 +69,6 @@ func ParseChannelHistory(app core.App, history teleblog.History, chat *teleblog.
 			post.Created.Scan(tm)
 		}
 
-		// # post.TgHistoryEntities
-		jsonEntities, err := json.Marshal(message.TextEntities)
-		if err != nil {
-			return err
-		}
-
-		err = post.TgHistoryEntities.Scan(jsonEntities)
-		if err != nil {
-			return err
-		}
-
 		// # post.TgMessageRaw
 		jsonMessageRaw, err := json.Marshal(message)
 		if err != nil {

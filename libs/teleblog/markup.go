@@ -1,14 +1,12 @@
 package teleblog
 
 import (
-	"encoding/json"
 	"fmt"
 	"slices"
 	"sort"
 	"strings"
 	"unicode/utf16"
 
-	"github.com/pocketbase/pocketbase/tools/types"
 	"gopkg.in/telebot.v3"
 )
 
@@ -19,7 +17,7 @@ type MarkupNyPosition struct {
 	Tag      []rune
 }
 
-func FormHistoryTextWithMarkup(markup types.JsonArray[HistoryMessageTextEntity]) string {
+func FormHistoryTextWithMarkup(markup []HistoryMessageTextEntity) string {
 	text := ""
 
 	for _, entity := range markup {
@@ -46,22 +44,12 @@ func FormHistoryTextWithMarkup(markup types.JsonArray[HistoryMessageTextEntity])
 	return text
 }
 
-func AddMarkupToText(srcText string, markup types.JsonArray[telebot.MessageEntity]) (string, error) {
+func AddMarkupToText(srcText string, entities telebot.Entities) (string, error) {
 	text := utf16.Encode([]rune(srcText))
 
-	var entities telebot.Entities
-
-	b, err := markup.MarshalJSON()
-	if err != nil {
-		return "", fmt.Errorf("failed to marshal markup: %w", err)
-	}
-
-	err = json.Unmarshal(b, &entities)
-	if err != nil {
-		return "", fmt.Errorf("failed to unmarshal markup: %w", err)
-	}
-
 	var markUpByPosition []MarkupNyPosition
+
+	fmt.Println("Entities: ", entities)
 
 	for i, entity := range entities {
 		switch entity.Type {

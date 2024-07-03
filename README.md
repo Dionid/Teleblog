@@ -54,6 +54,7 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Entities Markup~~
 1. ~~Add license~~
 1. ~~Rename "saas" to "teleblog"~~
+1. Comments markup
 1. Load history
 1. Favicon
 1. Deploy

@@ -15,6 +15,7 @@ import (
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
+	"gopkg.in/telebot.v3"
 )
 
 type Config struct {
@@ -138,10 +139,29 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			for _, post := range posts {
 				markup := ""
 
+				jb, err := post.TgMessageRaw.MarshalJSON()
+				if err != nil {
+					return err
+				}
+
 				if post.IsTgHistoryMessage {
-					markup = teleblog.FormHistoryTextWithMarkup(post.TgHistoryEntities)
+					rawMessage := teleblog.HistoryMessage{}
+
+					err = json.Unmarshal(jb, &rawMessage)
+					if err != nil {
+						return err
+					}
+
+					markup = teleblog.FormHistoryTextWithMarkup(rawMessage.TextEntities)
 				} else {
-					markup, err = teleblog.AddMarkupToText(post.Text, post.TgEntities)
+					rawMessage := telebot.Message{}
+
+					err = json.Unmarshal(jb, &rawMessage)
+					if err != nil {
+						return err
+					}
+
+					markup, err = teleblog.AddMarkupToText(post.Text, rawMessage.Entities)
 					if err != nil {
 						return err
 					}
@@ -173,10 +193,29 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				return err
 			}
 
+			jb, err := post.Post.TgMessageRaw.MarshalJSON()
+			if err != nil {
+				return err
+			}
+
 			if post.IsTgHistoryMessage {
-				post.TextWithMarkup = teleblog.FormHistoryTextWithMarkup(post.TgHistoryEntities)
+				rawMessage := teleblog.HistoryMessage{}
+
+				err = json.Unmarshal(jb, &rawMessage)
+				if err != nil {
+					return err
+				}
+
+				post.TextWithMarkup = teleblog.FormHistoryTextWithMarkup(rawMessage.TextEntities)
 			} else {
-				post.TextWithMarkup, err = teleblog.AddMarkupToText(post.Text, post.TgEntities)
+				rawMessage := telebot.Message{}
+
+				err = json.Unmarshal(jb, &rawMessage)
+				if err != nil {
+					return err
+				}
+
+				post.TextWithMarkup, err = teleblog.AddMarkupToText(post.Text, rawMessage.Entities)
 				if err != nil {
 					return err
 				}
@@ -201,18 +240,7 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			}
 
 			for _, comment := range comments {
-				rawMessage := struct {
-					From struct {
-						IsBot     bool   `json:"is_bot"`
-						Username  string `json:"username"`
-						FirstName string `json:"first_name"`
-						LastName  string `json:"last_name"`
-					} `json:"from"`
-					SenderChat struct {
-						Title    string `json:"title"`
-						Username string `json:"username"`
-					} `json:"sender_chat"`
-				}{}
+				rawMessage := telebot.Message{}
 
 				jb, err := comment.TgMessageRaw.MarshalJSON()
 				if err != nil {
@@ -226,12 +254,12 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 
 				fmt.Println("rawMessage", rawMessage.SenderChat.Title)
 
-				if rawMessage.From.IsBot {
+				if rawMessage.Sender.IsBot {
 					comment.AuthorTitle = rawMessage.SenderChat.Title
 					comment.AuthorUsername = rawMessage.SenderChat.Username
 				} else {
-					comment.AuthorTitle = rawMessage.From.FirstName + " " + rawMessage.From.LastName
-					comment.AuthorUsername = rawMessage.From.Username
+					comment.AuthorTitle = rawMessage.Sender.FirstName + " " + rawMessage.Sender.LastName
+					comment.AuthorUsername = rawMessage.Sender.Username
 				}
 			}
 

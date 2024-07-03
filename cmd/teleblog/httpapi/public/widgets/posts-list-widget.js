@@ -37,7 +37,6 @@ window.addEventListener("load", function () {
     },
     methods: {
       cropText(text) {
-        console.log("text", text);
         return text.substr(0, CROP_TEXT_LENGTH) + "...";
       },
       expandPostText(postId) {
