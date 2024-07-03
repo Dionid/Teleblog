@@ -83,15 +83,17 @@ var _ models.Model = (*Post)(nil)
 type Post struct {
 	models.BaseModel
 
-	ChatId      string `json:"chatId" db:"chat_id"`
-	IsTgMessage bool   `json:"isTgMessage" db:"is_tg_message"`
+	ChatId             string `json:"chatId" db:"chat_id"`
+	IsTgMessage        bool   `json:"isTgMessage" db:"is_tg_message"`
+	IsTgHistoryMessage bool   `json:"isTgHistoryMessage" db:"is_tg_history_message"`
 
 	Text string `json:"text" db:"text"`
 
-	TgMessageId      int                                    `json:"tgMessageId" db:"tg_post_id"`
-	TgGroupMessageId int                                    `json:"tgGroupMessageId" db:"tg_group_message_id"`
-	TgEntities       types.JsonArray[telebot.MessageEntity] `json:"tgEntities" db:"tg_entities"`
-	TgMessageRaw     types.JsonMap                          `json:"tgMessageRaw" db:"tg_message_raw"`
+	TgMessageId       int                                       `json:"tgMessageId" db:"tg_post_id"`
+	TgGroupMessageId  int                                       `json:"tgGroupMessageId" db:"tg_group_message_id"`
+	TgEntities        types.JsonArray[telebot.MessageEntity]    `json:"tgEntities" db:"tg_entities"`
+	TgHistoryEntities types.JsonArray[HistoryMessageTextEntity] `json:"tgHistoryEntities" db:"tg_history_entities"`
+	TgMessageRaw      types.JsonMap                             `json:"tgMessageRaw" db:"tg_message_raw"`
 }
 
 func (m *Post) TableName() string {

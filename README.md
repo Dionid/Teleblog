@@ -53,8 +53,8 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Mobile version~~
 1. ~~Entities Markup~~
 1. ~~Add license~~
+1. ~~Rename "saas" to "teleblog"~~
 1. Load history
-1. Rename "saas" to "teleblog"
 1. Favicon
 1. Deploy
 
@@ -62,13 +62,14 @@ MG: Make it so content appears, but customization through Pocketbase admin
 
 MG: Add content improvement features
 
+1. Images
+1. Videos
 1. Search
 1. Likes counter
 1. Extract post title
 1. Extract tags
 1. Pined messages
 1. Links preview
-1. Images
 1. Sorting
 1. Empty page
 1. ...

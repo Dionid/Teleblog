@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"os"
 	"path"
@@ -9,11 +10,14 @@ import (
 	"time"
 
 	"github.com/Dionid/teleblog/cmd/teleblog/botapi"
+	"github.com/Dionid/teleblog/cmd/teleblog/features"
 	"github.com/Dionid/teleblog/cmd/teleblog/httpapi"
+	"github.com/Dionid/teleblog/libs/teleblog"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/mails"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
+	"github.com/spf13/cobra"
 	"gopkg.in/telebot.v3"
 )
 
@@ -31,6 +35,29 @@ func main() {
 	// # Send verification email on sign-up
 	app.OnRecordAfterCreateRequest("users").Add(func(e *core.RecordCreateEvent) error {
 		return mails.SendRecordVerification(app, e.Record)
+	})
+
+	app.RootCmd.AddCommand(&cobra.Command{
+		Use: "upload-history",
+		Run: func(cmd *cobra.Command, args []string) {
+			file, err := os.ReadFile("chat_export.json")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			var history teleblog.History
+			err = json.Unmarshal(file, &history)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			err = features.UploadHistory(app, history)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			app.Logger().Info("Done")
+		},
 	})
 
 	// # Migrations
@@ -69,11 +96,6 @@ func main() {
 	httpapi.InitApi(httpapi.Config{
 		Env: config.Env,
 	}, app, gctx)
-
-	// # Send verification email on sign-up
-	app.OnRecordAfterCreateRequest("users").Add(func(e *core.RecordCreateEvent) error {
-		return mails.SendRecordVerification(app, e.Record)
-	})
 
 	// # Start bot
 	go b.Start()

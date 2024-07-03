@@ -136,12 +136,17 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			}
 
 			for _, post := range posts {
-				markup, err := teleblog.AddMarkupToText(post.Text, post.TgEntities)
-				if err != nil {
-					return err
+				markup := ""
+
+				if post.IsTgHistoryMessage {
+					markup = teleblog.FormHistoryTextWithMarkup(post.TgHistoryEntities)
+				} else {
+					markup, err = teleblog.AddMarkupToText(post.Text, post.TgEntities)
+					if err != nil {
+						return err
+					}
 				}
 
-				fmt.Println("markup", markup)
 				post.TextWithMarkup = markup
 			}
 
