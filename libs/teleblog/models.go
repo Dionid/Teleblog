@@ -64,7 +64,7 @@ type Chat struct {
 
 	TgUsername     string `json:"tgUsername" db:"tg_username"`
 	TgChatId       int64  `json:"tgChatId" db:"tg_chat_id"`
-	TgType         string `json:"tgType" db:"tg_type"` // channel | group
+	TgType         string `json:"tgType" db:"tg_type"` //  "private" | "group" | "supergroup" | "channel" | "privatechannel"
 	TgLinkedChatId int64  `json:"tgLinkedChatId" db:"tg_linked_chat_id"`
 }
 
