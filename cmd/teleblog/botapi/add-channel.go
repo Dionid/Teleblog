@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Dionid/teleadmin/libs/teleblog"
+	"github.com/Dionid/teleblog/libs/teleblog"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase"
 	"gopkg.in/telebot.v3"

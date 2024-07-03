@@ -12,8 +12,8 @@ import "bytes"
 
 import (
 	"fmt"
-	"github.com/Dionid/teleadmin/cmd/teleblog/httpapi/views/partials"
-	"github.com/Dionid/teleadmin/libs/teleblog"
+	"github.com/Dionid/teleblog/cmd/teleblog/httpapi/views/partials"
+	"github.com/Dionid/teleblog/libs/teleblog"
 )
 
 type PostPageComment struct {

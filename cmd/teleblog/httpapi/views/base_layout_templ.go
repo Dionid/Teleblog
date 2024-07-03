@@ -11,7 +11,7 @@ import "io"
 import "bytes"
 
 import (
-	"github.com/Dionid/teleadmin/libs/templu"
+	"github.com/Dionid/teleblog/libs/templu"
 )
 
 func BaseLayout() templ.Component {

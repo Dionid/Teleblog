@@ -8,9 +8,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/Dionid/teleadmin/cmd/teleblog/httpapi/views"
-	"github.com/Dionid/teleadmin/libs/file"
-	"github.com/Dionid/teleadmin/libs/teleblog"
+	"github.com/Dionid/teleblog/cmd/teleblog/httpapi/views"
+	"github.com/Dionid/teleblog/libs/file"
+	"github.com/Dionid/teleblog/libs/teleblog"
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/apis"

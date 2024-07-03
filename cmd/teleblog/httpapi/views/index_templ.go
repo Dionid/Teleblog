@@ -12,9 +12,9 @@ import "bytes"
 
 import (
 	"fmt"
-	"github.com/Dionid/teleadmin/cmd/teleblog/httpapi/views/partials"
-	"github.com/Dionid/teleadmin/libs/teleblog"
-	"github.com/Dionid/teleadmin/libs/templu"
+	"github.com/Dionid/teleblog/cmd/teleblog/httpapi/views/partials"
+	"github.com/Dionid/teleblog/libs/teleblog"
+	"github.com/Dionid/teleblog/libs/templu"
 	"math"
 )
 

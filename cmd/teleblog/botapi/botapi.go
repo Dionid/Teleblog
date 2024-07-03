@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Dionid/teleadmin/libs/teleblog"
+	"github.com/Dionid/teleblog/libs/teleblog"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/tools/types"
