@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Dionid/teleadmin/cmd/saas/httpapi/views"
+	"github.com/Dionid/teleadmin/cmd/teleblog/httpapi/views"
 	"github.com/Dionid/teleadmin/libs/file"
 	"github.com/Dionid/teleadmin/libs/teleblog"
 	"github.com/labstack/echo/v5"

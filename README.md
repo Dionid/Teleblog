@@ -21,7 +21,7 @@ Don't take this project as a reference for best practices.
 
 # Project structure
 
-1. `cmd/saas` - Teleblog SaaS platform
+1. `cmd/teleblog` - Teleblog platform
 1. `infra` - some infrastructure code
 1. `libs` - libraries
 
@@ -51,10 +51,10 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Menu (throw template)~~
 1. ~~Hero~~
 1. ~~Mobile version~~
-1. Load history
-1. Entities Markup
-1. Rename "saas" to "site"
+1. ~~Entities Markup~~
 1. ~~Add license~~
+1. Load history
+1. Rename "saas" to "teleblog"
 1. Favicon
 1. Deploy
 

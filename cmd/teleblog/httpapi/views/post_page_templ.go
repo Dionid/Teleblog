@@ -12,7 +12,7 @@ import "bytes"
 
 import (
 	"fmt"
-	"github.com/Dionid/teleadmin/cmd/saas/httpapi/views/partials"
+	"github.com/Dionid/teleadmin/cmd/teleblog/httpapi/views/partials"
 	"github.com/Dionid/teleadmin/libs/teleblog"
 )
 

@@ -9,19 +9,19 @@ BINARY_NAME=${PROJECT_NAME}
 parse:
 	cd cmd/cli && go run .
 
-serve-saas:
-	npx tailwindcss build -i tailwind.css -o cmd/saas/httpapi/public/style.css
-	cd cmd/saas \
+serve-teleblog:
+	npx tailwindcss build -i tailwind.css -o cmd/teleblog/httpapi/public/style.css
+	cd cmd/teleblog \
 	&& go generate ./... \
 	&& go run . serve
 
-live-saas:
-	templ generate --watch --proxy="http://localhost:8090" --cmd="make serve-saas"
+live-teleblog:
+	templ generate --watch --proxy="http://localhost:8090" --cmd="make serve-teleblog"
 
 # Generate
 
 templ:
-	cd cmd/saas \
+	cd cmd/teleblog \
 	&& go generate ./...
 
 # Build
@@ -32,10 +32,10 @@ build-cli:
 build-cli-mac:
 	GOARCH=amd64 GOOS=darwin go build -o ${BINARY_NAME}-cli-darwin ./cmd/cli
 
-build-saas-mac:
-	npx tailwindcss build -i tailwind.css -o cmd/saas/httpapi/public/style.css
+build-teleblog-mac:
+	npx tailwindcss build -i tailwind.css -o cmd/teleblog/httpapi/public/style.css
 	make templ
-	GOARCH=amd64 GOOS=darwin go build -o ./cmd/saas/${BINARY_NAME}-saas-darwin ./cmd/saas
+	GOARCH=amd64 GOOS=darwin go build -o ./cmd/teleblog/${BINARY_NAME}-teleblog-darwin ./cmd/teleblog
 
 clean-mac:
 	go clean
@@ -44,17 +44,17 @@ clean-mac:
 build-cli-linux:
 	GOARCH=amd64 GOOS=linux go build -o ${BINARY_NAME}-cli-linux ./cmd/cli
 
-build-saas-linux:
-	npx tailwindcss build -i tailwind.css -o cmd/saas/httpapi/public/style.css
+build-teleblog-linux:
+	npx tailwindcss build -i tailwind.css -o cmd/teleblog/httpapi/public/style.css
 	make templ
-	GOARCH=amd64 GOOS=linux go build -o ./cmd/saas/${BINARY_NAME}-saas-linux ./cmd/saas
+	GOARCH=amd64 GOOS=linux go build -o ./cmd/teleblog/${BINARY_NAME}-teleblog-linux ./cmd/teleblog
 
 clean:
 	go clean
 	rm ${BINARY_NAME}-cli-darwin
 	rm ${BINARY_NAME}-cli-linux
-	rm ${BINARY_NAME}-saas-darwin
-	rm ${BINARY_NAME}-saas-linux
+	rm ${BINARY_NAME}-teleblog-darwin
+	rm ${BINARY_NAME}-teleblog-linux
 
 # Setup
 
@@ -69,12 +69,12 @@ setup-droplet:
 	&& mkdir -p /root/ntp \
 	&& systemctl enable pocketbase \
 	&& systemctl daemon-reload"
-	scp ./cmd/saas/app.env.example root@${SERVER_IP}:/root/ntp/app.env
+	scp ./cmd/teleblog/app.env.example root@${SERVER_IP}:/root/ntp/app.env
 
 # Deploy
 
 deploy:
-	make build-saas-linux
+	make build-teleblog-linux
 	ssh root@${SERVER_IP} "systemctl stop pocketbase"
-	scp ./cmd/saas/${BINARY_NAME}-saas-linux root@${SERVER_IP}:/root/ntp/${BINARY_NAME}-saas-linux
+	scp ./cmd/teleblog/${BINARY_NAME}-teleblog-linux root@${SERVER_IP}:/root/ntp/${BINARY_NAME}-teleblog-linux
 	ssh root@${SERVER_IP} "systemctl start pocketbase"

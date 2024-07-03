@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Dionid/teleadmin/cmd/saas/botapi"
-	"github.com/Dionid/teleadmin/cmd/saas/httpapi"
+	"github.com/Dionid/teleadmin/cmd/teleblog/botapi"
+	"github.com/Dionid/teleadmin/cmd/teleblog/httpapi"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/mails"
