@@ -119,7 +119,7 @@ type Comment struct {
 }
 
 func (m *Comment) TableName() string {
-	return "Comment"
+	return "comment"
 }
 
 func CommentQuery(dao *daos.Dao) *dbx.SelectQuery {

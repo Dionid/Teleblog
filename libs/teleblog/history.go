@@ -25,7 +25,7 @@ type HistoryMessage struct {
 	File             *string                    `json:"file"`
 	Photo            *string                    `json:"photo"`
 	ReplyToMessageId int                        `json:"reply_to_message_id"`
-	ForwardedFrom    string                     `json:"forwarded_from"`
+	ForwardedFrom    *string                    `json:"forwarded_from"`
 }
 
 type History struct {

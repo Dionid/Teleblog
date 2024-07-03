@@ -2,7 +2,9 @@ package features
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/Dionid/teleblog/libs/teleblog"
@@ -14,7 +16,11 @@ func ParseChannelHistory(app core.App, history teleblog.History, chat *teleblog.
 	var preparedPosts []teleblog.Post
 
 	for _, message := range history.Messages {
-		// # Check if exists
+		if message.Type != "message" {
+			continue
+		}
+
+		// # Skip if exists
 		total := struct {
 			Total int64 `db:"total"`
 		}{}
@@ -35,7 +41,7 @@ func ParseChannelHistory(app core.App, history teleblog.History, chat *teleblog.
 			continue
 		}
 
-		// # Remove files for now
+		// # Skip photo and files
 		if message.File != nil {
 			continue
 		}
@@ -44,6 +50,7 @@ func ParseChannelHistory(app core.App, history teleblog.History, chat *teleblog.
 			continue
 		}
 
+		// # Extract text
 		text := ""
 
 		for _, entity := range message.TextEntities {
@@ -102,7 +109,11 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 	var preparedComments []teleblog.Comment
 
 	for _, message := range history.Messages {
-		// # Check if exists
+		if message.Type != "message" {
+			continue
+		}
+
+		// # Skip if exists
 		total := struct {
 			Total int64 `db:"total"`
 		}{}
@@ -123,19 +134,115 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 			continue
 		}
 
-		// # Find post
-		// var post teleblog.Post
+		// # Extract created time
+		messageCreatedAt := time.Time{}
 
-		// err = teleblog.PostQuery(app.Dao()).
-		// 	Where(
-		// 		dbx.HashExp{"tg_post_id": message.ReplyToMessageId, "chat_id": chat.Id},
-		// 	).
-		// 	One(&post)
-		// if err != nil {
-		// 	return err
-		// }
+		if message.DateUnix != "" {
+			i, err := strconv.ParseInt(message.DateUnix, 10, 64)
+			if err != nil {
+				return err
+			}
+			messageCreatedAt = time.Unix(i, 0)
+		}
 
-		// # Remove files for now
+		// # If this is source post forward
+		if message.ForwardedFrom != nil {
+			forwardFromTgId, err := strconv.ParseInt(
+				fmt.Sprintf(
+					"-100%s",
+					strings.ReplaceAll(message.FromId, "channel", ""),
+				),
+				10,
+				64,
+			)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println("forwardFromTgId", message.Id, forwardFromTgId, chat.TgChatId)
+
+			if chat.TgLinkedChatId == forwardFromTgId {
+				// # Find post and update its tg_message_id
+				sourcePost := teleblog.Post{}
+
+				err = teleblog.PostQuery(app.Dao()).
+					Where(
+						dbx.HashExp{"chat_id": chat.LinkedChatId},
+					).
+					AndWhere(
+						dbx.NewExp("created < {:t}", dbx.Params{"t": messageCreatedAt}),
+					).
+					OrderBy("created DESC").
+					Limit(1).
+					One(&sourcePost)
+				if err != nil {
+					return err
+				}
+
+				_, err = app.DB().Update(
+					(&teleblog.Post{}).TableName(),
+					map[string]interface{}{
+						"tg_group_message_id": message.Id,
+					},
+					dbx.HashExp{"id": sourcePost.Id},
+				).Execute()
+				if err != nil {
+					return err
+				}
+
+				continue
+			}
+		}
+
+		if message.ReplyToMessageId == 0 {
+			continue
+		}
+
+		var post teleblog.Post
+
+		err = teleblog.PostQuery(app.Dao()).
+			Where(
+				dbx.HashExp{"tg_group_message_id": message.ReplyToMessageId, "chat_id": chat.LinkedChatId},
+			).
+			One(&post)
+		if err != nil {
+			if strings.Contains(err.Error(), "no rows in result set") {
+				var parentComment *teleblog.Comment
+
+				// # Find parent comment in prepared
+				for _, comment := range preparedComments {
+					if comment.TgMessageId == message.ReplyToMessageId {
+						parentComment = &comment
+					}
+				}
+
+				// # If none, than find it in DB
+				if parentComment == nil {
+					err = teleblog.CommentQuery(app.Dao()).
+						Where(
+							dbx.HashExp{"tg_comment_id": message.ReplyToMessageId, "chat_id": chat.Id},
+						).
+						Limit(1).
+						One(parentComment)
+					if err != nil {
+						return err
+					}
+				}
+
+				err = teleblog.PostQuery(app.Dao()).
+					Where(
+						dbx.HashExp{"id": parentComment.PostId},
+					).
+					One(&post)
+				if err != nil {
+					return err
+				}
+			}
+
+			return err
+		}
+
+		// # Skip files for now
 		if message.File != nil {
 			continue
 		}
@@ -144,6 +251,7 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 			continue
 		}
 
+		// # Extract text
 		text := ""
 
 		for _, entity := range message.TextEntities {
@@ -152,20 +260,14 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 
 		// # Create new
 		comment := teleblog.Comment{
-			ChatId:      chat.Id,
-			Text:        text,
-			TgMessageId: message.Id,
+			ChatId:             chat.Id,
+			PostId:             post.Id,
+			Text:               text,
+			TgMessageId:        message.Id,
+			TgReplyToMessageId: message.ReplyToMessageId,
 		}
 
-		// # post.Created
-		if message.DateUnix != "" {
-			i, err := strconv.ParseInt(message.DateUnix, 10, 64)
-			if err != nil {
-				return err
-			}
-			tm := time.Unix(i, 0)
-			comment.Created.Scan(tm)
-		}
+		comment.Created.Scan(messageCreatedAt)
 
 		// # post.TgMessageRaw
 		jsonMessageRaw, err := json.Marshal(message)
@@ -214,7 +316,7 @@ func UploadHistory(app core.App, history teleblog.History) error {
 	if chat.TgType == "channel" {
 		return ParseChannelHistory(app, history, &chat)
 	} else if chat.TgType == "supergroup" || chat.TgType == "group" {
-		// return ParseGroupHistory(app, history, &chat)
+		return ParseGroupHistory(app, history, &chat)
 	}
 
 	return nil
