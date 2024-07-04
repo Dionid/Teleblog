@@ -40,7 +40,13 @@ func main() {
 	app.RootCmd.AddCommand(&cobra.Command{
 		Use: "upload-history",
 		Run: func(cmd *cobra.Command, args []string) {
-			file, err := os.ReadFile("chat_export.json")
+			defer (func() {
+				if r := recover(); r != nil {
+					log.Fatal("recover", r)
+				}
+			})()
+
+			file, err := os.ReadFile("result.json")
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -98,7 +104,7 @@ func main() {
 	}, app, gctx)
 
 	// # Start bot
-	go b.Start()
+	// go b.Start()
 
 	// # Start app
 	if err := app.Start(); err != nil {

@@ -42,13 +42,13 @@ func ParseChannelHistory(app core.App, history teleblog.History, chat *teleblog.
 		}
 
 		// # Skip photo and files
-		if message.File != nil {
-			continue
-		}
+		// if message.File != nil {
+		// 	continue
+		// }
 
-		if message.Photo != nil {
-			continue
-		}
+		// if message.Photo != nil {
+		// 	continue
+		// }
 
 		// # Extract text
 		text := ""
@@ -109,6 +109,7 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 	var preparedComments []teleblog.Comment
 
 	for _, message := range history.Messages {
+		fmt.Println("id: ", message.Id)
 		if message.Type != "message" {
 			continue
 		}
@@ -145,7 +146,7 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 			messageCreatedAt = time.Unix(i, 0)
 		}
 
-		// # If this is source post forward
+		// # If this is forward, than can be source post
 		if message.ForwardedFrom != nil {
 			forwardFromTgId, err := strconv.ParseInt(
 				fmt.Sprintf(
@@ -159,18 +160,18 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 				return err
 			}
 
-			fmt.Println("forwardFromTgId", message.Id, forwardFromTgId, chat.TgChatId)
-
+			// # If forward from linked chat, than it is source post
 			if chat.TgLinkedChatId == forwardFromTgId {
 				// # Find post and update its tg_message_id
 				sourcePost := teleblog.Post{}
 
-				err = teleblog.PostQuery(app.Dao()).
+				err := teleblog.PostQuery(app.Dao()).
 					Where(
 						dbx.HashExp{"chat_id": chat.LinkedChatId},
 					).
 					AndWhere(
-						dbx.NewExp("created < {:t}", dbx.Params{"t": messageCreatedAt}),
+						// TODO: remove TZ
+						dbx.NewExp("created <= {:t}", dbx.Params{"t": messageCreatedAt.UTC().Format("2006-01-02 15:04:05")}),
 					).
 					OrderBy("created DESC").
 					Limit(1).
@@ -206,50 +207,50 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 			).
 			One(&post)
 		if err != nil {
-			if strings.Contains(err.Error(), "no rows in result set") {
-				var parentComment *teleblog.Comment
+			if !strings.Contains(err.Error(), "no rows in result set") {
+				return err
+			}
 
-				// # Find parent comment in prepared
-				for _, comment := range preparedComments {
-					if comment.TgMessageId == message.ReplyToMessageId {
-						parentComment = &comment
-					}
+			var parentComment *teleblog.Comment
+
+			// # Find parent comment in prepared
+			for _, comment := range preparedComments {
+				if comment.TgMessageId == message.ReplyToMessageId {
+					parentComment = &comment
 				}
+			}
 
-				// # If none, than find it in DB
-				if parentComment == nil {
-					err = teleblog.CommentQuery(app.Dao()).
-						Where(
-							dbx.HashExp{"tg_comment_id": message.ReplyToMessageId, "chat_id": chat.Id},
-						).
-						Limit(1).
-						One(parentComment)
-					if err != nil {
-						return err
-					}
-				}
-
-				err = teleblog.PostQuery(app.Dao()).
+			// # If none, than find it in DB
+			if parentComment == nil {
+				err := teleblog.CommentQuery(app.Dao()).
 					Where(
-						dbx.HashExp{"id": parentComment.PostId},
+						dbx.HashExp{"tg_comment_id": message.ReplyToMessageId, "chat_id": chat.Id},
 					).
-					One(&post)
+					Limit(1).
+					One(parentComment)
 				if err != nil {
 					return err
 				}
 			}
 
-			return err
+			err := teleblog.PostQuery(app.Dao()).
+				Where(
+					dbx.HashExp{"id": parentComment.PostId},
+				).
+				One(&post)
+			if err != nil {
+				return err
+			}
 		}
 
 		// # Skip files for now
-		if message.File != nil {
-			continue
-		}
+		// if message.File != nil {
+		// 	continue
+		// }
 
-		if message.Photo != nil {
-			continue
-		}
+		// if message.Photo != nil {
+		// 	continue
+		// }
 
 		// # Extract text
 		text := ""
@@ -265,6 +266,7 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 			Text:               text,
 			TgMessageId:        message.Id,
 			TgReplyToMessageId: message.ReplyToMessageId,
+			IsTgHistoryMessage: true,
 		}
 
 		comment.Created.Scan(messageCreatedAt)
@@ -283,6 +285,8 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 		preparedComments = append(preparedComments, comment)
 	}
 
+	fmt.Println("len preparedComments: ", len(preparedComments))
+
 	// # Save
 	if len(preparedComments) == 0 {
 		return nil
@@ -299,7 +303,7 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 }
 
 func UploadHistory(app core.App, history teleblog.History) error {
-	chatId, err := history.AddMessageGetChatTgId()
+	chatId, err := history.GetChatTgId()
 	if err != nil {
 		return err
 	}

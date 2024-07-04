@@ -107,6 +107,9 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 					"chat",
 					dbx.NewExp("chat.id = post.chat_id"),
 				).
+				Where(
+					dbx.NewExp(`post.text != ""`),
+				).
 				GroupBy("post.id").
 				OrderBy("post.created desc")
 
@@ -240,26 +243,45 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			}
 
 			for _, comment := range comments {
-				rawMessage := telebot.Message{}
-
 				jb, err := comment.TgMessageRaw.MarshalJSON()
 				if err != nil {
 					return err
 				}
 
-				err = json.Unmarshal(jb, &rawMessage)
-				if err != nil {
-					return err
-				}
+				if comment.IsTgHistoryMessage {
+					rawMessage := teleblog.HistoryMessage{}
 
-				fmt.Println("rawMessage", rawMessage.SenderChat.Title)
+					err = json.Unmarshal(jb, &rawMessage)
+					if err != nil {
+						return err
+					}
 
-				if rawMessage.Sender.IsBot {
-					comment.AuthorTitle = rawMessage.SenderChat.Title
-					comment.AuthorUsername = rawMessage.SenderChat.Username
+					comment.AuthorTitle = rawMessage.From
+					// comment.AuthorUsername = rawMessage.SenderChat.Username
+
+					comment.TextWithMarkup = teleblog.FormHistoryTextWithMarkup(rawMessage.TextEntities)
 				} else {
-					comment.AuthorTitle = rawMessage.Sender.FirstName + " " + rawMessage.Sender.LastName
-					comment.AuthorUsername = rawMessage.Sender.Username
+					rawMessage := telebot.Message{}
+
+					err = json.Unmarshal(jb, &rawMessage)
+					if err != nil {
+						return err
+					}
+
+					fmt.Println("rawMessage", rawMessage.SenderChat.Title)
+
+					if rawMessage.Sender.IsBot {
+						comment.AuthorTitle = rawMessage.SenderChat.Title
+						comment.AuthorUsername = &rawMessage.SenderChat.Username
+					} else {
+						comment.AuthorTitle = rawMessage.Sender.FirstName + " " + rawMessage.Sender.LastName
+						comment.AuthorUsername = &rawMessage.Sender.Username
+					}
+
+					comment.TextWithMarkup, err = teleblog.AddMarkupToText(comment.Text, rawMessage.Entities)
+					if err != nil {
+						return err
+					}
 				}
 			}
 

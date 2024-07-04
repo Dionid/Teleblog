@@ -8,8 +8,9 @@ import (
 
 type PostPageComment struct {
 	teleblog.Comment
-	AuthorUsername string 
+	AuthorUsername *string 
 	AuthorTitle   string
+	TextWithMarkup string `json:"text_with_markup"`
 }
 
 type PostPagePost struct {
@@ -51,18 +52,30 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 								for _, comment := range comments {
 									<div class="flex">
 										<div class="avatar pr-4 pt-3">
-											<a target="_blank" href={ templ.SafeURL(fmt.Sprintf("https://t.me/%s", comment.AuthorUsername)) } class="w-12 h-12 rounded-full flex items-center justify-center bg-primary" style="display: flex">
-												{ fmt.Sprintf("%c", comment.AuthorTitle[0]) }
-											</a>
+											if comment.AuthorUsername != nil {
+												<a target="_blank" href={ templ.SafeURL(fmt.Sprintf("https://t.me/%s", *comment.AuthorUsername)) } class="w-12 h-12 rounded-full flex items-center justify-center bg-primary" style="display: flex">
+													{ fmt.Sprintf("%c", comment.AuthorTitle[0]) }
+												</a>
+											} else {
+												<div class="w-12 h-12 rounded-full flex items-center justify-center bg-primary" style="display: flex">
+													{ fmt.Sprintf("%c", comment.AuthorTitle[0]) }
+												</div>
+											}
 										</div>
 										<div class="flex flex-col">
 											<div class="card bg-white shadow-sm w-full">
 												<div class="card-body whitespace-pre-line py-6">
 													<div class="flex justify-between mb-3 relative gap-4 align-top">
 														<div>
-															<a target="_blank" href={ templ.SafeURL(fmt.Sprintf("https://t.me/%s", comment.AuthorUsername)) } class="flex font-bold text-sm">
-																{ comment.AuthorTitle }
-															</a>
+															if comment.AuthorUsername != nil {
+																<a target="_blank" href={ templ.SafeURL(fmt.Sprintf("https://t.me/%s", *comment.AuthorUsername)) } class="flex font-bold text-sm">
+																	{ comment.AuthorTitle }
+																</a>
+															} else {
+																<div class="flex font-bold text-sm">
+																	{ comment.AuthorTitle }
+																</div>
+															}
 															<div class=" text-gray-400 text-sm">
 																{ comment.Created.Time().Format("2006-01-02 15:04") }
 															</div>
@@ -73,7 +86,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 															</svg>
 														</a>
 													</div>
-													{ comment.Text }
+													@templ.Raw(comment.TextWithMarkup)
 												</div>
 											</div>
 										</div>

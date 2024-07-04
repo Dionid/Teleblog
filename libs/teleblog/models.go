@@ -108,8 +108,9 @@ var _ models.Model = (*Comment)(nil)
 type Comment struct {
 	models.BaseModel
 
-	ChatId string `json:"chatId" db:"chat_id"`
-	PostId string `json:"postId" db:"post_id"`
+	ChatId             string `json:"chatId" db:"chat_id"`
+	PostId             string `json:"postId" db:"post_id"`
+	IsTgHistoryMessage bool   `json:"isTgHistoryMessage" db:"is_tg_history_message"`
 
 	Text string `json:"text" db:"text"`
 

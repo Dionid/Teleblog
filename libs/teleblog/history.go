@@ -35,6 +35,6 @@ type History struct {
 	Messages []HistoryMessage `json:"messages"`
 }
 
-func (h *History) AddMessageGetChatTgId() (int64, error) {
+func (h *History) GetChatTgId() (int64, error) {
 	return strconv.ParseInt(fmt.Sprintf("-100%d", h.Id), 10, 64)
 }
