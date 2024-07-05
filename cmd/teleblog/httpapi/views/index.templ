@@ -23,15 +23,74 @@ type PaginationData struct {
 	CurrentPage int64
 }
 
+func (p *PaginationData) TotalPages() int {
+	return int(math.Ceil(float64(p.Total) / float64(p.PerPage)))
+}
+
 templ Pagination(data PaginationData) {
-	<div class="join">
-		for i := 1; i <= int(math.Ceil(float64(data.Total) / float64(data.PerPage))); i++ {
+	if data.TotalPages() < 7 {
+		<div class="join">
+			for i := 1; i <= data.TotalPages(); i++ {
+				<a
+					href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", i)) }
+					class={ "join-item", "btn", "border-transparent", templ.KV("btn-primary", i == int(data.CurrentPage)), templ.KV("bg-white", i != int(data.CurrentPage)) }
+				>{ fmt.Sprintf("%d", i) }</a>
+			}
+		</div>
+	} else {
+		<div class="join">
 			<a
-				href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", i)) }
-				class={ "join-item", "btn", "border-transparent", templ.KV("btn-primary", i == int(data.CurrentPage)), templ.KV("bg-white", i != int(data.CurrentPage)) }
-			>{ fmt.Sprintf("%d", i) }</a>
-		}
-	</div>
+				href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", 1)) }
+				class={ "join-item", "btn", "border-transparent", templ.KV("btn-primary", 1 == int(data.CurrentPage)), templ.KV("bg-white", 1 != int(data.CurrentPage)) }
+			>
+				1
+			</a>
+			if data.CurrentPage > 3 {
+				<div
+					class={ "join-item", "btn", "border-transparent", "bg-white" }
+				>
+					...
+				</div>
+			}
+			if data.CurrentPage > 2 {
+				<a
+					href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage - 1)) }
+					class={ "join-item", "btn", "border-transparent", "bg-white" }
+				>
+					{ fmt.Sprintf("%d", data.CurrentPage - 1) }
+				</a>
+			}
+			if data.CurrentPage != 1 && int(data.CurrentPage) != data.TotalPages() {
+				<a
+					href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage)) }
+					class={ "join-item", "btn", "border-transparent", "btn-primary" }
+				>
+					{ fmt.Sprintf("%d", data.CurrentPage) }
+				</a>
+			}
+			if int(data.CurrentPage) < data.TotalPages() - 1 {
+				<a
+					href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage + 1)) }
+					class={ "join-item", "btn", "border-transparent", "bg-white" }
+				>
+					{ fmt.Sprintf("%d", data.CurrentPage + 1) }
+				</a>
+			}
+			if int(data.CurrentPage) < data.TotalPages() - 2 {
+				<div
+					class={ "join-item", "btn", "border-transparent", "bg-white" }
+				>
+					...
+				</div>
+			}
+			<a
+				href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", data.TotalPages())) }
+				class={ "join-item", "btn", "border-transparent", templ.KV("btn-primary", data.TotalPages() == int(data.CurrentPage)), templ.KV("bg-white", data.TotalPages() != int(data.CurrentPage)) }
+			>
+				{ fmt.Sprintf("%d", data.TotalPages()) }
+			</a>
+		</div>
+	}
 }
 
 templ IndexPage(pagination PaginationData, posts []*InpexPagePost) {

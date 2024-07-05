@@ -76,6 +76,9 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			baseQuery := teleblog.PostQuery(app.Dao()).
 				Where(
 					dbx.In("post.chat_id", chatIds...),
+				).
+				AndWhere(
+					dbx.NewExp(`post.text != ""`),
 				)
 
 			// ## Total
@@ -106,9 +109,6 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				LeftJoin(
 					"chat",
 					dbx.NewExp("chat.id = post.chat_id"),
-				).
-				Where(
-					dbx.NewExp(`post.text != ""`),
 				).
 				GroupBy("post.id").
 				OrderBy("post.created desc")

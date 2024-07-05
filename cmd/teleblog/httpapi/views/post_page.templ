@@ -54,11 +54,11 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 										<div class="avatar pr-4 pt-3">
 											if comment.AuthorUsername != nil {
 												<a target="_blank" href={ templ.SafeURL(fmt.Sprintf("https://t.me/%s", *comment.AuthorUsername)) } class="w-12 h-12 rounded-full flex items-center justify-center bg-primary" style="display: flex">
-													{ fmt.Sprintf("%c", comment.AuthorTitle[0]) }
+													{ fmt.Sprintf("%c", []rune(comment.AuthorTitle)[0]) }
 												</a>
 											} else {
 												<div class="w-12 h-12 rounded-full flex items-center justify-center bg-primary" style="display: flex">
-													{ fmt.Sprintf("%c", comment.AuthorTitle[0]) }
+													{ fmt.Sprintf("%c", []rune(comment.AuthorTitle)[0]) }
 												</div>
 											}
 										</div>

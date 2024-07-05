@@ -170,7 +170,6 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 						dbx.HashExp{"chat_id": chat.LinkedChatId},
 					).
 					AndWhere(
-						// TODO: remove TZ
 						dbx.NewExp("created <= {:t}", dbx.Params{"t": messageCreatedAt.UTC().Format("2006-01-02 15:04:05")}),
 					).
 					OrderBy("created DESC").
@@ -178,6 +177,10 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 					One(&sourcePost)
 				if err != nil {
 					return err
+				}
+
+				if sourcePost.TgGroupMessageId != 0 {
+					continue
 				}
 
 				_, err = app.DB().Update(
@@ -208,6 +211,7 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 				Where(
 					dbx.HashExp{"tg_group_message_id": message.ReplyToMessageId, "chat_id": chat.LinkedChatId},
 				).
+				Limit(1).
 				One(&post)
 			if err != nil {
 				if !strings.Contains(err.Error(), "no rows in result set") {
@@ -232,6 +236,9 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 						Limit(1).
 						One(parentComment)
 					if err != nil {
+						if strings.Contains(err.Error(), "no rows in result set") {
+							continue
+						}
 						return err
 					}
 				}

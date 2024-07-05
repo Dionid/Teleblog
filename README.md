@@ -64,11 +64,14 @@ MG: Make it so content appears, but customization through Pocketbase admin
     1. ~~Add history -> Add webhook~~
     1. ~~Webhook post and comments -> Upload history~~
     1. ~~Delete post with comments from telegram -> Upload history~~
+1. Test with real channels
+    1. ~~Not all markup working~~
+    1. ~~Pagination on many pages~~
 1. Deploy
-    1. Migrations
-    1. Backup
-    1. Setup bot
+    1. ~~Migrations~~
+    1. ~~Setup bot~~
     1. Upload history
+    1. Backup
 
 ## Second phase
 
