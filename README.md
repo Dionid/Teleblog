@@ -21,7 +21,7 @@ Don't take this project as a reference for best practices.
 
 # Project structure
 
-1. `cmd/saas` - Teleblog SaaS platform
+1. `cmd/teleblog` - Teleblog platform
 1. `infra` - some infrastructure code
 1. `libs` - libraries
 
@@ -51,26 +51,39 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Menu (throw template)~~
 1. ~~Hero~~
 1. ~~Mobile version~~
-1. Load history
-1. Entities Markup
-1. Rename "saas" to "site"
+1. ~~Entities Markup~~
 1. ~~Add license~~
-1. Favicon
+1. ~~Rename "saas" to "teleblog"~~
+1. ~~Comments markup~~
+1. ~~Load history~~
+1. ~~Favicon~~
+1. Test
+    1. ~~Add reply comment to history post~~
+    1. ~~Just chat message~~
+    1. ~~Comment reply on comment without post~~
+    1. ~~Add history -> Add webhook~~
+    1. ~~Webhook post and comments -> Upload history~~
+    1. ~~Delete post with comments from telegram -> Upload history~~
 1. Deploy
 
 ## Second phase
 
 MG: Add content improvement features
 
+1. Images
+    1. Webhook
+    1. History
+1. Videos
 1. Search
 1. Likes counter
 1. Extract post title
 1. Extract tags
 1. Pined messages
 1. Links preview
-1. Images
 1. Sorting
 1. Empty page
+1. Link to replied comment
+1. Quote
 1. ...
 
 ## Third phase

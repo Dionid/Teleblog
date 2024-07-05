@@ -1,4 +1,4 @@
-module github.com/Dionid/teleadmin
+module github.com/Dionid/teleblog
 
 go 1.21.6
 

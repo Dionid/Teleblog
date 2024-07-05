@@ -36,7 +36,7 @@ junit_unit.xml
 
 kconfig
 
-cmd/saas/pb_data/*
+cmd/teleblog/pb_data/*
 
-ntp-saas-linux
-ntp-saas-darwin
+ntp-teleblog-linux
+ntp-teleblog-darwin

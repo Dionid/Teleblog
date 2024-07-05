@@ -5,7 +5,6 @@ import (
 	"github.com/pocketbase/pocketbase/daos"
 	"github.com/pocketbase/pocketbase/models"
 	"github.com/pocketbase/pocketbase/tools/types"
-	"gopkg.in/telebot.v3"
 )
 
 // # User
@@ -64,7 +63,7 @@ type Chat struct {
 
 	TgUsername     string `json:"tgUsername" db:"tg_username"`
 	TgChatId       int64  `json:"tgChatId" db:"tg_chat_id"`
-	TgType         string `json:"tgType" db:"tg_type"` // channel | group
+	TgType         string `json:"tgType" db:"tg_type"` //  "private" | "group" | "supergroup" | "channel" | "privatechannel"
 	TgLinkedChatId int64  `json:"tgLinkedChatId" db:"tg_linked_chat_id"`
 }
 
@@ -83,15 +82,15 @@ var _ models.Model = (*Post)(nil)
 type Post struct {
 	models.BaseModel
 
-	ChatId      string `json:"chatId" db:"chat_id"`
-	IsTgMessage bool   `json:"isTgMessage" db:"is_tg_message"`
+	ChatId             string `json:"chatId" db:"chat_id"`
+	IsTgMessage        bool   `json:"isTgMessage" db:"is_tg_message"`
+	IsTgHistoryMessage bool   `json:"isTgHistoryMessage" db:"is_tg_history_message"`
 
 	Text string `json:"text" db:"text"`
 
-	TgMessageId      int                                    `json:"tgMessageId" db:"tg_post_id"`
-	TgGroupMessageId int                                    `json:"tgGroupMessageId" db:"tg_group_message_id"`
-	TgEntities       types.JsonArray[telebot.MessageEntity] `json:"tgEntities" db:"tg_entities"`
-	TgMessageRaw     types.JsonMap                          `json:"tgMessageRaw" db:"tg_message_raw"`
+	TgMessageId      int           `json:"tgMessageId" db:"tg_post_id"`
+	TgGroupMessageId int           `json:"tgGroupMessageId" db:"tg_group_message_id"`
+	TgMessageRaw     types.JsonMap `json:"tgMessageRaw" db:"tg_message_raw"`
 }
 
 func (m *Post) TableName() string {
@@ -109,19 +108,19 @@ var _ models.Model = (*Comment)(nil)
 type Comment struct {
 	models.BaseModel
 
-	ChatId string `json:"chatId" db:"chat_id"`
-	PostId string `json:"postId" db:"post_id"`
+	ChatId             string `json:"chatId" db:"chat_id"`
+	PostId             string `json:"postId" db:"post_id"`
+	IsTgHistoryMessage bool   `json:"isTgHistoryMessage" db:"is_tg_history_message"`
 
 	Text string `json:"text" db:"text"`
 
-	TgMessageId        int                                    `json:"tgMessageId" db:"tg_comment_id"`
-	TgEntities         types.JsonArray[telebot.MessageEntity] `json:"tgEntities" db:"tg_entities"`
-	TgMessageRaw       types.JsonMap                          `json:"tgMessageRaw" db:"tg_message_raw"`
-	TgReplyToMessageId int                                    `json:"tgReplyToMessageId" db:"tg_reply_to_message_id"`
+	TgMessageId        int           `json:"tgMessageId" db:"tg_comment_id"`
+	TgMessageRaw       types.JsonMap `json:"tgMessageRaw" db:"tg_message_raw"`
+	TgReplyToMessageId int           `json:"tgReplyToMessageId" db:"tg_reply_to_message_id"`
 }
 
 func (m *Comment) TableName() string {
-	return "Comment"
+	return "comment"
 }
 
 func CommentQuery(dao *daos.Dao) *dbx.SelectQuery {
