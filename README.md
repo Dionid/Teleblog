@@ -57,7 +57,7 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Comments markup~~
 1. ~~Load history~~
 1. ~~Favicon~~
-1. Test
+1. ~~Test~~
     1. ~~Add reply comment to history post~~
     1. ~~Just chat message~~
     1. ~~Comment reply on comment without post~~
@@ -65,6 +65,10 @@ MG: Make it so content appears, but customization through Pocketbase admin
     1. ~~Webhook post and comments -> Upload history~~
     1. ~~Delete post with comments from telegram -> Upload history~~
 1. Deploy
+    1. Migrations
+    1. Backup
+    1. Setup bot
+    1. Upload history
 
 ## Second phase
 

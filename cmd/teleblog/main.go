@@ -12,6 +12,7 @@ import (
 	"github.com/Dionid/teleblog/cmd/teleblog/botapi"
 	"github.com/Dionid/teleblog/cmd/teleblog/features"
 	"github.com/Dionid/teleblog/cmd/teleblog/httpapi"
+	_ "github.com/Dionid/teleblog/cmd/teleblog/pb_migrations"
 	"github.com/Dionid/teleblog/libs/teleblog"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"

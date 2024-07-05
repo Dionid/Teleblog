@@ -15,11 +15,12 @@ func AddChannelCommand(b *telebot.Bot, app *pocketbase.PocketBase) {
 		user := &teleblog.User{}
 
 		err := teleblog.UserQuery(app.Dao()).
-			AndWhere(dbx.HashExp{"telegram_user_id": c.Sender().ID}).
+			AndWhere(dbx.HashExp{"tg_user_id": c.Sender().ID}).
 			Limit(1).
 			One(user)
 
 		if err != nil {
+			app.Logger().Error("!!! Error while getting user", "error: ", err)
 			return c.Reply("You are not verified.")
 		}
 

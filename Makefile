@@ -1,7 +1,7 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
-PROJECT_NAME=ntp
+PROJECT_NAME=teleblog
 BINARY_NAME=${PROJECT_NAME}
 
 # Run
@@ -37,7 +37,7 @@ build-cli-mac:
 build-teleblog-mac:
 	npx tailwindcss build -i tailwind.css -o cmd/teleblog/httpapi/public/style.css
 	make templ
-	GOARCH=amd64 GOOS=darwin go build -o ./cmd/teleblog/${BINARY_NAME}-teleblog-darwin ./cmd/teleblog
+	GOARCH=amd64 GOOS=darwin go build -o ./cmd/teleblog/${BINARY_NAME}-darwin ./cmd/teleblog
 
 clean-mac:
 	go clean
@@ -49,7 +49,7 @@ build-cli-linux:
 build-teleblog-linux:
 	npx tailwindcss build -i tailwind.css -o cmd/teleblog/httpapi/public/style.css
 	make templ
-	GOARCH=amd64 GOOS=linux go build -o ./cmd/teleblog/${BINARY_NAME}-teleblog-linux ./cmd/teleblog
+	GOARCH=amd64 GOOS=linux go build -o ./cmd/teleblog/${BINARY_NAME}-linux ./cmd/teleblog
 
 clean:
 	go clean
@@ -66,17 +66,19 @@ setup:
 	go mod tidy
 
 setup-droplet:
-	scp ./infra/pocketbase.service root@${SERVER_IP}:/lib/systemd/system/pocketbase.service
+	scp ./infra/teleblog.service root@${SERVER_IP}:/lib/systemd/system/teleblog.service
 	ssh root@${SERVER_IP} "apt update \
-	&& mkdir -p /root/ntp \
-	&& systemctl enable pocketbase \
+	&& mkdir -p /root/teleblog \
+	&& systemctl enable teleblog \
 	&& systemctl daemon-reload"
-	scp ./cmd/teleblog/app.env.example root@${SERVER_IP}:/root/ntp/app.env
+	scp ./cmd/teleblog/app.env.example root@${SERVER_IP}:/root/teleblog/app.env
+	scp ./infra/davidshekunts.ru root@${SERVER_IP}:/etc/nginx/sites-available/davidshekunts.ru
+	scp ./infra/davidshekunts.ru root@${SERVER_IP}:/etc/nginx/sites-enabled/davidshekunts.ru
 
 # Deploy
 
 deploy:
 	make build-teleblog-linux
-	ssh root@${SERVER_IP} "systemctl stop pocketbase"
-	scp ./cmd/teleblog/${BINARY_NAME}-teleblog-linux root@${SERVER_IP}:/root/ntp/${BINARY_NAME}-teleblog-linux
-	ssh root@${SERVER_IP} "systemctl start pocketbase"
+	ssh root@${SERVER_IP} "systemctl stop teleblog"
+	scp ./cmd/teleblog/${BINARY_NAME}-linux root@${SERVER_IP}:/root/teleblog/${BINARY_NAME}-linux
+	ssh root@${SERVER_IP} "systemctl start teleblog"

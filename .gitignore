@@ -38,5 +38,5 @@ kconfig
 
 cmd/teleblog/pb_data/*
 
-ntp-teleblog-linux
-ntp-teleblog-darwin
+teleblog-linux
+teleblog-darwin
