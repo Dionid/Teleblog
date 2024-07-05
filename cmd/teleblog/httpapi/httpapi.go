@@ -19,7 +19,8 @@ import (
 )
 
 type Config struct {
-	Env string
+	Env    string
+	UserId string
 }
 
 //go:embed public
@@ -49,7 +50,7 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 			chats := []teleblog.Chat{}
 
 			err := teleblog.ChatQuery(app.Dao()).Where(
-				dbx.HashExp{"user_id": "wujghdqjma1fydw", "tg_type": "channel"},
+				dbx.HashExp{"user_id": config.UserId, "tg_type": "channel"},
 			).All(&chats)
 			if err != nil {
 				return err

@@ -12,6 +12,7 @@ type Config struct {
 	Port             int    `mapstructure:"PORT"`
 	AppVersion       string `mapstructure:"APP_VERSION"`
 	TelegramNotToken string `mapstructure:"TELEGRAM_NOT_TOKEN"`
+	UserId           string `mapstructure:"USER_ID"`
 }
 
 // Call to load the variables from env

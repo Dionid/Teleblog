@@ -107,7 +107,8 @@ func main() {
 	// # HTTP API
 
 	httpapi.InitApi(httpapi.Config{
-		Env: config.Env,
+		Env:    config.Env,
+		UserId: config.UserId,
 	}, app, gctx)
 
 	// # Start bot
