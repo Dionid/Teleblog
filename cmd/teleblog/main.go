@@ -46,7 +46,13 @@ func main() {
 				}
 			})()
 
-			file, err := os.ReadFile("result.json")
+			fileName := "result.json"
+
+			if len(args) > 0 {
+				fileName = args[0]
+			}
+
+			file, err := os.ReadFile(fileName)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -104,7 +110,7 @@ func main() {
 	}, app, gctx)
 
 	// # Start bot
-	// go b.Start()
+	go b.Start()
 
 	// # Start app
 	if err := app.Start(); err != nil {

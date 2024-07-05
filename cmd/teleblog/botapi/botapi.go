@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/Dionid/teleblog/libs/teleblog"
 	"github.com/pocketbase/dbx"
@@ -124,45 +125,48 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 				return err
 			}
 
+			newComment := &teleblog.Comment{
+				ChatId:      chat.Id,
+				Text:        c.Message().Text,
+				TgMessageId: c.Message().ID,
+			}
+
+			post := teleblog.Post{}
+
 			// # Bind by thread id
 			if c.Message().ThreadID > 0 {
-				post := &teleblog.Post{}
-
 				err := teleblog.PostQuery(app.Dao()).
 					AndWhere(dbx.HashExp{"tg_group_message_id": c.Message().ThreadID}).
 					Limit(1).
-					One(post)
-				if err != nil {
+					One(&post)
+				if err != nil && !strings.Contains(err.Error(), "no rows in result set") {
 					return err
 				}
+			}
 
-				newComment := &teleblog.Comment{
-					ChatId:      chat.Id,
-					PostId:      post.Id,
-					Text:        c.Message().Text,
-					TgMessageId: c.Message().ID,
-				}
+			if post.Id != "" {
+				newComment.PostId = post.Id
+			}
 
-				newComment.Created.Scan(c.Message().Time())
+			newComment.Created.Scan(c.Message().Time())
 
-				if c.Message().ReplyTo != nil {
-					newComment.TgReplyToMessageId = c.Message().ReplyTo.ID
-				}
+			if c.Message().ReplyTo != nil {
+				newComment.TgReplyToMessageId = c.Message().ReplyTo.ID
+			}
 
-				jsonMessageRaw, err := json.Marshal(c.Message())
-				if err != nil {
-					return err
-				}
+			jsonMessageRaw, err := json.Marshal(c.Message())
+			if err != nil {
+				return err
+			}
 
-				err = newComment.TgMessageRaw.Scan(jsonMessageRaw)
-				if err != nil {
-					return err
-				}
+			err = newComment.TgMessageRaw.Scan(jsonMessageRaw)
+			if err != nil {
+				return err
+			}
 
-				err = app.Dao().Save(newComment)
-				if err != nil {
-					return err
-				}
+			err = app.Dao().Save(newComment)
+			if err != nil {
+				return err
 			}
 		} else {
 			fmt.Println("Unknown", c.Message().Text)

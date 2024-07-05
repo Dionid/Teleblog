@@ -195,62 +195,59 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 			}
 		}
 
-		if message.ReplyToMessageId == 0 {
-			continue
-		}
+		// // # Skip if it is not reply to something
+		// if message.ReplyToMessageId == 0 {
+		// 	continue
+		// }
 
-		var post teleblog.Post
+		// # Get reply post only if it reply
+		post := teleblog.Post{}
 
-		err = teleblog.PostQuery(app.Dao()).
-			Where(
-				dbx.HashExp{"tg_group_message_id": message.ReplyToMessageId, "chat_id": chat.LinkedChatId},
-			).
-			One(&post)
-		if err != nil {
-			if !strings.Contains(err.Error(), "no rows in result set") {
-				return err
-			}
-
-			var parentComment *teleblog.Comment
-
-			// # Find parent comment in prepared
-			for _, comment := range preparedComments {
-				if comment.TgMessageId == message.ReplyToMessageId {
-					parentComment = &comment
-				}
-			}
-
-			// # If none, than find it in DB
-			if parentComment == nil {
-				err := teleblog.CommentQuery(app.Dao()).
-					Where(
-						dbx.HashExp{"tg_comment_id": message.ReplyToMessageId, "chat_id": chat.Id},
-					).
-					Limit(1).
-					One(parentComment)
-				if err != nil {
-					return err
-				}
-			}
-
+		if message.ReplyToMessageId != 0 {
 			err := teleblog.PostQuery(app.Dao()).
 				Where(
-					dbx.HashExp{"id": parentComment.PostId},
+					dbx.HashExp{"tg_group_message_id": message.ReplyToMessageId, "chat_id": chat.LinkedChatId},
 				).
 				One(&post)
 			if err != nil {
-				return err
+				if !strings.Contains(err.Error(), "no rows in result set") {
+					return err
+				}
+
+				var parentComment *teleblog.Comment
+
+				// # Find parent comment in prepared
+				for _, comment := range preparedComments {
+					if comment.TgMessageId == message.ReplyToMessageId {
+						parentComment = &comment
+					}
+				}
+
+				// # If none, than find it in DB
+				if parentComment == nil {
+					err := teleblog.CommentQuery(app.Dao()).
+						Where(
+							dbx.HashExp{"tg_comment_id": message.ReplyToMessageId, "chat_id": chat.Id},
+						).
+						Limit(1).
+						One(parentComment)
+					if err != nil {
+						return err
+					}
+				}
+
+				if parentComment != nil && parentComment.PostId != "" {
+					err := teleblog.PostQuery(app.Dao()).
+						Where(
+							dbx.HashExp{"id": parentComment.PostId},
+						).
+						One(&post)
+					if err != nil {
+						return err
+					}
+				}
 			}
 		}
-
-		// # Skip files for now
-		// if message.File != nil {
-		// 	continue
-		// }
-
-		// if message.Photo != nil {
-		// 	continue
-		// }
 
 		// # Extract text
 		text := ""
@@ -262,11 +259,14 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 		// # Create new
 		comment := teleblog.Comment{
 			ChatId:             chat.Id,
-			PostId:             post.Id,
 			Text:               text,
 			TgMessageId:        message.Id,
 			TgReplyToMessageId: message.ReplyToMessageId,
 			IsTgHistoryMessage: true,
+		}
+
+		if post.Id != "" {
+			comment.PostId = post.Id
 		}
 
 		comment.Created.Scan(messageCreatedAt)
