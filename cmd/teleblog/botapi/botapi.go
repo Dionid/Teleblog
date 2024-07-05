@@ -16,8 +16,9 @@ import (
 const ADD_CHANNEL_COMMAND_NAME = "addchannel"
 const VERIFY_TOKEN_COMMAND_NAME = "verifytoken"
 
-func skipContent(c telebot.Context) bool {
-	return c.Message().Photo != nil || c.Message().Video != nil || c.Message().Sticker != nil || c.Message().Story != nil
+func skipContent(_ telebot.Context) bool {
+	// # We can't skip content, because we need all posts for links
+	return false
 }
 
 func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {

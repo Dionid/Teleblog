@@ -54,9 +54,14 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Entities Markup~~
 1. ~~Add license~~
 1. ~~Rename "saas" to "teleblog"~~
-1. Comments markup
-1. Load history
+1. ~~Comments markup~~
+1. ~~Load history~~
 1. Favicon
+1. Test
+    1. Comment reply on comment without post
+    1. Webhook post and comments -> Upload history
+    1. Delete post with comments from telegram -> Upload history
+    1. ...
 1. Deploy
 
 ## Second phase
@@ -64,6 +69,8 @@ MG: Make it so content appears, but customization through Pocketbase admin
 MG: Add content improvement features
 
 1. Images
+    1. Webhook
+    1. History
 1. Videos
 1. Search
 1. Likes counter
