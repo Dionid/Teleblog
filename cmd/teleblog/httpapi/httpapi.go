@@ -94,8 +94,6 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 				return err
 			}
 
-			fmt.Println("total", total)
-
 			// ## Posts
 			posts := []*views.InpexPagePost{}
 			contentQuery := baseQuery.Select(

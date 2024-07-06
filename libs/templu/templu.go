@@ -2,7 +2,6 @@ package templu
 
 import (
 	"context"
-	"fmt"
 	"os"
 )
 
@@ -12,7 +11,6 @@ func PathWithVersion(ctx context.Context, url string) string {
 	}
 
 	appVersion := os.Getenv("APP_VERSION")
-	fmt.Println("appVersion: ", appVersion)
 	if appVersion != "" {
 		return url + "?v=" + os.Getenv("APP_VERSION")
 	}

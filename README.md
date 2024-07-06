@@ -64,13 +64,14 @@ MG: Make it so content appears, but customization through Pocketbase admin
     1. ~~Add history -> Add webhook~~
     1. ~~Webhook post and comments -> Upload history~~
     1. ~~Delete post with comments from telegram -> Upload history~~
-1. Test with real channels
+1. ~~Test with real channels~~
     1. ~~Not all markup working~~
     1. ~~Pagination on many pages~~
 1. Deploy
     1. ~~Migrations~~
     1. ~~Setup bot~~
-    1. Upload history
+    1. ~~Upload history~~
+    1. SSL certificate problem with TG Webhook
     1. Backup
 
 ## Second phase
@@ -91,6 +92,7 @@ MG: Add content improvement features
 1. Empty page
 1. Link to replied comment
 1. Quote
+1. Link with preview (like Notion Link Mention)
 1. ...
 
 ## Third phase
