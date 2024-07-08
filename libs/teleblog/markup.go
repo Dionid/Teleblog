@@ -31,11 +31,11 @@ func FormHistoryTextWithMarkup(markup []HistoryMessageTextEntity) string {
 			if strings.Contains(link, "://") == false {
 				link = "http://" + link
 			}
-			text += "<a target='_blank' href='" + link + "' class='inline c-link'>" + entity.Text + "</a>"
+			text += "<a target='_blank' href='https://" + link + "' class='inline c-link'>" + entity.Text + "</a>"
 		case "link":
-			text += "<a target='_blank' class='inline c-link' href='" + entity.Text + "'>" + entity.Text + "</a>"
+			text += "<a target='_blank' class='inline c-link' href='https://" + entity.Text + "'>" + entity.Text + "</a>"
 		case telebot.EntityTextLink:
-			text += "<a target='_blank' class='inline c-link' href='" + entity.Text + "'>" + entity.Text + "</a>"
+			text += "<a target='_blank' class='inline c-link' href='https://" + entity.Text + "'>" + entity.Text + "</a>"
 		case telebot.EntityMention:
 			text += "<a target='_blank' href='https://t.me/" + entity.Text + "' class='inline c-link'>" + entity.Text + "</a>"
 		default:

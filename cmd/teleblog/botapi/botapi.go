@@ -193,18 +193,6 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 			return err
 		}
 
-		jsonEntities, err := json.Marshal(c.Message().Entities)
-		if err != nil {
-			return err
-		}
-
-		var tgEntities types.JsonArray[telebot.MessageEntity]
-
-		err = tgEntities.Scan(jsonEntities)
-		if err != nil {
-			return err
-		}
-
 		jsonMessageRaw, err := json.Marshal(c.Message())
 		if err != nil {
 			return err
@@ -221,7 +209,6 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 			(&teleblog.Post{}).TableName(),
 			map[string]interface{}{
 				"text":           c.Message().Text,
-				"tg_entities":    tgEntities,
 				"tg_message_raw": tgMessageRaw,
 			},
 			dbx.HashExp{"chat_id": chat.Id, "tg_post_id": c.Message().ID},
@@ -253,18 +240,6 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 			return nil
 		}
 
-		jsonEntities, err := json.Marshal(c.Message().Entities)
-		if err != nil {
-			return err
-		}
-
-		var tgEntities types.JsonArray[telebot.MessageEntity]
-
-		err = tgEntities.Scan(jsonEntities)
-		if err != nil {
-			return err
-		}
-
 		jsonMessageRaw, err := json.Marshal(c.Message())
 		if err != nil {
 			return err
@@ -281,7 +256,6 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 			(&teleblog.Comment{}).TableName(),
 			map[string]interface{}{
 				"text":           c.Message().Text,
-				"tg_entities":    tgEntities,
 				"tg_message_raw": tgMessageRaw,
 			},
 			dbx.HashExp{"chat_id": chat.Id, "tg_comment_id": c.Message().ID},

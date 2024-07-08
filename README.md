@@ -78,34 +78,34 @@ MG: Make it so content appears, but customization through Pocketbase admin
 
 MG: Add content improvement features
 
-1. Images
+1. Images ([getFile](https://core.telegram.org/bots/api#getfile))
     1. Webhook
     1. History
-1. Videos
+1. Videos ([getFile](https://core.telegram.org/bots/api#getfile))
 1. Search
-1. Likes counter
-1. Extract post title
 1. Extract tags
-1. Pined messages
-1. Links preview
+1. Tags filter
 1. Sorting
-1. Empty page
 1. Link to replied comment
 1. Quote
-1. Link with preview (like Notion Link Mention)
 1. ...
 
 ## Third phase
 
 MG: ...
 
-1. Command "Rebind Channels Group"
+1. Theme changer
+1. Don't work with History
+    1. Pined messages
+    1. Likes counter
+    1. ...
+1. Links preview
 1. ...
 
 ## X phase
 
-1. User Images
+1. Empty page
+1. Author Image ([getUserProfilePhotos](https://core.telegram.org/bots/api#getuserprofilephotos))
 1. Admin page
 1. Partial reload
-1. Theme changer
 1. ...
