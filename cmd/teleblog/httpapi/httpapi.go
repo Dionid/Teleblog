@@ -256,7 +256,6 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 					}
 
 					comment.AuthorTitle = rawMessage.From
-					// comment.AuthorUsername = rawMessage.SenderChat.Username
 
 					comment.TextWithMarkup = teleblog.FormHistoryTextWithMarkup(rawMessage.TextEntities)
 				} else {

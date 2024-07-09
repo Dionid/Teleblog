@@ -137,7 +137,7 @@ templ IndexPage(pagination PaginationData, posts []*InpexPagePost) {
 													</svg>
 												</a>
 											</div>
-											<div class="whitespace-pre-line" v-html="post.text_with_markup" v-show="!post.collapsed">
+											<div class="whitespace-pre-line link-as-contents" v-html="post.text_with_markup" v-show="!post.collapsed">
 												{ post.TextWithMarkup }
 											</div>
 											<div class="whitespace-pre-line" v-html="cropText(post.text_with_markup)" v-show="post.collapsed"></div>

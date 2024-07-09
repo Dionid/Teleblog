@@ -2,6 +2,7 @@ package teleblog
 
 import (
 	"fmt"
+	"html"
 	"slices"
 	"sort"
 	"strings"
@@ -39,7 +40,7 @@ func FormHistoryTextWithMarkup(markup []HistoryMessageTextEntity) string {
 		case telebot.EntityMention:
 			text += "<a target='_blank' href='https://t.me/" + entity.Text + "' class='inline c-link'>" + entity.Text + "</a>"
 		default:
-			text += entity.Text
+			text += html.EscapeString(entity.Text)
 		}
 	}
 
@@ -47,7 +48,7 @@ func FormHistoryTextWithMarkup(markup []HistoryMessageTextEntity) string {
 }
 
 func AddMarkupToText(srcText string, entities telebot.Entities) (string, error) {
-	text := utf16.Encode([]rune(srcText))
+	text := utf16.Encode([]rune(html.EscapeString(srcText)))
 
 	var markUpByPosition []MarkupNyPosition
 
