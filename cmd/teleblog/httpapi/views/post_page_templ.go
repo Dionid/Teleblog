@@ -153,7 +153,7 @@ func PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageComment
 						return templ_7745c5c3_Err
 					}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col\"><div class=\"card bg-white shadow-sm w-full\"><div class=\"card-body break-words whitespace-pre-line p-4 sm:p-6\"><div class=\"flex justify-between mb-3 relative gap-4 align-top\"><div>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col\"><div class=\"card bg-white shadow-sm w-full\"><div class=\"card-body break-words whitespace-pre-line p-4 sm:p-6\"><div class=\"flex justify-between relative gap-4 align-top\"><div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
