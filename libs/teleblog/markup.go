@@ -40,7 +40,9 @@ func FormHistoryTextWithMarkup(markup []HistoryMessageTextEntity) string {
 		case telebot.EntityMention:
 			text += "<a target='_blank' href='https://t.me/" + entity.Text + "' class='inline c-link'>" + entity.Text + "</a>"
 		default:
-			text += html.EscapeString(entity.Text)
+			escapedText := html.EscapeString(entity.Text)
+			newLineText := strings.ReplaceAll(escapedText, "\n", "<br>")
+			text += newLineText
 		}
 	}
 
@@ -48,7 +50,10 @@ func FormHistoryTextWithMarkup(markup []HistoryMessageTextEntity) string {
 }
 
 func AddMarkupToText(srcText string, entities telebot.Entities) (string, error) {
-	text := utf16.Encode([]rune(html.EscapeString(srcText)))
+	escapedText := html.EscapeString(srcText)
+	newLineText := strings.ReplaceAll(escapedText, "\n", "<br>")
+
+	text := utf16.Encode([]rune(html.EscapeString(newLineText)))
 
 	var markUpByPosition []MarkupNyPosition
 

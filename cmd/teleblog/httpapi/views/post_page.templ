@@ -29,7 +29,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 					<div class="flex flex-col w-full p-2 sm:p-6 items-center">
 						<div class="flex flex-col w-full gap-4">
 							<div class="card bg-white shadow-sm w-full">
-								<div class="card-body break-words whitespace-pre-line">
+								<div class="card-body">
 									<div class="text-gray-400 flex justify-between items-center relative gap-4">
 										<div>
 											{ post.Created.Time().Format("2006-01-02 15:04") }
@@ -40,7 +40,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 											</svg>
 										</a>
 									</div>
-									<div class="link-as-contents">
+									<div class="break-words whitespace-pre-line link-as-contents">
 										@templ.Raw(post.TextWithMarkup)
 									</div>
 								</div>
@@ -64,7 +64,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 										</div>
 										<div class="flex flex-col">
 											<div class="card bg-white shadow-sm w-full">
-												<div class="card-body break-words whitespace-pre-line p-4 sm:p-6">
+												<div class="card-body p-4 sm:p-6">
 													<div class="flex justify-between relative gap-4 align-top">
 														<div>
 															if comment.AuthorUsername != nil {
@@ -86,7 +86,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 															</svg>
 														</a>
 													</div>
-													<div class="link-as-contents">
+													<div class="break-words whitespace-pre-line link-as-contents">
 														@templ.Raw(comment.TextWithMarkup)
 													</div>
 												</div>
