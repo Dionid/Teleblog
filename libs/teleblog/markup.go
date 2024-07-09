@@ -49,11 +49,9 @@ func FormHistoryTextWithMarkup(markup []HistoryMessageTextEntity) string {
 	return text
 }
 
-func AddMarkupToText(srcText string, entities telebot.Entities) (string, error) {
+func FormWebhookTextMarkup(srcText string, entities telebot.Entities) (string, error) {
 	escapedText := html.EscapeString(srcText)
-	newLineText := strings.ReplaceAll(escapedText, "\n", "<br>")
-
-	text := utf16.Encode([]rune(html.EscapeString(newLineText)))
+	text := utf16.Encode([]rune(escapedText))
 
 	var markUpByPosition []MarkupNyPosition
 
@@ -107,5 +105,9 @@ func AddMarkupToText(srcText string, entities telebot.Entities) (string, error) 
 		text = slices.Insert(text, markup.Offset, utf16.Encode(markup.Tag)...)
 	}
 
-	return string(utf16.Decode(text)), nil
+	resultText := string(utf16.Decode(text))
+	// escapedText := html.EscapeString(srcText)
+	newLineResultText := strings.ReplaceAll(resultText, "\n", "<br>")
+
+	return newLineResultText, nil
 }

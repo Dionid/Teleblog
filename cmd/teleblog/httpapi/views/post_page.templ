@@ -40,7 +40,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 											</svg>
 										</a>
 									</div>
-									<div class="break-words whitespace-pre-line link-as-contents">
+									<div class="break-words link-as-contents">
 										@templ.Raw(post.TextWithMarkup)
 									</div>
 								</div>
@@ -86,7 +86,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 															</svg>
 														</a>
 													</div>
-													<div class="break-words whitespace-pre-line link-as-contents">
+													<div class="break-words link-as-contents">
 														@templ.Raw(comment.TextWithMarkup)
 													</div>
 												</div>

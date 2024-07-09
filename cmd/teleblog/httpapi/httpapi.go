@@ -163,7 +163,7 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 						return err
 					}
 
-					markup, err = teleblog.AddMarkupToText(post.Text, rawMessage.Entities)
+					markup, err = teleblog.FormWebhookTextMarkup(post.Text, rawMessage.Entities)
 					if err != nil {
 						return err
 					}
@@ -217,7 +217,7 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 					return err
 				}
 
-				post.TextWithMarkup, err = teleblog.AddMarkupToText(post.Text, rawMessage.Entities)
+				post.TextWithMarkup, err = teleblog.FormWebhookTextMarkup(post.Text, rawMessage.Entities)
 				if err != nil {
 					return err
 				}
@@ -276,7 +276,7 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 						comment.AuthorUsername = &rawMessage.Sender.Username
 					}
 
-					comment.TextWithMarkup, err = teleblog.AddMarkupToText(comment.Text, rawMessage.Entities)
+					comment.TextWithMarkup, err = teleblog.FormWebhookTextMarkup(comment.Text, rawMessage.Entities)
 					if err != nil {
 						return err
 					}

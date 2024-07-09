@@ -67,12 +67,11 @@ MG: Make it so content appears, but customization through Pocketbase admin
 1. ~~Test with real channels~~
     1. ~~Not all markup working~~
     1. ~~Pagination on many pages~~
-1. Deploy
+1. ~~Deploy~~
     1. ~~Migrations~~
     1. ~~Setup bot~~
     1. ~~Upload history~~
-    1. SSL certificate problem with TG Webhook
-    1. Backup
+    1. ~~SSL certificate problem with TG Webhook~~
 
 ## Second phase
 
@@ -82,12 +81,13 @@ MG: Add content improvement features
     1. Webhook
     1. History
 1. Videos ([getFile](https://core.telegram.org/bots/api#getfile))
+1. Link to replied comment
 1. Search
 1. Extract tags
 1. Tags filter
 1. Sorting
-1. Link to replied comment
 1. Quote
+1. Backup
 1. ...
 
 ## Third phase
@@ -95,11 +95,11 @@ MG: Add content improvement features
 MG: ...
 
 1. Theme changer
-1. Don't work with History
-    1. Pined messages
-    1. Likes counter
-    1. ...
 1. Links preview
+1. SEO
+    1. Meta title
+    1. Meta description
+    1. Meta image
 1. ...
 
 ## X phase
@@ -108,4 +108,10 @@ MG: ...
 1. Author Image ([getUserProfilePhotos](https://core.telegram.org/bots/api#getuserprofilephotos))
 1. Admin page
 1. Partial reload
+1. ...
+
+## Don't work with History Messages
+
+1. Pined messages
+1. Likes counter
 1. ...

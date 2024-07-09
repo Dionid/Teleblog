@@ -137,10 +137,10 @@ templ IndexPage(pagination PaginationData, posts []*InpexPagePost) {
 													</svg>
 												</a>
 											</div>
-											<div class="whitespace-pre-line link-as-contents" v-html="post.text_with_markup" v-show="!post.collapsed">
-												{ post.TextWithMarkup }
+											<div class="link-as-contents" v-show="!post.collapsed">
+												@templ.Raw(post.TextWithMarkup)
 											</div>
-											<div class="whitespace-pre-line" v-html="cropText(post.text_with_markup)" v-show="post.collapsed"></div>
+											<div class="link-as-contents" v-html="cropText(post.text_with_markup)" v-show="post.collapsed"></div>
 											<div class="btn mt-4" v-show="post.collapsed" @click={ fmt.Sprintf("expandPostText('%s')", post.Id) }>
 												Развернуть
 												<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

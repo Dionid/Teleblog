@@ -1900,10 +1900,6 @@ html {
   gap: 1rem;
 }
 
-.whitespace-pre-line {
-  white-space: pre-line;
-}
-
 .break-words {
   overflow-wrap: break-word;
 }
