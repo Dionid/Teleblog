@@ -23,13 +23,13 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 		<div class="flex flex-col w-full justify-center items-center">
 			<div class="w-full flex justify-center max-w-6xl">
 				<div class="w-full flex flex-col justify-center max-w-3xl">
-					<div class="w-full p-6">
+					<div class="w-full p-2 sm:p-6">
 						@partials.Header()
 					</div>
-					<div class="flex flex-col w-full p-6 items-center">
+					<div class="flex flex-col w-full p-2 sm:p-6 items-center">
 						<div class="flex flex-col w-full gap-4">
 							<div class="card bg-white shadow-sm w-full">
-								<div class="card-body whitespace-pre-line">
+								<div class="card-body break-words whitespace-pre-line">
 									<div class="text-gray-400 flex justify-between items-center relative gap-4">
 										<div>
 											{ post.Created.Time().Format("2006-01-02 15:04") }
@@ -64,7 +64,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 										</div>
 										<div class="flex flex-col">
 											<div class="card bg-white shadow-sm w-full">
-												<div class="card-body whitespace-pre-line py-6">
+												<div class="card-body break-words whitespace-pre-line p-4 sm:p-6">
 													<div class="flex justify-between mb-3 relative gap-4 align-top">
 														<div>
 															if comment.AuthorUsername != nil {
@@ -97,7 +97,7 @@ templ PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageCommen
 							</div>
 						</div>
 					</div>
-					<div class="w-full p-6">
+					<div class="w-full p-4 sm:p-6">
 						@partials.Footer()
 					</div>
 					<div class="link opacity-0 link-secondary"></div>
