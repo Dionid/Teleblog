@@ -55,7 +55,7 @@ func PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageComment
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col w-full p-2 sm:p-6 items-center\"><div class=\"flex flex-col w-full gap-4\"><div class=\"card bg-white shadow-sm w-full\"><div class=\"card-body whitespace-pre-line\"><div class=\"text-gray-400 flex justify-between items-center relative gap-4\"><div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col w-full p-2 sm:p-6 items-center\"><div class=\"flex flex-col w-full gap-4\"><div class=\"card bg-white shadow-sm w-full\"><div class=\"card-body break-words whitespace-pre-line\"><div class=\"text-gray-400 flex justify-between items-center relative gap-4\"><div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -153,7 +153,7 @@ func PostPage(chat teleblog.Chat, post PostPagePost, comments []*PostPageComment
 						return templ_7745c5c3_Err
 					}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col\"><div class=\"card bg-white shadow-sm w-full\"><div class=\"card-body whitespace-pre-line p-4 sm:p-6\"><div class=\"flex justify-between mb-3 relative gap-4 align-top\"><div>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col\"><div class=\"card bg-white shadow-sm w-full\"><div class=\"card-body break-words whitespace-pre-line p-4 sm:p-6\"><div class=\"flex justify-between mb-3 relative gap-4 align-top\"><div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
