@@ -10,7 +10,7 @@ import (
 )
 
 func preSeedDB(app *pocketbase.PocketBase) {
-	app.OnAfterBootstrap().Add(func(e *core.BootstrapEvent) error {
+	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		var existingTags []teleblog.Tag
 		err := teleblog.TagQuery(app.Dao()).
 			Limit(1).

@@ -189,6 +189,7 @@ func IndexPageHandler(config Config, e *core.ServeEvent, app core.App) {
 			Where(
 				dbx.In("post_tag.chat_id", chatIds...),
 			).
+			GroupBy("tag.id").
 			OrderBy("created desc").
 			All(&tags)
 		if err != nil {
