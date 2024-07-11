@@ -61,12 +61,25 @@ func Pagination(data PaginationData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a @click=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var3 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", i))
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var3)))
+				var templ_7745c5c3_Var3 string
+				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("setPage(%d, $event)", i))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 35, Col: 51}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" href=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var4 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", i))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var4)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -74,12 +87,12 @@ func Pagination(data PaginationData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var4 string
-				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
+				var templ_7745c5c3_Var5 string
+				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
 				if templ_7745c5c3_Err != nil {
 					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 1, Col: 0}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -87,12 +100,12 @@ func Pagination(data PaginationData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var5 string
-				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", i))
+				var templ_7745c5c3_Var6 string
+				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", i))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 37, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 38, Col: 27}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -110,17 +123,30 @@ func Pagination(data PaginationData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var6 = []any{"join-item", "btn", "border-transparent", templ.KV("btn-primary", 1 == int(data.CurrentPage)), templ.KV("bg-white", 1 != int(data.CurrentPage))}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
+			var templ_7745c5c3_Var7 = []any{"join-item", "btn", "border-transparent", templ.KV("btn-primary", 1 == int(data.CurrentPage)), templ.KV("bg-white", 1 != int(data.CurrentPage))}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a @click=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var7 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", 1))
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var7)))
+			var templ_7745c5c3_Var8 string
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("setPage(%d, $event)", 1))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 44, Col: 50}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" href=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var9 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", 1))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var9)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -128,12 +154,12 @@ func Pagination(data PaginationData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var8 string
-			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var6).String())
+			var templ_7745c5c3_Var10 string
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var7).String())
 			if templ_7745c5c3_Err != nil {
 				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 1, Col: 0}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -142,8 +168,8 @@ func Pagination(data PaginationData) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			if data.CurrentPage > 3 {
-				var templ_7745c5c3_Var9 = []any{"join-item", "btn", "border-transparent", "bg-white"}
-				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var9...)
+				var templ_7745c5c3_Var11 = []any{"join-item", "btn", "border-transparent", "bg-white"}
+				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -151,12 +177,12 @@ func Pagination(data PaginationData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var10 string
-				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var9).String())
+				var templ_7745c5c3_Var12 string
+				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var11).String())
 				if templ_7745c5c3_Err != nil {
 					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 1, Col: 0}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -166,17 +192,30 @@ func Pagination(data PaginationData) templ.Component {
 				}
 			}
 			if data.CurrentPage > 2 {
-				var templ_7745c5c3_Var11 = []any{"join-item", "btn", "border-transparent", "bg-white"}
-				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
+				var templ_7745c5c3_Var13 = []any{"join-item", "btn", "border-transparent", "bg-white"}
+				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a @click=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var12 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage-1))
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var12)))
+				var templ_7745c5c3_Var14 string
+				templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("setPage(%d, $event)", data.CurrentPage-1))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 59, Col: 70}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" href=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var15 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage-1))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var15)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -184,12 +223,12 @@ func Pagination(data PaginationData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var13 string
-				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var11).String())
+				var templ_7745c5c3_Var16 string
+				templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var13).String())
 				if templ_7745c5c3_Err != nil {
 					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 1, Col: 0}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -197,12 +236,12 @@ func Pagination(data PaginationData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var14 string
-				templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", data.CurrentPage-1))
+				var templ_7745c5c3_Var17 string
+				templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", data.CurrentPage-1))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 60, Col: 46}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 63, Col: 46}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -212,62 +251,29 @@ func Pagination(data PaginationData) templ.Component {
 				}
 			}
 			if data.CurrentPage != 1 && int(data.CurrentPage) != data.TotalPages() {
-				var templ_7745c5c3_Var15 = []any{"join-item", "btn", "border-transparent", "btn-primary"}
-				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var15...)
+				var templ_7745c5c3_Var18 = []any{"join-item", "btn", "border-transparent", "btn-primary"}
+				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var18...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a @click=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var16 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage))
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var16)))
+				var templ_7745c5c3_Var19 string
+				templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("setPage(%d, $event)", data.CurrentPage))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 68, Col: 66}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" href=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var17 string
-				templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var15).String())
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 1, Col: 0}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var18 string
-				templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", data.CurrentPage))
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 68, Col: 42}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> ")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-			}
-			if int(data.CurrentPage) < data.TotalPages()-1 {
-				var templ_7745c5c3_Var19 = []any{"join-item", "btn", "border-transparent", "bg-white"}
-				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var19...)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var20 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage+1))
+				var templ_7745c5c3_Var20 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage))
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var20)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -277,7 +283,7 @@ func Pagination(data PaginationData) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var21 string
-				templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var19).String())
+				templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var18).String())
 				if templ_7745c5c3_Err != nil {
 					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 1, Col: 0}
 				}
@@ -290,9 +296,9 @@ func Pagination(data PaginationData) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var22 string
-				templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", data.CurrentPage+1))
+				templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", data.CurrentPage))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 76, Col: 46}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 72, Col: 42}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 				if templ_7745c5c3_Err != nil {
@@ -303,9 +309,68 @@ func Pagination(data PaginationData) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			if int(data.CurrentPage) < data.TotalPages()-2 {
+			if int(data.CurrentPage) < data.TotalPages()-1 {
 				var templ_7745c5c3_Var23 = []any{"join-item", "btn", "border-transparent", "bg-white"}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var23...)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a @click=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var24 string
+				templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("setPage(%d, $event)", data.CurrentPage+1))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 77, Col: 70}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" href=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var25 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage+1))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var25)))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var26 string
+				templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var23).String())
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 1, Col: 0}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var27 string
+				templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", data.CurrentPage+1))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 81, Col: 46}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> ")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			if int(data.CurrentPage) < data.TotalPages()-2 {
+				var templ_7745c5c3_Var28 = []any{"join-item", "btn", "border-transparent", "bg-white"}
+				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var28...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -313,12 +378,12 @@ func Pagination(data PaginationData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var24 string
-				templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var23).String())
+				var templ_7745c5c3_Var29 string
+				templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var28).String())
 				if templ_7745c5c3_Err != nil {
 					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 1, Col: 0}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -327,17 +392,30 @@ func Pagination(data PaginationData) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			var templ_7745c5c3_Var25 = []any{"join-item", "btn", "border-transparent", templ.KV("btn-primary", data.TotalPages() == int(data.CurrentPage)), templ.KV("bg-white", data.TotalPages() != int(data.CurrentPage))}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var25...)
+			var templ_7745c5c3_Var30 = []any{"join-item", "btn", "border-transparent", templ.KV("btn-primary", data.TotalPages() == int(data.CurrentPage)), templ.KV("bg-white", data.TotalPages() != int(data.CurrentPage))}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var30...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a @click=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var26 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", data.TotalPages()))
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var26)))
+			var templ_7745c5c3_Var31 string
+			templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("setPage(%d, $event)", data.TotalPages()))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 92, Col: 66}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" href=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var32 templ.SafeURL = templ.SafeURL("?page=" + fmt.Sprintf("%d", data.TotalPages()))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var32)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -345,12 +423,12 @@ func Pagination(data PaginationData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var27 string
-			templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var25).String())
+			var templ_7745c5c3_Var33 string
+			templ_7745c5c3_Var33, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var30).String())
 			if templ_7745c5c3_Err != nil {
 				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 1, Col: 0}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var33))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -358,12 +436,12 @@ func Pagination(data PaginationData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var28 string
-			templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", data.TotalPages()))
+			var templ_7745c5c3_Var34 string
+			templ_7745c5c3_Var34, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", data.TotalPages()))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 90, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 96, Col: 42}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var34))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -387,12 +465,12 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var29 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var29 == nil {
-			templ_7745c5c3_Var29 = templ.NopComponent
+		templ_7745c5c3_Var35 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var35 == nil {
+			templ_7745c5c3_Var35 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Var30 := templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Var36 := templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 			if !templ_7745c5c3_IsBuffer {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
@@ -410,12 +488,12 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var31 string
-			templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(templu.PathWithVersion(ctx, "/public/widgets/posts-list-widget.js"))
+			var templ_7745c5c3_Var37 string
+			templ_7745c5c3_Var37, templ_7745c5c3_Err = templ.JoinStringErrs(templu.PathWithVersion(ctx, "/public/widgets/posts-list-widget.js"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 117, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 123, Col: 87}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var37))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -427,16 +505,16 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"posts-list-widget\" class=\"flex flex-col w-full items-center pt-6\"><div class=\"flex flex-col gap-4 w-full\"><div class=\"flex w-full justify-between items-center\"><div class=\"text-gray-500\">Постов: ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"posts-list-widget\" class=\"flex flex-col w-full items-center pt-6\"><div class=\"flex flex-col gap-4 w-full\"><div class=\"flex w-full justify-between items-center\"><div class=\"join shadow-sm\"><input class=\"input join-item\" placeholder=\"Search\" v-model=\"searchString\"><div class=\"indicator\"><button class=\"btn btn-primary join-item\" @click=\"search\">Поиск</button></div></div></div><div class=\"flex w-full justify-between items-center\"><div class=\"text-gray-500\">Постов: ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var32 string
-			templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", pagination.Total))
+			var templ_7745c5c3_Var38 string
+			templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", pagination.Total))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 123, Col: 61}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 137, Col: 61}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -453,16 +531,16 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				return templ_7745c5c3_Err
 			}
 			for _, post := range posts {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"card bg-white w-full shadow-sm\" :set=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"card bg-white w-full\" :set=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var33 string
-				templ_7745c5c3_Var33, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf(`post = dataById["%s"]`, post.Id))
+				var templ_7745c5c3_Var39 string
+				templ_7745c5c3_Var39, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf(`post = dataById["%s"]`, post.Id))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 128, Col: 105}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 142, Col: 95}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var33))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var39))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -470,12 +548,12 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var34 string
-				templ_7745c5c3_Var34, templ_7745c5c3_Err = templ.JoinStringErrs(post.Created.Time().Format("2006-01-02 15:04"))
+				var templ_7745c5c3_Var40 string
+				templ_7745c5c3_Var40, templ_7745c5c3_Err = templ.JoinStringErrs(post.Created.Time().Format("2006-01-02 15:04"))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 132, Col: 61}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 146, Col: 61}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var34))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var40))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -483,8 +561,8 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var35 templ.SafeURL = templ.SafeURL(fmt.Sprintf("https://t.me/%s/%d", post.TgChatUsername, post.TgMessageId))
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var35)))
+				var templ_7745c5c3_Var41 templ.SafeURL = templ.SafeURL(fmt.Sprintf("https://t.me/%s/%d", post.TgChatUsername, post.TgMessageId))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var41)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -500,12 +578,12 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var36 string
-				templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("expandPostText('%s')", post.Id))
+				var templ_7745c5c3_Var42 string
+				templ_7745c5c3_Var42, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("expandPostText('%s')", post.Id))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 144, Col: 110}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 158, Col: 110}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var42))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -513,8 +591,8 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var37 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var37)))
+				var templ_7745c5c3_Var43 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var43)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -522,12 +600,12 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var38 string
-				templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", post.CommentsCount))
+				var templ_7745c5c3_Var44 string
+				templ_7745c5c3_Var44, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", post.CommentsCount))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 152, Col: 52}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `index.templ`, Line: 166, Col: 52}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var44))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -535,8 +613,8 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var39 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var39)))
+				var templ_7745c5c3_Var45 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var45)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -544,8 +622,8 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var40 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var40)))
+				var templ_7745c5c3_Var46 templ.SafeURL = templ.SafeURL("/post/" + post.Id)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var46)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -579,7 +657,7 @@ func IndexPage(pagination PaginationData, posts []*InpexPagePost) templ.Componen
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = BaseLayout().Render(templ.WithChildren(ctx, templ_7745c5c3_Var30), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = BaseLayout().Render(templ.WithChildren(ctx, templ_7745c5c3_Var36), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

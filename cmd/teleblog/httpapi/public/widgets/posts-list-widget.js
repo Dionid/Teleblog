@@ -27,12 +27,15 @@ window.addEventListener("load", function () {
 
   createApp({
     data() {
+      const query = new URLSearchParams(window.location.search);
+
       return {
         loading: false,
         dataById: data.reduce((acc, item) => {
           acc[item.id] = item;
           return acc;
         }, {}),
+        searchString: query.get("search") || "",
       };
     },
     methods: {
@@ -41,6 +44,20 @@ window.addEventListener("load", function () {
       },
       expandPostText(postId) {
         this.dataById[postId].collapsed = false;
+      },
+      search() {
+        window.location = `?search=${this.searchString}`;
+      },
+      setPage(pageNum, event) {
+        if (event) {
+          event.preventDefault();
+        }
+
+        const query = new URLSearchParams(window.location.search);
+
+        query.set("page", pageNum);
+
+        window.location = `?${query.toString()}`;
       },
     },
   }).mount("#posts-list-widget");

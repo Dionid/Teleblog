@@ -32,6 +32,7 @@ templ Pagination(data PaginationData) {
 		<div class="join">
 			for i := 1; i <= data.TotalPages(); i++ {
 				<a
+					@click={ fmt.Sprintf("setPage(%d, $event)", i) }
 					href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", i)) }
 					class={ "join-item", "btn", "border-transparent", templ.KV("btn-primary", i == int(data.CurrentPage)), templ.KV("bg-white", i != int(data.CurrentPage)) }
 				>{ fmt.Sprintf("%d", i) }</a>
@@ -40,6 +41,7 @@ templ Pagination(data PaginationData) {
 	} else {
 		<div class="join">
 			<a
+				@click={ fmt.Sprintf("setPage(%d, $event)", 1) }
 				href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", 1)) }
 				class={ "join-item", "btn", "border-transparent", templ.KV("btn-primary", 1 == int(data.CurrentPage)), templ.KV("bg-white", 1 != int(data.CurrentPage)) }
 			>
@@ -54,6 +56,7 @@ templ Pagination(data PaginationData) {
 			}
 			if data.CurrentPage > 2 {
 				<a
+					@click={ fmt.Sprintf("setPage(%d, $event)", data.CurrentPage - 1) }
 					href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage - 1)) }
 					class={ "join-item", "btn", "border-transparent", "bg-white" }
 				>
@@ -62,6 +65,7 @@ templ Pagination(data PaginationData) {
 			}
 			if data.CurrentPage != 1 && int(data.CurrentPage) != data.TotalPages() {
 				<a
+					@click={ fmt.Sprintf("setPage(%d, $event)", data.CurrentPage) }
 					href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage)) }
 					class={ "join-item", "btn", "border-transparent", "btn-primary" }
 				>
@@ -70,6 +74,7 @@ templ Pagination(data PaginationData) {
 			}
 			if int(data.CurrentPage) < data.TotalPages() - 1 {
 				<a
+					@click={ fmt.Sprintf("setPage(%d, $event)", data.CurrentPage + 1) }
 					href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", data.CurrentPage + 1)) }
 					class={ "join-item", "btn", "border-transparent", "bg-white" }
 				>
@@ -84,6 +89,7 @@ templ Pagination(data PaginationData) {
 				</div>
 			}
 			<a
+				@click={ fmt.Sprintf("setPage(%d, $event)", data.TotalPages()) }
 				href={ templ.SafeURL("?page=" + fmt.Sprintf("%d", data.TotalPages())) }
 				class={ "join-item", "btn", "border-transparent", templ.KV("btn-primary", data.TotalPages() == int(data.CurrentPage)), templ.KV("bg-white", data.TotalPages() != int(data.CurrentPage)) }
 			>
@@ -119,13 +125,21 @@ templ IndexPage(pagination PaginationData, posts []*InpexPagePost) {
 						<div id="posts-list-widget" class="flex flex-col w-full items-center pt-6">
 							<div class="flex flex-col gap-4 w-full">
 								<div class="flex w-full justify-between items-center">
+									<div class="join shadow-sm">
+										<input class="input join-item" placeholder="Search" v-model="searchString" />
+										<div class="indicator">
+											<button class="btn btn-primary join-item" @click="search">Поиск</button>
+										</div>
+									</div>
+								</div>
+								<div class="flex w-full justify-between items-center">
 									<div class="text-gray-500">
 										Постов: { fmt.Sprintf("%d", pagination.Total) }
 									</div>
 									@Pagination(pagination)
 								</div>
 								for _, post := range posts {
-									<div class="card bg-white w-full shadow-sm" :set={ fmt.Sprintf(`post = dataById["%s"]`, post.Id) }>
+									<div class="card bg-white w-full" :set={ fmt.Sprintf(`post = dataById["%s"]`, post.Id) }>
 										<div class="card-body break-words p-6">
 											<div class="flex justify-between items-end">
 												<div class=" text-gray-400">
