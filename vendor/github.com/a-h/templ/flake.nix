@@ -2,7 +2,7 @@
   description = "templ";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     gomod2nix = {
       url = "github:nix-community/gomod2nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,8 +41,7 @@
           templ = buildGoApplication {
             name = "templ";
             src = gitignore.lib.gitignoreSource ./.;
-            # Update to latest Go version when https://nixpk.gs/pr-tracker.html?pr=324123 is backported to release-24.05.
-            go = pkgs.go;
+            go = pkgs.go_1_21;
             # Must be added due to bug https://github.com/nix-community/gomod2nix/issues/120
             pwd = ./.;
             subPackages = [ "cmd/templ" ];

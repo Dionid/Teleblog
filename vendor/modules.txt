@@ -3,7 +3,7 @@
 github.com/AlecAivazis/survey/v2
 github.com/AlecAivazis/survey/v2/core
 github.com/AlecAivazis/survey/v2/terminal
-# github.com/a-h/templ v0.2.747
+# github.com/a-h/templ v0.2.707
 ## explicit; go 1.21
 github.com/a-h/templ
 github.com/a-h/templ/safehtml

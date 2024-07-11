@@ -3,7 +3,7 @@ module github.com/Dionid/teleblog
 go 1.21.6
 
 require (
-	github.com/a-h/templ v0.2.747
+	github.com/a-h/templ v0.2.707
 	github.com/labstack/echo/v5 v5.0.0-20230722203903-ec5b858dab61
 	github.com/pocketbase/dbx v1.10.1
 	github.com/pocketbase/pocketbase v0.22.14
