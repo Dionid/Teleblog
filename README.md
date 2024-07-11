@@ -93,6 +93,7 @@ MG: ...
 
 ## X phase
 
+1. Delete old tags
 1. Backup
 1. Empty chats page
 1. Author Image ([getUserProfilePhotos](https://core.telegram.org/bots/api#getuserprofilephotos))
