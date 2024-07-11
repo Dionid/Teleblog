@@ -38,6 +38,6 @@ body {
   background-color: #f2f2f2;
 }
 
-.link-as-contents a {
+.link-as-contents a:not(.c-link) {
   display: contents;
 }

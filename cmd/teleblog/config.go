@@ -13,6 +13,7 @@ type Config struct {
 	AppVersion       string `mapstructure:"APP_VERSION"`
 	TelegramNotToken string `mapstructure:"TELEGRAM_NOT_TOKEN"`
 	UserId           string `mapstructure:"USER_ID"`
+	DisableBot       bool   `mapstructure:"DISABLE_BOT"`
 }
 
 // Call to load the variables from env

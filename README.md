@@ -68,17 +68,15 @@ Status: Done
 
 MG: Add content improvement features
 
+1. ~~Search~~
+1. ~~Extract tags~~
+1. ~~Tags filter~~
 1. Images ([getFile](https://core.telegram.org/bots/api#getfile))
     1. Webhook
     1. History
 1. Videos ([getFile](https://core.telegram.org/bots/api#getfile))
 1. Link to replied comment
-1. Search
-1. Extract tags
-1. Tags filter
-1. Sorting
-1. Quote
-1. Backup
+1. Quote replied comment
 1. ...
 
 ## Third phase
@@ -95,10 +93,13 @@ MG: ...
 
 ## X phase
 
-1. Empty page
+1. Delete old tags
+1. Backup
+1. Empty chats page
 1. Author Image ([getUserProfilePhotos](https://core.telegram.org/bots/api#getuserprofilephotos))
 1. Admin page
 1. Partial reload
+1. Sorting
 1. ...
 
 ## Don't work with History Messages

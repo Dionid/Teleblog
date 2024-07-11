@@ -9,6 +9,7 @@ import (
 
 	"github.com/Dionid/teleblog/libs/teleblog"
 	"github.com/pocketbase/dbx"
+	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 )
 
@@ -309,7 +310,7 @@ func ParseGroupHistory(app core.App, history teleblog.History, chat *teleblog.Ch
 	return nil
 }
 
-func UploadHistory(app core.App, history teleblog.History) error {
+func UploadHistory(app *pocketbase.PocketBase, history teleblog.History) error {
 	chatId, err := history.GetChatTgId()
 	if err != nil {
 		return err
@@ -325,7 +326,17 @@ func UploadHistory(app core.App, history teleblog.History) error {
 	}
 
 	if chat.TgType == "channel" {
-		return ParseChannelHistory(app, history, &chat)
+		err := ParseChannelHistory(app, history, &chat)
+		if err != nil {
+			return err
+		}
+
+		err = ExtractAndSaveAllTags(app)
+		if err != nil {
+			return err
+		}
+
+		return nil
 	} else if chat.TgType == "supergroup" || chat.TgType == "group" {
 		return ParseGroupHistory(app, history, &chat)
 	}

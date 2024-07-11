@@ -27,13 +27,22 @@ window.addEventListener("load", function () {
 
   createApp({
     data() {
+      const query = new URLSearchParams(window.location.search);
+
       return {
         loading: false,
         dataById: data.reduce((acc, item) => {
           acc[item.id] = item;
           return acc;
         }, {}),
+        searchString: query.get("search") || "",
+        tag: query.get("tag") || "_",
       };
+    },
+    watch: {
+      tag() {
+        this.search();
+      },
     },
     methods: {
       cropText(text) {
@@ -41,6 +50,28 @@ window.addEventListener("load", function () {
       },
       expandPostText(postId) {
         this.dataById[postId].collapsed = false;
+      },
+      search() {
+        const query = new URLSearchParams(window.location.search);
+
+        query.set("page", 1);
+        query.set("search", this.searchString);
+        if (this.tag !== "_") {
+          query.set("tag", this.tag);
+        }
+
+        window.location = `?${query.toString()}`;
+      },
+      setPage(pageNum, event) {
+        if (event) {
+          event.preventDefault();
+        }
+
+        const query = new URLSearchParams(window.location.search);
+
+        query.set("page", pageNum);
+
+        window.location = `?${query.toString()}`;
       },
     },
   }).mount("#posts-list-widget");
