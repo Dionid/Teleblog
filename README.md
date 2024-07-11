@@ -1,6 +1,8 @@
 # Teleblog
 
-1. ...
+Template to create your own site from Telegram channel.
+
+Demo: [davidshekunts.com](https://davidshekunts.com)
 
 # Stack
 
@@ -10,6 +12,7 @@
 1. Vue
 1. Tailwind
 1. daisyUI
+1. Digital Ocean
 
 # Word of caution
 
@@ -22,8 +25,36 @@ Don't take this project as a reference for best practices.
 # Project structure
 
 1. `cmd/teleblog` - Teleblog platform
-1. `infra` - some infrastructure code
+1. `infra` - some infrastructure code (nginx, systemctl)
 1. `libs` - libraries
+
+# How to use
+
+1. Configuration
+    1. Create bot in [@BotFather](t.me/BotFather)
+    1. `cd cmd/teleblog && cp app.env.example app.env` and fill it with your data
+1. Run
+    1. `make serve-teleblog` to run Teleblog + Pocketbase admin panel
+    1. Go to 127.0.0.1:8090/_ to see Pocketbase admin panel and fill in your user
+    1. Create "verification_token"
+    1. Send this token to your bot `/verifytoken YOUR_TOKEN`
+    1. Add bot to public TG channels and their groups
+    1. Send group links to your bot `/addchannel YOUR_CHANNEL_LINK`
+1. Upload history messages
+    1. Export history from your channel
+    1. Paste it to `cmd/teleblog` folder
+    1. Run `cd cmd/teleblog && go run . upload-history YOUR_HISTORY.json` (! DONT FORGET to upload channel posts firstly and linked groups posts afterwards)
+1. Customization
+    1. Change [base_layout.templ](cmd/teleblog/httpapi/views/base_layout.templ) google tag manager
+    1. Change [base_layout.templ](cmd/teleblog/httpapi/views/base_layout.templ) meta tags
+    1. Change [index.templ](cmd/teleblog/httpapi/views/index.templ) with your profile information
+    1. Change any template as you need
+1. Deploy
+    1. Create Digital Ocean droplet
+    1. `cp .env.example .env` and fill it
+    1. Run `make setup-droplet` (it will configure autorestarts and nginx)
+    1. Run `make deploy` (it will build and deploy Teleblog to your droplet)
+    1. Change ENV in `app.env` in droplet from `LOCAL` to `PRODUCTION`
 
 # Roadmap
 
@@ -31,47 +62,7 @@ Don't take this project as a reference for best practices.
 
 MG: Make it so content appears, but customization through Pocketbase admin
 
-1. ~~Verify token~~
-1. ~~Check user chat id is the same in channels and groups~~ -> They are not...
-1. ~~Recover middleware to bot~~
-1. ~~Save new posts~~
-1. ~~Save new comments~~
-1. ~~Update posts on edit~~
-1. ~~Update comments on edit~~
-1. ~~Pagination~~
-1. ~~Post page~~
-    1. ~~Add original post and comments links~~
-    1. ~~Add comments authors data~~
-        1. ~~From channels~~
-        1. ~~Check that personal comments work also~~
-1. ~~Post Widget~~
-    1. ~~Add "Read more" if there is a comments~~
-    1. ~~Add "Expand" if text is bigger than 200 symbols~~
-    1. ~~Original post link~~
-1. ~~Menu (throw template)~~
-1. ~~Hero~~
-1. ~~Mobile version~~
-1. ~~Entities Markup~~
-1. ~~Add license~~
-1. ~~Rename "saas" to "teleblog"~~
-1. ~~Comments markup~~
-1. ~~Load history~~
-1. ~~Favicon~~
-1. ~~Test~~
-    1. ~~Add reply comment to history post~~
-    1. ~~Just chat message~~
-    1. ~~Comment reply on comment without post~~
-    1. ~~Add history -> Add webhook~~
-    1. ~~Webhook post and comments -> Upload history~~
-    1. ~~Delete post with comments from telegram -> Upload history~~
-1. ~~Test with real channels~~
-    1. ~~Not all markup working~~
-    1. ~~Pagination on many pages~~
-1. ~~Deploy~~
-    1. ~~Migrations~~
-    1. ~~Setup bot~~
-    1. ~~Upload history~~
-    1. ~~SSL certificate problem with TG Webhook~~
+Status: Done
 
 ## Second phase
 

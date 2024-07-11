@@ -4,7 +4,6 @@ import (
 	"context"
 	"embed"
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 
@@ -266,9 +265,7 @@ func InitApi(config Config, app core.App, gctx context.Context) {
 						return err
 					}
 
-					fmt.Println("rawMessage", rawMessage.SenderChat.Title)
-
-					if rawMessage.Sender.IsBot {
+					if rawMessage.Sender.IsBot && rawMessage.SenderChat != nil {
 						comment.AuthorTitle = rawMessage.SenderChat.Title
 						comment.AuthorUsername = &rawMessage.SenderChat.Username
 					} else {

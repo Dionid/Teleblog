@@ -1,7 +1,6 @@
 package teleblog
 
 import (
-	"fmt"
 	"html"
 	"slices"
 	"sort"
@@ -54,8 +53,6 @@ func FormWebhookTextMarkup(srcText string, entities telebot.Entities) (string, e
 	text := utf16.Encode([]rune(escapedText))
 
 	var markUpByPosition []MarkupNyPosition
-
-	fmt.Println("Entities: ", entities)
 
 	for i, entity := range entities {
 		switch entity.Type {

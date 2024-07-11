@@ -49,6 +49,15 @@ templ BaseLayout() {
 			{ children... }
 		</body>
 		<script defer src="https://cdn.jsdelivr.net/npm/vue@3.4.27/dist/vue.global.min.js"></script>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZLF3GF8LHB"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-ZLF3GF8LHB');
+		</script>
 		<link rel="stylesheet" href={ templu.PathWithVersion(ctx, "/public/custom.css") } />
 	</html>
 }
