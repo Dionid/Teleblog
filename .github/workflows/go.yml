@@ -20,18 +20,18 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.21.6'
+				go-version: '1.21.6'
 
     - name: Setup SSH
       run: |
-        mkdir -p ~/.ssh/
-        echo "${{ secrets.SSH_PRIV_KEY }}" > ~/.ssh/id_rsa
-        echo "${{ secrets.SSH_PUB_KEY }}" > ~/.ssh/id_rsa.pub
-        chmod 600 ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa.pub
-        ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+				mkdir -p ~/.ssh/
+				echo "${{ secrets.SSH_PRIV_KEY }}" > ~/.ssh/id_rsa
+				echo "${{ secrets.SSH_PUB_KEY }}" > ~/.ssh/id_rsa.pub
+				chmod 600 ~/.ssh/id_rsa
+				chmod 600 ~/.ssh/id_rsa.pub
+				ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
     - name: Build and Deploy
       run: |
-        echo "${{ secrets.SERVER_IP }}" > .env
-        make deploy
+				echo "${{ secrets.SERVER_IP }}" > .env
+				make deploy
