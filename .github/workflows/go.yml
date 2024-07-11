@@ -36,5 +36,5 @@ jobs:
         echo "SERVER_IP=${{ secrets.SERVER_IP }}" > .env
         echo .env
         npm ci
-        go install github.com/a-h/templ/cmd/templ@latest
+        go install github.com/a-h/templ/cmd/templ@v0.2.707
         make deploy
