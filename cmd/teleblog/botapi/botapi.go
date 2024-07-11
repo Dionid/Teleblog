@@ -208,8 +208,9 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 		_, err = app.DB().Update(
 			(&teleblog.Post{}).TableName(),
 			map[string]interface{}{
-				"text":           c.Message().Text,
-				"tg_message_raw": tgMessageRaw,
+				"text":                  c.Message().Text,
+				"tg_message_raw":        tgMessageRaw,
+				"is_tg_history_message": false,
 			},
 			dbx.HashExp{"chat_id": chat.Id, "tg_post_id": c.Message().ID},
 		).Execute()
@@ -255,8 +256,9 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 		_, err = app.DB().Update(
 			(&teleblog.Comment{}).TableName(),
 			map[string]interface{}{
-				"text":           c.Message().Text,
-				"tg_message_raw": tgMessageRaw,
+				"text":                  c.Message().Text,
+				"tg_message_raw":        tgMessageRaw,
+				"is_tg_history_message": false,
 			},
 			dbx.HashExp{"chat_id": chat.Id, "tg_comment_id": c.Message().ID},
 		).Execute()

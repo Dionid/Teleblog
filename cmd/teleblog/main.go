@@ -111,6 +111,8 @@ func main() {
 		UserId: config.UserId,
 	}, app, gctx)
 
+	preSeedDB(app)
+
 	// # Start bot
 	go b.Start()
 

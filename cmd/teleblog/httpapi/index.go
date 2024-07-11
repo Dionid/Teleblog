@@ -2,7 +2,6 @@ package httpapi
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/Dionid/teleblog/cmd/teleblog/httpapi/views"
 	"github.com/Dionid/teleblog/libs/teleblog"
@@ -84,8 +83,6 @@ func IndexPageHandler(config Config, e *core.ServeEvent, app core.App) {
 		if err != nil {
 			return err
 		}
-
-		fmt.Println("Total:", len(total))
 
 		// ## Posts
 		posts := []*views.InpexPagePost{}

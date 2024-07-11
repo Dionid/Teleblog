@@ -126,3 +126,24 @@ func (m *Comment) TableName() string {
 func CommentQuery(dao *daos.Dao) *dbx.SelectQuery {
 	return dao.ModelQuery(&Comment{})
 }
+
+// # Tag
+
+var _ models.Model = (*Tag)(nil)
+
+type Tag struct {
+	models.BaseModel
+
+	ChatId string `json:"chatId" db:"chat_id"`
+	PostId string `json:"postId" db:"post_id"`
+
+	Value string `json:"value" db:"value"`
+}
+
+func (m *Tag) TableName() string {
+	return "tag"
+}
+
+func TagQuery(dao *daos.Dao) *dbx.SelectQuery {
+	return dao.ModelQuery(&Tag{})
+}
