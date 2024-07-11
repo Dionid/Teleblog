@@ -56,7 +56,7 @@ func AdditionalCommands(app *pocketbase.PocketBase) {
 				}
 			})()
 
-			err := features.ExtractAndSaveTags(app)
+			err := features.ExtractAndSaveAllTags(app)
 			if err != nil {
 				log.Fatal(err)
 			}

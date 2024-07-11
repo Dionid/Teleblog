@@ -26,6 +26,6 @@ func preSeedDB(app *pocketbase.PocketBase) {
 			return nil
 		}
 
-		return features.ExtractAndSaveTags(app)
+		return features.ExtractAndSaveAllTags(app)
 	})
 }

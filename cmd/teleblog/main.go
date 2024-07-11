@@ -49,16 +49,6 @@ func main() {
 		Dir:         path.Join(curPath, "pb_migrations"),
 	})
 
-	// # Telegram
-	pref := telebot.Settings{
-		Verbose: true,
-		Token:   config.TelegramNotToken,
-		Poller:  &telebot.LongPoller{Timeout: 10 * time.Second, AllowedUpdates: telebot.AllowedUpdates},
-		OnError: func(err error, c telebot.Context) {
-			app.Logger().Error("Error in bot", "error:", err)
-		},
-	}
-
 	// # HTTP API
 
 	httpapi.InitApi(httpapi.Config{
@@ -70,6 +60,16 @@ func main() {
 
 	// # Bot
 	if !config.DisableBot {
+		pref := telebot.Settings{
+			Verbose: true,
+			Token:   config.TelegramNotToken,
+			Poller:  &telebot.LongPoller{Timeout: 10 * time.Second, AllowedUpdates: telebot.AllowedUpdates},
+			OnError: func(err error, c telebot.Context) {
+				app.Logger().Error("Error in bot", "error:", err)
+			},
+			Synchronous: true,
+		}
+
 		b, err := telebot.NewBot(pref)
 		if err != nil {
 			log.Fatal(err)

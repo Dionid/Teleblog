@@ -6,6 +6,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/Dionid/teleblog/cmd/teleblog/features"
 	"github.com/Dionid/teleblog/libs/teleblog"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase"
@@ -205,15 +206,29 @@ func InitBotCommands(b *telebot.Bot, app *pocketbase.PocketBase) {
 			return err
 		}
 
-		_, err = app.DB().Update(
-			(&teleblog.Post{}).TableName(),
-			map[string]interface{}{
-				"text":                  c.Message().Text,
-				"tg_message_raw":        tgMessageRaw,
-				"is_tg_history_message": false,
-			},
-			dbx.HashExp{"chat_id": chat.Id, "tg_post_id": c.Message().ID},
-		).Execute()
+		post := teleblog.Post{}
+
+		err = teleblog.PostQuery(app.Dao()).
+			AndWhere(dbx.HashExp{"chat_id": chat.Id, "tg_post_id": c.Message().ID}).
+			Limit(1).
+			One(&post)
+		if err != nil {
+			return err
+		}
+
+		post.Text = c.Message().Text
+		post.TgMessageRaw = tgMessageRaw
+		post.IsTgHistoryMessage = false
+
+		err = app.Dao().Save(&post)
+		if err != nil {
+			return err
+		}
+
+		err = features.ExtractAndSavePostTags(app, post)
+		if err != nil {
+			return err
+		}
 
 		return err
 	})
