@@ -1,4 +1,4 @@
-include .env
+# -include .env
 export $(shell sed 's/=.*//' .env)
 
 PROJECT_NAME=teleblog

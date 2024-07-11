@@ -34,4 +34,5 @@ jobs:
     - name: Build and Deploy
       run: |
         echo "${{ secrets.SERVER_IP }}" > .env
+        echo .env
         make deploy
