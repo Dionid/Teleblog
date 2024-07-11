@@ -35,4 +35,5 @@ jobs:
       run: |
         echo "SERVER_IP=${{ secrets.SERVER_IP }}" > .env
         echo .env
+        npm ci
         make deploy

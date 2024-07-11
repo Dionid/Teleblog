@@ -35,12 +35,6 @@ templ:
 
 # Build
 
-build-cli:
-	make build-cli-mac && make build-cli-linux
-
-build-cli-mac:
-	GOARCH=amd64 GOOS=darwin go build -o ${BINARY_NAME}-cli-darwin ./cmd/cli
-
 build-teleblog-mac:
 	npx tailwindcss build -i tailwind.css -o cmd/teleblog/httpapi/public/style.css
 	make templ
@@ -49,9 +43,6 @@ build-teleblog-mac:
 clean-mac:
 	go clean
 	rm ${BINARY_NAME}-darwin
-
-build-cli-linux:
-	GOARCH=amd64 GOOS=linux go build -o ${BINARY_NAME}-cli-linux ./cmd/cli
 
 build-teleblog-linux:
 	npx tailwindcss build -i tailwind.css -o cmd/teleblog/httpapi/public/style.css
