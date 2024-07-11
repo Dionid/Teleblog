@@ -20,6 +20,13 @@ upload-history:
 	&& go generate ./... \
 	&& go run . upload-history
 
+# Cmds
+
+extract-tags:
+	cd cmd/teleblog \
+	&& go generate ./... \
+	&& go run . extract-tags
+
 # Generate
 
 templ:

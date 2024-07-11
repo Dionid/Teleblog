@@ -134,9 +134,6 @@ var _ models.Model = (*Tag)(nil)
 type Tag struct {
 	models.BaseModel
 
-	ChatId string `json:"chatId" db:"chat_id"`
-	PostId string `json:"postId" db:"post_id"`
-
 	Value string `json:"value" db:"value"`
 }
 
@@ -145,5 +142,25 @@ func (m *Tag) TableName() string {
 }
 
 func TagQuery(dao *daos.Dao) *dbx.SelectQuery {
+	return dao.ModelQuery(&Tag{})
+}
+
+// # PostTag
+
+var _ models.Model = (*PostTag)(nil)
+
+type PostTag struct {
+	models.BaseModel
+
+	ChatId string `json:"chatId" db:"chat_id"`
+	PostId string `json:"postId" db:"post_id"`
+	TagId  string `json:"tagId" db:"tag_id"`
+}
+
+func (m *PostTag) TableName() string {
+	return "post_tag"
+}
+
+func PostTagQuery(dao *daos.Dao) *dbx.SelectQuery {
 	return dao.ModelQuery(&Tag{})
 }

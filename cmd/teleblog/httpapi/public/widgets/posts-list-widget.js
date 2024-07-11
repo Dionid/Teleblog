@@ -36,7 +36,13 @@ window.addEventListener("load", function () {
           return acc;
         }, {}),
         searchString: query.get("search") || "",
+        tag: query.get("tag") || "_",
       };
+    },
+    watch: {
+      tag() {
+        this.search();
+      },
     },
     methods: {
       cropText(text) {
@@ -46,7 +52,15 @@ window.addEventListener("load", function () {
         this.dataById[postId].collapsed = false;
       },
       search() {
-        window.location = `?search=${this.searchString}`;
+        const query = new URLSearchParams(window.location.search);
+
+        query.set("page", 1);
+        query.set("search", this.searchString);
+        if (this.tag !== "_") {
+          query.set("tag", this.tag);
+        }
+
+        window.location = `?${query.toString()}`;
       },
       setPage(pageNum, event) {
         if (event) {

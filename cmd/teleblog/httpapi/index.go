@@ -15,6 +15,7 @@ type PostPageFilters struct {
 	Page    int64  `query:"page"`
 	PerPage int64  `query:"per_page"`
 	Search  string `query:"search"`
+	Tag     string `query:"tag"`
 }
 
 func IndexPageHandler(config Config, e *core.ServeEvent, app core.App) {
@@ -68,6 +69,21 @@ func IndexPageHandler(config Config, e *core.ServeEvent, app core.App) {
 					dbx.Like("comment.text", filters.Search),
 				),
 			)
+		}
+
+		if filters.Tag != "" {
+			baseQuery = baseQuery.
+				LeftJoin(
+					"post_tag",
+					dbx.NewExp("post_tag.post_id = post.id"),
+				).
+				LeftJoin(
+					"tag",
+					dbx.NewExp("tag.id = post_tag.tag_id"),
+				).
+				AndWhere(
+					dbx.HashExp{"tag.value": filters.Tag},
+				)
 		}
 
 		// ## Total
@@ -161,13 +177,31 @@ func IndexPageHandler(config Config, e *core.ServeEvent, app core.App) {
 			post.TextWithMarkup = markup
 		}
 
+		// # Tags
+
+		tags := []*teleblog.Tag{}
+
+		err = teleblog.TagQuery(app.Dao()).
+			LeftJoin(
+				"post_tag",
+				dbx.NewExp("post_tag.tag_id = tag.id"),
+			).
+			Where(
+				dbx.In("post_tag.chat_id", chatIds...),
+			).
+			OrderBy("created desc").
+			All(&tags)
+		if err != nil {
+			return err
+		}
+
 		pagination := views.PaginationData{
 			Total:       int64(len(total)),
 			PerPage:     perPage,
 			CurrentPage: currentPage,
 		}
 
-		component := views.IndexPage(pagination, posts)
+		component := views.IndexPage(pagination, posts, tags)
 
 		return component.Render(c.Request().Context(), c.Response().Writer)
 	})
