@@ -3,11 +3,6 @@ node_modules
 .env
 .env.db
 .env.db.main
-.env.db.gollum
-dist
-lib
-coverage
-junit.xml
 
 .idea
 *.iml
@@ -24,7 +19,6 @@ node_modules
 .env
 .env.test
 *.env
-sync-script-db.json
 dump/*
 
 *.csv
