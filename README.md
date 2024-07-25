@@ -13,6 +13,7 @@ Demo: [davidshekunts.com](https://davidshekunts.com)
 1. Tailwind
 1. daisyUI
 1. Digital Ocean
+1. Github Actions
 
 # Word of caution
 
@@ -49,12 +50,22 @@ Don't take this project as a reference for best practices.
     1. Change [base_layout.templ](cmd/teleblog/httpapi/views/base_layout.templ) meta tags
     1. Change [index.templ](cmd/teleblog/httpapi/views/index.templ) with your profile information
     1. Change any template as you need
-1. Deploy
+1. Deploy Preparations
     1. Create Digital Ocean droplet
     1. `cp .env.example .env` and fill it
     1. Run `make setup-droplet` (it will configure autorestarts and nginx)
-    1. Run `make deploy` (it will build and deploy Teleblog to your droplet)
     1. Change ENV in `app.env` in droplet from `LOCAL` to `PRODUCTION`
+1. Deploy Manual
+    1. Run `make deploy` (it will build and deploy Teleblog to your droplet)
+1. Deploy Automatic (Github Actions)
+    1. Create new ssh key `ssh-keygen` with custom name (don't use passphrase)
+    1. Add public key to your droplet `~/.ssh/authorized_keys`
+    1. Create Repository Environment named `prod` (github.com/USER/REPOSITORY/settings/environments)
+    1. Set 3 secrets:
+        1. SERVER_IP – your droplet IP
+        1. SSH_PRIV_KEY – your custom private key
+        1. SSH_PUB_KEY – your custom public key
+    1. Push to master and check actions
 
 # Roadmap
 
@@ -83,6 +94,7 @@ MG: Add content improvement features
 
 MG: ...
 
+1. Repost to Medium
 1. Theme changer
 1. Links preview
 1. SEO

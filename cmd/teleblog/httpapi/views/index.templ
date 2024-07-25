@@ -127,7 +127,7 @@ templ IndexPage(pagination PaginationData, posts []*InpexPagePost, tags []*teleb
 								<div class="flex w-full justify-between items-center">
 									<div class="join shadow-sm w-full">
 										<input @keyup.enter="search" class="input join-item w-full" placeholder="Полнотекстовый поиск" v-model="searchString" />
-										<select v-model="tag" class="select join-item border-0 border-gray-300 border-solid border-l">
+										<select v-model="tag" class="select join-item border-0 border-gray-300 border-solid border-l max-w-24 sm:max-w-52">
 											<option disabled selected value="_">Тэг</option>
 											for _, tag := range tags {
 												<option value={ tag.Value }>{ tag.Value }</option>
