@@ -61,9 +61,9 @@ func main() {
 	// # Bot
 	if !config.DisableBot {
 		pref := telebot.Settings{
-			Verbose: true,
+			Verbose: false,
 			Token:   config.TelegramNotToken,
-			Poller:  &telebot.LongPoller{Timeout: 10 * time.Second, AllowedUpdates: telebot.AllowedUpdates},
+			Poller:  &telebot.LongPoller{Timeout: 60 * time.Second, AllowedUpdates: telebot.AllowedUpdates},
 			OnError: func(err error, c telebot.Context) {
 				app.Logger().Error("Error in bot", "error:", err)
 			},
