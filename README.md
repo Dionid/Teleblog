@@ -1,8 +1,12 @@
-# Teleblog
+# Teleblog Community Edition
 
 Template to create your own site from Telegram channel.
 
 Demo: [davidshekunts.ru](https://davidshekunts.ru)
+
+# WARNING
+
+This project is OpenSource version of [teleblog.net](https://teleblog.net) and it maintained by me AND you, so be kind and suggest things, lets build together.
 
 # Stack
 
@@ -12,8 +16,6 @@ Demo: [davidshekunts.ru](https://davidshekunts.ru)
 1. Vue
 1. Tailwind
 1. daisyUI
-1. Digital Ocean
-1. Github Actions
 
 # Word of caution
 
